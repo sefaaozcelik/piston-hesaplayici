@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#f2f2f3">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Piston Hesap">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%231d2d3d'/%3E%3Cg fill='none' stroke='%23f2f2f3' stroke-width='4'%3E%3Crect x='56' y='72' width='58' height='48'/%3E%3Crect x='114' y='88' width='34' height='16'/%3E%3C/g%3E%3Crect x='104' y='74' width='8' height='44' fill='%235980a6'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%231d2d3d'/%3E%3Cg fill='none' stroke='%23f2f2f3' stroke-width='4'%3E%3Crect x='56' y='72' width='58' height='48'/%3E%3Crect x='114' y='88' width='34' height='16'/%3E%3C/g%3E%3Crect x='104' y='74' width='8' height='44' fill='%235980a6'/%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Piston%20Hesap%22%2C%22short_name%22%3A%22Piston%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f2f2f3%22%2C%22theme_color%22%3A%22%23f2f2f3%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20192%20192'%253E%253Crect%20width%3D'192'%20height%3D'192'%20fill%3D'%25231d2d3d'%2F%253E%253Cg%20fill%3D'none'%20stroke%3D'%2523f2f2f3'%20stroke-width%3D'4'%253E%253Crect%20x%3D'56'%20y%3D'72'%20width%3D'58'%20height%3D'48'%2F%253E%253Crect%20x%3D'114'%20y%3D'88'%20width%3D'34'%20height%3D'16'%2F%253E%253C%2Fg%253E%253Crect%20x%3D'104'%20y%3D'74'%20width%3D'8'%20height%3D'44'%20fill%3D'%25235980a6'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+<title>Piston Hesap</title>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#1d2d3d"/><g fill="none" stroke="#f2f2f3" stroke-width="2"><rect x="30" y="38" width="30" height="24"/><rect x="60" y="46" width="18" height="8"/><path d="M24 38V62"/></g><text x="50" y="82" fill="#5980a6" font-family="sans-serif" font-size="13" font-weight="700" text-anchor="middle">PISTON</text></svg></template>
+<link rel="stylesheet" href="_ds/industry-aa0da870-552d-40cc-b13e-665c86af9a4e/styles.css">
+<script src="_ds/industry-aa0da870-552d-40cc-b13e-665c86af9a4e/_ds_bundle.js"></script>
+<style>
+:root{--color-divider:rgba(29,31,32,.16)}
+html{-webkit-text-size-adjust:100%}
+.blueprint>.corner{color:rgba(29,31,32,.55)}
+.text-muted,figcaption{color:rgba(29,31,32,.55)}
+.field>label{color:rgba(29,31,32,.7)}
+.card-meta{color:rgba(29,31,32,.5)}
+.table th{color:rgba(29,31,32,.6)}
+.table td{border-bottom-color:rgba(29,31,32,.08)}
+.table tbody tr:hover{background:rgba(29,31,32,.04)}
+.btn-secondary:hover{background:rgba(29,31,32,.07)}
+.btn-secondary:active{background:rgba(29,31,32,.14)}
+.btn-ghost:hover{background:rgba(89,128,166,.1)}
+.btn-ghost:active{background:rgba(89,128,166,.18)}
+.dialog-backdrop{background:rgba(43,43,45,.5)}
+::selection{background:rgba(89,128,166,.3)}
+button,input,textarea{touch-action:manipulation}
+nav label,[data-nav] button{min-width:0}
+</style>
+<style>
+html,body{margin:0;min-height:100%;background:var(--color-bg);font-family:var(--font-body);-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+.appin{width:100%;min-height:36px;padding:7px 10px;font:inherit;font-size:15px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:0;color:var(--color-text);-moz-appearance:textfield}
+.appin::-webkit-outer-spin-button,.appin::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.appin:focus-visible{border-color:var(--color-accent);outline:none}
+.lbl{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;color:rgba(29,31,32,0.6)}
+.mono{font-variant-numeric:tabular-nums}
+.hd{font-family:var(--font-heading);font-weight:600}
+@media print{
+  body{background:#fff}
+  body *{visibility:hidden}
+  .psheet,.psheet *{visibility:visible}
+  .psheet{position:absolute!important;left:0;top:0;width:100%;padding:0!important;background:#fff}
+  .psheet .noprint{display:none!important}
+}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);position:relative">
+
+  <div style="display:flex;align-items:center;gap:10px;padding:12px 16px 10px;border-bottom:1px solid var(--color-divider);background:var(--color-bg);position:sticky;top:0;z-index:5">
+    <div style="flex:1;min-width:0">
+      <img src="assets/logo.png" alt="Özmaksan Hidrolik" style="height:27px;width:auto;display:block">
+      <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(29,31,32,0.5);margin-top:4px">Silindir hesap terminali</div>
+    </div>
+    <div class="tag tag-outline mono" style="flex:none;gap:4px">{{ maxPLabel }}</div>
+  </div>
+
+  <div style="flex:1;padding:14px 16px 20px">
+
+    <sc-if value="{{ isHesap }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;margin:0 -16px 0;padding-left:16px;padding-right:16px">
+          <sc-for list="{{ modes }}" as="m" hint-placeholder-count="4">
+            <button onClick="{{ m.go }}" class="hd" style="flex:none;min-height:44px;padding:0 14px;font-size:14px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;border:1px solid {{ m.bd }};background:{{ m.bg }};color:{{ m.fg }}">{{ m.l }}</button>
+          </sc-for>
+        </div>
+
+        <div class="blueprint" style="padding:10px 14px 6px;margin:6px 2px 18px">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <svg viewBox="0 0 360 96" style="width:100%;height:auto;color:rgba(29,31,32,0.65)" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="26" y="24" width="186" height="48"></rect>
+            <rect x="152" y="26" width="9" height="44" fill="var(--color-accent)" stroke="none"></rect>
+            <rect x="161" y="41" width="142" height="14"></rect>
+            <circle cx="316" cy="48" r="9"></circle>
+            <path d="M14 24 L14 72 M10 28 L14 24 L18 28 M10 68 L14 72 L18 68"></path>
+            <path d="M161 68 L303 68 M165 64 L161 68 L165 72 M299 64 L303 68 L299 72" stroke-dasharray="0"></path>
+            <path d="M252 41 L252 30 M252 55 L252 66" stroke-dasharray="2 3"></path>
+            <text x="18" y="18" font-size="11" fill="currentColor" stroke="none" font-family="Barlow Condensed">D (piston)</text>
+            <text x="236" y="27" font-size="11" fill="currentColor" stroke="none" font-family="Barlow Condensed">d (mil)</text>
+            <text x="216" y="84" font-size="11" fill="currentColor" stroke="none" font-family="Barlow Condensed">STROK</text>
+          </svg>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <sc-if value="{{ needBore }}" hint-placeholder-val="{{ true }}">
+            <div><span class="lbl" style="text-transform:none;letter-spacing:.02em">Piston çapı D · mm</span><input class="appin mono" type="number" value="{{ D }}" onChange="{{ onD }}"></div>
+          </sc-if>
+          <sc-if value="{{ needBore }}" hint-placeholder-val="{{ true }}">
+            <div><span class="lbl" style="text-transform:none;letter-spacing:.02em">Mil çapı d · mm</span><input class="appin mono" type="number" value="{{ d }}" onChange="{{ ond }}"></div>
+          </sc-if>
+          <sc-if value="{{ needP }}" hint-placeholder-val="{{ true }}">
+            <div><span class="lbl">Çalışma basıncı · bar</span><input class="appin mono" type="number" value="{{ p }}" onChange="{{ onp }}"></div>
+          </sc-if>
+          <sc-if value="{{ needF }}" hint-placeholder-val="{{ false }}">
+            <div><span class="lbl">İstenen kuvvet · kg</span><input class="appin mono" type="number" value="{{ F }}" onChange="{{ onF }}"></div>
+          </sc-if>
+          <sc-if value="{{ needStroke }}" hint-placeholder-val="{{ true }}">
+            <div><span class="lbl">Strok · mm</span><input class="appin mono" type="number" value="{{ stroke }}" onChange="{{ onStroke }}"></div>
+          </sc-if>
+          <sc-if value="{{ needQ }}" hint-placeholder-val="{{ false }}">
+            <div><span class="lbl">Debi Q · L/dk</span><input class="appin mono" type="number" value="{{ Q }}" onChange="{{ onQ }}"></div>
+          </sc-if>
+          <sc-if value="{{ needL }}" hint-placeholder-val="{{ false }}">
+            <div><span class="lbl">Serbest boy L · mm</span><input class="appin mono" type="number" value="{{ L }}" onChange="{{ onL }}"></div>
+          </sc-if>
+          <sc-if value="{{ needWall }}" hint-placeholder-val="{{ false }}">
+            <div><span class="lbl">Gövde et kalınlığı · mm</span><input class="appin mono" type="number" value="{{ t }}" onChange="{{ onT }}"></div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ needDir }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px">
+            <span class="lbl">Yön</span>
+            <div style="display:flex;gap:0;border:1px solid var(--color-divider)">
+              <button onClick="{{ dirPush }}" class="hd" style="flex:1;min-height:44px;font-size:14px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border:none;background:{{ pushBg }};color:{{ pushFg }}">İtme</button>
+              <button onClick="{{ dirPull }}" class="hd" style="flex:1;min-height:44px;font-size:14px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border:none;border-left:1px solid var(--color-divider);background:{{ pullBg }};color:{{ pullFg }}">Çekme</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ needL }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px">
+            <span class="lbl">Bağlama durumu (Euler)</span>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+                <button onClick="{{ c.go }}" style="display:flex;align-items:center;gap:9px;min-height:46px;padding:0 10px;cursor:pointer;text-align:left;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }}">
+                  <svg viewBox="0 0 20 40" width="14" height="30" fill="none" stroke="currentColor" stroke-width="1.5"><path d="{{ c.svg }}"></path></svg>
+                  <span><span class="hd" style="display:block;font-size:13px;line-height:1.1">Durum {{ c.n }}</span><span class="mono" style="font-size:10.5px;opacity:.7">Lk = {{ c.f }}·L</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isSecici }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px">
+            <div class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 2px 10px">Aday silindirler</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ candidates }}" as="c" hint-placeholder-count="4">
+                <button onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:10px;min-height:56px;padding:0 12px;cursor:pointer;text-align:left;background:transparent;border:1px solid {{ c.bd }}">
+                  <span class="hd" style="font-size:18px;flex:none;min-width:86px">{{ c.name }}</span>
+                  <span class="mono" style="flex:1;font-size:12.5px;line-height:1.35;color:rgba(29,31,32,.62)">{{ c.need }}<br>{{ c.s }}</span>
+                  <span class="tag" style="flex:none;background:{{ c.tagBg }};color:{{ c.tagFg }}">{{ c.tag }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ notSecici }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);margin:20px 0 0;padding:16px 16px 14px;position:relative">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+            <span class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.7">{{ resTitle }}</span>
+            <span class="mono" style="font-size:11px;opacity:.7">{{ resSub }}</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:10px">
+            <span class="hd mono" style="font-size:52px;line-height:.85;letter-spacing:-.02em">{{ resBig }}</span>
+            <span class="hd" style="font-size:15px;letter-spacing:.08em;text-transform:uppercase;opacity:.8;padding-bottom:5px">{{ resUnit }}</span>
+          </div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(242,242,243,.25);display:grid;grid-template-columns:1fr 1fr;gap:10px 14px">
+            <sc-for list="{{ resRows }}" as="r" hint-placeholder-count="4">
+              <div>
+                <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.6">{{ r.k }}</div>
+                <div class="mono" style="font-size:16px;line-height:1.2">{{ r.v }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ verdict }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:14px;padding:9px 12px;display:flex;align-items:center;gap:10px;background:{{ verdictBg }};color:{{ verdictFg }}">
+              <span class="hd" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase">{{ verdict }}</span>
+              <span style="font-size:11.5px;line-height:1.3;opacity:.85">{{ verdictNote }}</span>
+            </div>
+          </sc-if>
+        </div>
+        </sc-if>
+
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button onClick="{{ save }}" class="btn btn-primary" style="flex:1;min-height:46px;font-size:15px;letter-spacing:.06em;text-transform:uppercase">Kaydet</button>
+          <button onClick="{{ openPdf }}" class="btn btn-secondary" style="flex:none;min-height:46px;padding:0 16px;font-size:15px;letter-spacing:.06em;text-transform:uppercase">PDF</button>
+        </div>
+        <p style="font-size:11px;line-height:1.5;margin:12px 2px 0;color:rgba(29,31,32,0.5)">{{ formula }}</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isKatalog }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <h4 style="margin:2px 0 2px;text-transform:uppercase;letter-spacing:.04em">Standart gam</h4>
+        <p style="font-size:12px;margin:0 0 14px;color:rgba(29,31,32,0.55)">Kuvvetler {{ p }} bar için. Satıra dokun → hesaba taşı.</p>
+        <table class="table mono" style="font-size:13px">
+          <thead><tr><th>Ø D / d</th><th style="text-align:right">İtme</th><th style="text-align:right">Çekme</th><th></th></tr></thead>
+          <tbody>
+            <sc-for list="{{ catRows }}" as="c" hint-placeholder-count="8">
+              <tr onClick="{{ c.pick }}" style="cursor:pointer;background:{{ c.bg }}">
+                <td class="hd" style="font-size:15px">{{ c.name }}</td>
+                <td style="text-align:right">{{ c.push }}</td>
+                <td style="text-align:right">{{ c.pull }}</td>
+                <td style="text-align:right;color:var(--color-accent);font-size:11px;letter-spacing:.08em">SEÇ</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        <p style="font-size:11px;line-height:1.5;margin:14px 2px 0;color:rgba(29,31,32,0.5)">Değerler teorik; sürtünme ve hacimsel verim (%{{ eta }}) düşülmemiştir.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTamir }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <h4 style="margin:2px 0 2px;text-transform:uppercase;letter-spacing:.04em">Tamir takımı</h4>
+        <p style="font-size:12px;margin:0 0 14px;color:rgba(29,31,32,0.55)">Döküm kep (GG25-GG26) keçe ölçüleri. Piston ve mil çapını seç.</p>
+
+        <span class="lbl" style="text-transform:none;letter-spacing:.02em">Piston çapı D · mm</span>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+          <sc-for list="{{ sealBores }}" as="b" hint-placeholder-count="26">
+            <button onClick="{{ b.go }}" class="hd" style="min-height:44px;min-width:56px;padding:0 10px;font-size:15px;cursor:pointer;border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }}">{{ b.l }}</button>
+          </sc-for>
+        </div>
+
+        <span class="lbl" style="text-transform:none;letter-spacing:.02em">Mil çapı d · mm</span>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px">
+          <sc-for list="{{ sealRods }}" as="r" hint-placeholder-count="6">
+            <button onClick="{{ r.go }}" class="hd" style="min-height:44px;min-width:56px;padding:0 10px;font-size:15px;cursor:pointer;border:1px solid {{ r.bd }};background:{{ r.bg }};color:{{ r.fg }}">{{ r.l }}</button>
+          </sc-for>
+        </div>
+
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:16px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:14px">
+            <span class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.7">Keçe takımı</span>
+            <span class="mono" style="font-size:12px;opacity:.75">{{ seal.code }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div>
+              <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6">Toz keçesi</div>
+              <div class="hd mono" style="font-size:26px;line-height:1.05">{{ seal.dust }}</div>
+            </div>
+            <div>
+              <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6">Nutring</div>
+              <div class="hd mono" style="font-size:26px;line-height:1.05">{{ seal.nut }}</div>
+            </div>
+            <div>
+              <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6">O-ring</div>
+              <div class="hd mono" style="font-size:26px;line-height:1.05">{{ seal.oring }}</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding:9px 12px;background:rgba(242,242,243,.14);font-size:11.5px;line-height:1.35">{{ sealTitle }} döküm kep · ölçüler iç çap × dış çap × yükseklik.</div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button onClick="{{ sealToCalc }}" class="btn btn-primary" style="flex:1;min-height:46px;font-size:15px;letter-spacing:.06em;text-transform:uppercase">Hesaba al</button>
+          <button onClick="{{ openSheet }}" class="btn btn-secondary" style="flex:none;min-height:46px;padding:0 16px;font-size:15px;letter-spacing:.06em;text-transform:uppercase">Paylaş</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isKayit }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px">
+          <h4 style="margin:0;text-transform:uppercase;letter-spacing:.04em">Kayıtlı hesaplar</h4>
+          <button onClick="{{ openSheet }}" class="btn btn-ghost" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;min-height:44px">Tümünü paylaş</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ records }}" as="r" hint-placeholder-count="3">
+            <div class="card blueprint" style="gap:4px;padding:12px 14px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;gap:8px">
+                <span class="card-kicker">{{ r.kicker }}</span>
+                <span class="mono" style="font-size:10px;letter-spacing:.06em;color:rgba(29,31,32,0.45)">{{ r.date }}</span>
+              </div>
+              <div class="card-title">{{ r.title }}</div>
+              <div class="card-meta mono">{{ r.meta }}</div>
+              <div style="display:flex;gap:8px;margin-top:6px">
+                <button onClick="{{ r.load }}" class="btn btn-secondary" style="min-height:40px;font-size:12px;letter-spacing:.08em;text-transform:uppercase">Hesaba al</button>
+                <button onClick="{{ openPdf }}" class="btn btn-ghost" style="min-height:40px;font-size:12px;letter-spacing:.08em;text-transform:uppercase">PDF</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTablo }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <h4 style="margin:2px 0 12px;text-transform:uppercase;letter-spacing:.04em">Referans</h4>
+        <div class="blueprint" style="padding:14px;margin:0 2px 20px">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:10px">Burkulma boyu katsayıları</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+              <div style="display:flex;gap:10px;align-items:center">
+                <svg viewBox="0 0 20 40" width="16" height="34" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--color-accent)"><path d="{{ c.svg }}"></path></svg>
+                <div>
+                  <div class="hd" style="font-size:13px;line-height:1.1">Durum {{ c.n }}</div>
+                  <div style="font-size:10.5px;line-height:1.3;color:rgba(29,31,32,0.55)">{{ c.desc }}</div>
+                  <div class="mono" style="font-size:11px">Lk = {{ c.f }}·L</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin:0 2px 6px">İtme kuvveti · ton</div>
+        <table class="table mono" style="font-size:13px">
+          <thead><tr><th>Ø D</th><th style="text-align:right">100 bar</th><th style="text-align:right">160 bar</th><th style="text-align:right">250 bar</th></tr></thead>
+          <tbody>
+            <sc-for list="{{ refRows }}" as="r" hint-placeholder-count="7">
+              <tr><td class="hd" style="font-size:15px">{{ r.name }}</td><td style="text-align:right">{{ r.a }}</td><td style="text-align:right">{{ r.b }}</td><td style="text-align:right">{{ r.c }}</td></tr>
+            </sc-for>
+          </tbody>
+        </table>
+        <div class="blueprint" style="padding:14px;margin:20px 2px 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Formüller</div>
+          <div class="mono" style="font-size:12px;line-height:1.9">
+            <div>A = π·D² / 4</div>
+            <div>F [kg] = p [bar] · A [mm²] / 98,07</div>
+            <div>F_kr = π²·E·I / Lk²  ·  I = π·d⁴ / 64</div>
+            <div>v [mm/s] = Q [L/dk] · 16 667 / A</div>
+            <div>E = 210 000 N/mm² (çelik mil)</div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAyar }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <h4 style="margin:2px 0 14px;text-transform:uppercase;letter-spacing:.04em">Ayarlar</h4>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><span class="lbl">Sistem maksimum basıncı · bar</span><input class="appin mono" type="number" value="{{ maxP }}" onChange="{{ onMaxP }}"></div>
+          <div><span class="lbl">Hedef burkulma emniyet katsayısı</span><input class="appin mono" type="number" value="{{ S }}" onChange="{{ onS }}"></div>
+          <div><span class="lbl">Hacimsel verim · %</span><input class="appin mono" type="number" value="{{ eta }}" onChange="{{ onEta }}"></div>
+          <div>
+            <span class="lbl">Kuvvet gösterimi</span>
+            <div style="display:flex;border:1px solid var(--color-divider)">
+              <button onClick="{{ unitTon }}" class="hd" style="flex:1;min-height:44px;font-size:14px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border:none;background:{{ tonBg }};color:{{ tonFg }}">Ton</button>
+              <button onClick="{{ unitKg }}" class="hd" style="flex:1;min-height:44px;font-size:14px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border:none;border-left:1px solid var(--color-divider);background:{{ kgBg }};color:{{ kgFg }}">Kg</button>
+            </div>
+          </div>
+        </div>
+        <div class="blueprint" style="padding:12px 14px;margin:20px 2px 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-size:11.5px;line-height:1.55;color:rgba(29,31,32,0.6)">Hesaplar teorik değerlerdir. Sürtünme kayıpları, dinamik yükler ve darbe katsayıları proje bazında ayrıca değerlendirilmelidir.</div>
+        </div>
+        <div class="mono" style="font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;margin:16px 2px 0;color:rgba(29,31,32,0.4)">Sürüm 1.0 · {{ brandName }}</div>
+      </div>
+    </sc-if>
+  </div>
+
+  <div style="position:sticky;bottom:0;display:flex;background:var(--color-bg);border-top:1px solid var(--color-divider);z-index:6;padding-bottom:env(safe-area-inset-bottom)">
+    <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+      <button onClick="{{ t.go }}" style="flex:1;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;background:{{ t.bg }};border:none;border-top:2px solid {{ t.mark }};color:{{ t.fg }}">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{ t.svg }}"></path></svg>
+        <span class="hd" style="font-size:10.5px;letter-spacing:.1em;text-transform:uppercase">{{ t.l }}</span>
+      </button>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ sheet }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSheet }}" style="position:fixed;inset:0;z-index:20;background:rgba(43,43,45,0.55);display:flex;align-items:flex-end">
+      <div class="blueprint" style="width:100%;background:var(--color-bg);padding:18px 18px 16px;border:none;border-top:1px solid var(--color-divider)">
+        <div class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:6px">Çıktı</div>
+        <div class="hd" style="font-size:22px;line-height:1.1;margin-bottom:4px">{{ sheetTitle }}</div>
+        <div class="mono" style="font-size:12px;color:rgba(29,31,32,0.55);margin-bottom:16px">{{ sheetSub }}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button onClick="{{ openPdf }}" class="btn btn-primary" style="min-height:46px;font-size:14px;letter-spacing:.06em;text-transform:uppercase">Teklif PDF'i oluştur</button>
+          <button onClick="{{ closeSheet }}" class="btn btn-secondary" style="min-height:46px;font-size:14px;letter-spacing:.06em;text-transform:uppercase">WhatsApp ile gönder</button>
+          <button onClick="{{ closeSheet }}" class="btn btn-ghost" style="min-height:44px;font-size:13px;letter-spacing:.06em;text-transform:uppercase">Vazgeç</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ pdf }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:30;background:var(--color-bg);overflow:auto">
+      <div class="noprint" style="display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--color-divider);position:sticky;top:0;background:var(--color-bg);z-index:2">
+        <button onClick="{{ closePdf }}" class="btn btn-ghost" style="min-height:44px;font-size:13px;letter-spacing:.06em;text-transform:uppercase">← Geri</button>
+        <span class="hd" style="flex:1;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-align:center">Teklif çıktısı</span>
+        <button onClick="{{ doPrint }}" class="btn btn-primary" style="min-height:44px;font-size:13px;letter-spacing:.06em;text-transform:uppercase">Yazdır / PDF</button>
+      </div>
+
+      <div class="psheet" style="padding:18px 16px 28px;background:var(--color-bg)">
+        <div style="display:flex;gap:12px;align-items:flex-start;border-bottom:2px solid var(--color-text);padding-bottom:12px">
+          <div style="flex:1;min-width:0">
+            <img src="assets/logo.png" alt="Özmaksan Hidrolik" style="height:44px;width:auto;display:block;margin-bottom:8px">
+            <div class="mono" style="font-size:11px;color:rgba(29,31,32,.6);margin-top:4px">Hidrolik silindir teklif föyü · {{ pdfDate }}</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+              <span style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(29,31,32,.5)">Teklif no</span>
+              <input class="appin mono" style="border:none;background:transparent;padding:0;width:auto;min-height:0;font-size:12px" type="text" value="{{ qno }}" onChange="{{ onQno }}">
+            </div>
+          </div>
+        </div>
+
+        <div class="hd" style="font-size:18px;margin:14px 0 10px">{{ pdfTitle }}</div>
+
+        <div class="blueprint" style="padding:10px 12px 4px;margin:0 2px 16px">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <svg viewBox="0 0 360 96" style="width:100%;height:auto;color:rgba(29,31,32,.65)" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="26" y="24" width="186" height="48"></rect>
+            <rect x="152" y="26" width="9" height="44" fill="var(--color-accent)" stroke="none"></rect>
+            <rect x="161" y="41" width="142" height="14"></rect>
+            <circle cx="316" cy="48" r="9"></circle>
+            <path d="M14 24 L14 72 M10 28 L14 24 L18 28 M10 68 L14 72 L18 68"></path>
+            <path d="M161 68 L303 68 M165 64 L161 68 L165 72 M299 64 L303 68 L299 72"></path>
+            <text x="18" y="18" font-size="11" fill="currentColor" stroke="none" font-family="Barlow Condensed">D (piston)</text>
+            <text x="236" y="27" font-size="11" fill="currentColor" stroke="none" font-family="Barlow Condensed">d (mil)</text>
+            <text x="216" y="84" font-size="11" fill="currentColor" stroke="none" font-family="Barlow Condensed">STROK</text>
+          </svg>
+        </div>
+
+        <div class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 2px 6px">Ölçü ve hesap dökümü</div>
+        <table class="table mono" style="font-size:13px;margin-bottom:16px">
+          <tbody>
+            <sc-for list="{{ pdfSpecs }}" as="r" hint-placeholder-count="12">
+              <tr><td style="width:58%">{{ r.k }}</td><td class="hd" style="text-align:right;font-size:15px">{{ r.v }}</td></tr>
+            </sc-for>
+          </tbody>
+        </table>
+
+        <div class="hd" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 2px 6px">Not</div>
+        <textarea class="appin" style="min-height:76px;resize:vertical;font-size:13px;line-height:1.5" value="{{ note }}" onChange="{{ onNote }}"></textarea>
+
+        <div style="display:flex;justify-content:space-between;gap:20px;margin-top:26px;padding-top:10px;border-top:1px solid var(--color-divider)">
+          <div style="flex:1;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(29,31,32,.5)">Hazırlayan</div>
+          <div style="flex:1;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(29,31,32,.5);text-align:right">Onay</div>
+        </div>
+        <div style="font-size:9.5px;line-height:1.5;margin-top:18px;color:rgba(29,31,32,.45)">Değerler teorik hesaplardır; sürtünme kayıpları, dinamik yükler ve darbe katsayıları proje bazında değerlendirilmelidir.</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:16px;right:16px;bottom:76px;z-index:15;background:var(--color-neutral-900);color:var(--color-bg);padding:11px 14px;font-size:13px;letter-spacing:.02em;box-shadow:var(--shadow-md)">{{ toast }}</div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:460,&quot;height&quot;:960},&quot;brandName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Ozmaksan Hidrolik&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;maxPressureDefault&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:400,&quot;min&quot;:100,&quot;max&quot;:400,&quot;step&quot;:10,&quot;unit&quot;:&quot;bar&quot;,&quot;tsType&quot;:&quot;number&quot;}}">
+const E = 210000, G = 98.0665;
+const CASES = [
+  { n: 1, f: 2, desc: 'Bir uç ankastre, diğer uç serbest', svg: 'M2 38 H18 M10 38 V4' },
+  { n: 2, f: 1, desc: 'İki uç mafsallı (en yaygın)', svg: 'M10 36 V8 M7 38 A3 3 0 0 1 13 38 M7 6 A3 3 0 0 1 13 6' },
+  { n: 3, f: 0.707, desc: 'Bir uç ankastre, diğer uç mafsallı', svg: 'M2 38 H18 M10 38 V8 M7 6 A3 3 0 0 1 13 6' },
+  { n: 4, f: 0.5, desc: 'İki uç ankastre', svg: 'M2 38 H18 M2 2 H18 M10 38 V2' }
+];
+const SEALS = [
+[32,16,'16x24x5/7','16x22x5','28x3'],[32,18,'18x26x5/7','18x25x5','28x3'],[32,20,'20x28x5/7','20x30x6','28x3'],[32,22,'22x30x5/7','22x32x6','28x3'],[35,20,'20x28x5/7','20x30x6','30x3'],[35,22,'22x30x5/7','22x32x6','30x3'],[35,25,'25x33x5/7','25x35x6','30x3'],[40,18,'18x26x5/7','18x25x5','36x3'],[40,20,'20x28x5/7','20x30x6','36x3'],[40,22,'22x30x5/7','22x32x6','36x3'],[40,25,'25x33x5/7','25x35x6','36x3'],[40,28,'28x36x5/7','28x38x7','36x3'],[45,20,'20x28x5/7','20x30x6','40x3'],[45,25,'25x33x5/7','25x35x6','40x3'],[45,28,'28x36x5/7','28x38x7','40x3'],[45,30,'30x38x5/7','30x40x8','40x3'],[50,20,'20x28x5/7','20x30x6','45x3'],[50,22,'22x30x5/7','22x32x6','45x3'],[50,25,'25x33x5/7','25x35x6','45x3'],[50,28,'28x36x5/7','28x38x7','45x3'],[50,30,'30x38x5/7','30x40x8','45x3'],[50,32,'32x40x5/7','32x40x8','45x3'],[50,35,'35x43x5/7','35x45x8','45x3'],[50,36,'36x44x5/7','36x46x8','45x3'],[55,25,'25x33x5/7','25x35x6','49,21x3,53'],[55,30,'30x38x5/7','30x40x8','49,21x3,53'],[55,35,'35x43x5/7','35x45x8','49,21x3,53'],[60,25,'25x33x5/7','25x35x6','53,57x3,53'],[60,30,'30x38x5/7','30x40x8','53,57x3,53'],[60,35,'35x43x5/7','35x45x8','53,57x3,53'],[60,40,'40x48x5/7','40x50x10','53,57x3,53'],[60,45,'45x55x5/7','45x55x10','53,57x3,53'],[63,30,'30x38x5/7','30x40x8','57,15x3,53'],[63,35,'35x43x5/7','35x45x8','57,15x3,53'],[63,36,'36x44x5/7','36x46x8','57,15x3,53'],[63,40,'40x48x5/7','40x50x10','57,15x3,53'],[63,45,'45x55/5/7','45x55x10','57,15x3,53'],[65,30,'30x38x5/7','30x40x8','59,92x3,53'],[65,35,'35x43x5/7','35x45x8','59,92x3,53'],[65,40,'40x48x5/7','40x50x10','59,92x3,53'],[65,45,'45x55/5/7','45x55x10','59,92x3,53'],[70,25,'25x33x5/7','25x35x6','65,10x3,53'],[70,30,'30x38x5/7','30x40x8','65,10x3,53'],[70,35,'35x43x5/7','35x45x8','65,10x3,53'],[70,36,'36x44x5/7','36x46x8','65,10x3,53'],[70,40,'40x48x5/7','40x50x10','65,10x3,53'],[70,45,'45x55/5/7','45x55x10','65,10x3,53'],[70,50,'50x60x5/7','50x60x10','65,10x3,53'],[70,55,'55x65x5/7','55x65x10','65,10x3,53'],[75,30,'30x38x5/7','30x40x8','69,45x3,53'],[75,35,'35x43x5/7','35x45x8','69,45x3,53'],[75,40,'40x48x5/7','40x50x10','69,45x3,53'],[75,45,'45x55/5/7','45x55x10','69,45x3,53'],[75,50,'50x60x5/7','50x60x10','69,45x3,53'],[75,55,'55x65x5/7','55x65x10','69,45x3,53'],[80,30,'30x38x5/7','30x40x8','74,61x3,53'],[80,35,'35x43x5/7','35x45x8','74,61x3,53'],[80,40,'40x48x5/7','40x50x10','74,61x3,53'],[80,45,'45x55/5/7','45x55x10','74,61x3,53'],[80,50,'50x60x5/7','50x60x10','74,61x3,53'],[80,55,'55x65x5/7','55x65x10','74,61x3,53'],[80,56,'56x66x8','56x66x5/7','74,61x3,53'],[80,60,'60x70x5/7','60x70x10','74,61x3,53'],[85,35,'40x48x5/7','40x50x10','78x4'],[85,40,'40x48x5/7','40x50x10','78x4'],[85,45,'45x55/5/7','45x55x10','78x4'],[85,50,'50x60x5/7','50x60x10','78x4'],[85,55,'55x65x5/7','55x65x10','78x4'],[85,60,'60x70x5/7','60x70x10','78x4'],[90,35,'35x43x5/7','35x45x8','84x4'],[90,40,'40x48x5/7','40x50x10','84x4'],[90,45,'45x55/5/7','45x55x10','84x4'],[90,50,'50x60x5/7','50x60x10','84x4'],[90,55,'55x65x5/7','55x65x10','84x4'],[90,60,'60x70x5/7','60x70x10','84x4'],[90,65,'65x75x5/7','65x75x10','84x4'],[90,70,'70x80x5/7','70x80x12','84x4'],[100,40,'40x48x5/7','40x50x10','90x5'],[100,45,'45x55/5/7','45x55x10','90x5'],[100,50,'50x60x5/7','50x60x10','90x5'],[100,55,'55x65x5/7','55x65x10','90x5'],[100,56,'56x66x8','56x66x5/7','90x5'],[100,60,'60x70x5/7','60x70x10','90x5'],[100,65,'65x75x5/7','65x75x10','90x5'],[100,70,'70x80x5/7','70x80x12','90x5'],[100,75,'75x87x7/12','75x85x12','90x5'],[100,80,'80x92x7/12','80x90x12','90x5'],[110,50,'50x60x5/7','50x60x10','100x5'],[110,55,'55x65x5/7','55x65x10','100x5'],[110,56,'56x66x8','56x66x5/7','100x5'],[110,60,'60x70x5/7','60x70x10','100x5'],[110,65,'65x75x5/7','65x75x10','100x5'],[110,70,'70x80x5/7','70x80x12','100x5'],[110,75,'75x87x7/12','75x85x12','100x5'],[110,80,'80x92x7/12','80x90x12','100x5'],[115,50,'50x60x5/7','50x60x10','105x5'],[115,55,'55x65x5/7','55x65x10','105x5'],[115,60,'60x70x5/7','60x70x10','105x5'],[115,65,'65x75x5/7','65x75x10','105x5'],[115,70,'70x80x5/7','70x80x12','105x5'],[115,75,'75x87x7/12','75x85x12','105x5'],[115,80,'80x92x7/12','80x90x12','105x5'],[115,90,'90x102x7/12','90x100x12','105x5'],[120,45,'45x55/5/7','45x55x10','110x5'],[120,50,'50x60x5/7','50x60x10','110x5'],[120,55,'55x65x5/7','55x65x10','110x5'],[120,60,'60x70x5/7','60x70x10','110x5'],[120,65,'65x75x5/7','65x75x10','110x5'],[120,70,'70x80x5/7','70x80x12','110x5'],[120,75,'75x87x7/12','75x85x12','110x5'],[120,80,'80x92x7/12','80x90x12','110x5'],[120,85,'85x97x7/12','85x95x12','110x5'],[120,90,'90x102x7/12','90x100x12','110x5'],[125,50,'50x60x5/7','50x60x10','110x5'],[125,55,'55x65x5/7','55x65x10','110x5'],[125,60,'60x70x5/7','60x70x10','115x5'],[125,65,'65x75x5/7','65x75x10','115x5'],[125,70,'70x80x5/7','70x80x12','115x5'],[125,75,'75x87x7/12','75x85x12','115x5'],[125,80,'80x92x7/12','80x90x12','115x5'],[125,85,'85x97x7/12','85x95x12','115x5'],[125,90,'90x102x7/12','90x100x12','115x5'],[130,60,'60x70x5/7','60x70x10','119,30x5,70'],[130,70,'70x80x5/7','70x80x12','119,30x5,70'],[130,75,'75x87x7/12','75x85x12','119,30x5,70'],[130,80,'80x92x7/12','80x90x12','119,30x5,70'],[130,85,'85x97x7/12','85x95x12','119,30x5,70'],[130,90,'90x102x7/12','90x100x12','119,30x5,70'],[130,100,'100x112x7/12','100x120x12','119,30x5,70'],[140,60,'60x70x5/7','60x70x10','129,30x5,70'],[140,65,'65x75x5/7','65x75x10','129,30x5,70'],[140,70,'70x80x5/7','70x80x12','129,30x5,70'],[140,75,'75x87x7/12','75x85x12','129,30x5,70'],[140,80,'80x92x7/12','80x90x12','129,30x5,70'],[140,85,'85x97x7/12','85x95x12','129,30x5,70'],[140,90,'90x102x7/12','90x100x12','129,30x5,70'],[140,100,'100x112x7/12','100x120x12','129,30x5,70'],[140,105,'105x117x7/12','105x115x12','129,30x5,70'],[140,110,'110x122x7/12','110x125x12','129,30x5,70'],[150,60,'60x70x5/7','60x70x10','139,30x5,70'],[150,70,'70x80x5/7','70x80x12','139,30x5,70'],[150,75,'75x87x7/12','75x85x12','139,30x5,70'],[150,80,'80x92x7/12','80x90x12','139,30x5,70'],[150,85,'85x97x7/12','85x95x12','139,30x5,70'],[150,90,'90x102x7/12','90x100x12','139,30x5,70'],[150,100,'100x112x7/12','100x120x12','139,30x5,70'],[150,110,'110x122x7/12','110x125x12','139,30x5,70'],[160,60,'60x70x5/7','60x70x10','149,20x5,70'],[160,70,'70x80x5/7','70x80x12','149,20x5,70'],[160,80,'80x92x7/12','80x90x12','149,20x5,70'],[160,85,'80x92x7/12','80x90x12','149,20x5,70'],[160,90,'90x102x7/12','90x100x12','149,20x5,70'],[160,100,'100x112x7/12','100x120x12','149,20x5,70'],[160,110,'110x122x7/12','110x125x12','149,20x5,70'],[160,120,'120x132x7/12','120x140x14,6','149,20x5,70'],[170,80,'80x92x7/12','80x90x12','159,20x5,70'],[170,90,'90x102x7/12','90x100x12','159,20x5,70'],[170,100,'100x112x7/12','100x120x12','159,20x5,70'],[170,110,'110x122x7/12','110x125x12','159,20x5,70'],[170,120,'120x132x7/12','120x140x14,6','159,20x5,70'],[180,70,'70x80x5/7','70x80x12','169,30x5,70'],[180,80,'80x92x7/12','80x90x12','169,30x5,70'],[180,90,'90x102x7/12','90x100x12','169,30x5,70'],[180,100,'100x112x7/12','100x120x12','169,30x5,70'],[180,110,'110x122x7/12','110x125x12','169,30x5,70'],[180,120,'120x132x7/12','120x140x14,6','169,30x5,70'],[180,125,'125X137X7/12','125X145X12','169,30x5,70'],[180,130,'130X142X7/12','130X150X15','169,30x5,70'],[180,140,'140X152X7/12','140X160X15','169,30x5,70'],[200,90,'90x102x7/12','90x100x12','189,30x5,70'],[200,100,'100x112x7/12','100x120x12','189,30x5,70'],[200,110,'110x122x7/12','110x125x12','189,30x5,70'],[200,120,'120x132x7/12','120x140x14,6','189,30x5,70'],[200,130,'130X142X7/12','130X150X15','189,30x5,70'],[200,140,'140X152X7/12','140X160X15','189,30x5,70']
+];
+const CAT = (function(){var m={};SEALS.forEach(function(r){var D=r[0];if(!(D in m)||Math.abs(r[1]-0.56*D)<Math.abs(m[D]-0.56*D))m[D]=r[1];});return Object.keys(m).map(function(k){return [+k,m[k]];}).sort(function(a,b){return a[0]-b[0];});})();
+const TABS = [
+  { k: 'hesap', l: 'Hesap', svg: 'M5 3h14v18H5z M8 7h8 M8 12h2 M12 12h2 M16 12h0.01 M8 16h2 M12 16h2 M16 16h0.01' },
+  { k: 'katalog', l: 'Katalog', svg: 'M3 6h18 M3 12h18 M3 18h18 M7 3v18' },
+  { k: 'tamir', l: 'Tamir', svg: 'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z' },
+  { k: 'kayit', l: 'Kayıt', svg: 'M6 3h12v18l-6-4-6 4z' },
+  { k: 'tablo', l: 'Tablo', svg: 'M3 4h18v16H3z M3 9h18 M9 9v11 M15 9v11' },
+  { k: 'ayar', l: 'Ayar', svg: 'M12 8.5A3.5 3.5 0 1 0 12 15.5A3.5 3.5 0 0 0 12 8.5 M12 2v3 M12 19v3 M4.9 4.9l2.1 2.1 M17 17l2.1 2.1 M2 12h3 M19 12h3 M4.9 19.1l2.1-2.1 M17 7l2.1-2.1' }
+];
+const MODES = [
+  { k: 'secici', l: 'Seçici' },
+  { k: 'kuvvet', l: 'Kuvvet' }, { k: 'basinc', l: 'Basınç' },
+  { k: 'burkulma', l: 'Burkulma' }, { k: 'hiz', l: 'Hız & Debi' },
+  { k: 'agirlik', l: 'Ağırlık' }, { k: 'mukavemet', l: 'Mukavemet' }
+];
+const RHO = 7.85e-6, OIL = 0.87, YIELD = 355;
+
+class Component extends DCLogic {
+  state = {
+    tab: 'hesap', mode: 'kuvvet', D: '80', d: '45', stroke: '500', p: '180',
+    F: '5000', dir: 'itme', mcase: 2, L: '620', Q: '20', t: '8',
+    maxP: '', S: '3.5', eta: '92', unit: 'ton', sheet: false, toast: '',
+    tD: 80, td: 45,
+    pdf: false, firm: 'Ozmaksan Hidrolik', qno: '2026-0148', note: 'Teklif 15 gün geçerlidir. Teslim: 10 iş günü.',
+    records: [
+      { id: 1, kicker: 'İtme kuvveti', title: 'Ø100/56 × 700 — konveyör kaldırma', meta: '180 bar · 14,4 ton', date: '28.08.2026', st: { D: '100', d: '56', stroke: '700', p: '180', mode: 'kuvvet' } },
+      { id: 2, kicker: 'Burkulma', title: 'Ø63/35 × 400 — kalıp iticisi', meta: 'S = 4,2 · uygun', date: '26.08.2026', st: { D: '63', d: '35', stroke: '400', p: '160', mode: 'burkulma', L: '480' } },
+      { id: 3, kicker: 'Gerekli basınç', title: 'Ø140/80 × 1200 — pres silindiri', meta: '212 bar · 32 ton', date: '21.08.2026', st: { D: '140', d: '80', stroke: '1200', F: '32000', mode: 'basinc' } }
+    ]
+  };
+
+  n(v) { const x = parseFloat(String(v).replace(',', '.')); return isFinite(x) ? x : 0; }
+  fmt(v, dg) {
+    if (!isFinite(v) || v <= 0) return '—';
+    return v.toLocaleString('tr-TR', { minimumFractionDigits: dg || 0, maximumFractionDigits: dg || 0 });
+  }
+  set(k) { return e => this.setState({ [k]: e.target.value }); }
+  go(k) { return () => this.setState({ tab: k }); }
+  say(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: '' }), 2200); }
+
+  renderVals() {
+    const s = this.state, n = v => this.n(v), f = (v, d) => this.fmt(v, d);
+    const maxP = s.maxP || String(this.props.maxPressureDefault ?? 250);
+    const D = n(s.D), d = n(s.d), p = n(s.p), L = n(s.L), Q = n(s.Q), stroke = n(s.stroke);
+    const Ap = Math.PI / 4 * D * D, Ar = Math.PI / 4 * d * d, Aa = Ap - Ar;
+    const Ton = s.unit === 'ton';
+    const kgOf = (bar, A) => bar * A / G;
+    const push = kgOf(p, Ap), pull = kgOf(p, Aa);
+    const bigOf = kg => Ton ? f(kg / 1000, 2) : f(kg, 0);
+    const unitLbl = Ton ? 'ton' : 'kg';
+
+    const cs = CASES[s.mcase - 1] || CASES[1];
+    const Lk = L * cs.f, I = Math.PI * Math.pow(d, 4) / 64;
+    const Fcr = Lk > 0 ? Math.PI * Math.PI * E * I / (Lk * Lk) / 9.80665 : 0;
+    const Sact = push > 0 ? Fcr / push : 0;
+    const Starget = n(s.S) || 3.5;
+    const dmin = Lk > 0 ? Math.pow(64 * Starget * (push * 9.80665) * Lk * Lk / (Math.PI * Math.PI * Math.PI * E), 0.25) : 0;
+
+    const vPush = Ap > 0 ? Q * 16666.667 / Ap : 0, vPull = Aa > 0 ? Q * 16666.667 / Aa : 0;
+    const volPush = Ap * stroke / 1e6, volPull = Aa * stroke / 1e6;
+    const t = n(s.t), OD = D + 2 * t, Lb = stroke + 100;
+    const mBarrel = Math.PI / 4 * (OD * OD - D * D) * Lb * RHO;
+    const mRod = Math.PI / 4 * d * d * (stroke + 200) * RHO;
+    const mPiston = Math.PI / 4 * (D * D - d * d) * (0.5 * D) * RHO;
+    const mCaps = 2 * (Math.PI / 4 * OD * OD * 25 * RHO);
+    const mDry = mBarrel + mRod + mPiston + mCaps;
+    const mWet = mDry + Ap * stroke / 1e6 * OIL;
+
+    const sigC = t > 0 ? p * 0.1 * D / (2 * t) : 0;
+    const pYield = D > 0 ? 20 * YIELD * t / D : 0;
+    const Sbody = p > 0 ? pYield / p : 0;
+    const sigRod = Ar > 0 ? p * 0.1 * Ap / Ar : 0;
+    const Srod = sigRod > 0 ? YIELD / sigRod : 0;
+    const tMin = p * D * 2.5 / (20 * YIELD);
+
+    const pReq = (s.dir === 'itme' ? Ap : Aa) > 0 ? n(s.F) * G / (s.dir === 'itme' ? Ap : Aa) : 0;
+
+    let resTitle = '', resSub = '', resBig = '', resUnit = '', rows = [], verdict = '', note = '', formula = '';
+    if (s.mode === 'kuvvet') {
+      resTitle = 'İtme kuvveti'; resSub = p + ' bar · Ø' + D;
+      resBig = bigOf(push); resUnit = unitLbl;
+      rows = [
+        { k: 'Çekme kuvveti', v: bigOf(pull) + ' ' + unitLbl },
+        { k: 'İtme · kN', v: f(push * 9.80665 / 1000, 1) },
+        { k: 'Piston alanı', v: f(Ap, 0) + ' mm²' },
+        { k: 'Mil taraf. alan', v: f(Aa, 0) + ' mm²' }
+      ];
+      formula = 'F = p · A / 98,07 — teorik, sürtünme düşülmemiştir.';
+    } else if (s.mode === 'basinc') {
+      resTitle = 'Gerekli basınç'; resSub = f(n(s.F) / 1000, 2) + ' ton · ' + (s.dir === 'itme' ? 'itme' : 'çekme');
+      resBig = f(pReq, 0); resUnit = 'bar';
+      rows = [
+        { k: 'Etkin alan', v: f(s.dir === 'itme' ? Ap : Aa, 0) + ' mm²' },
+        { k: 'Sistem limiti', v: maxP + ' bar' },
+        { k: 'Kullanım', v: f(pReq / n(maxP) * 100, 0) + ' %' },
+        { k: 'Kuvvet · kN', v: f(n(s.F) * 9.80665 / 1000, 1) }
+      ];
+      verdict = pReq > n(maxP) ? 'Limit aşıldı' : 'Uygun';
+      note = pReq > n(maxP) ? 'Çapı büyüt veya kuvveti düşür.' : 'Sistem basıncı yeterli.';
+      formula = 'p = F · 98,07 / A — mil tarafında alan piston alanından küçüktür.';
+    } else if (s.mode === 'burkulma') {
+      resTitle = 'Emniyet katsayısı'; resSub = 'Durum ' + cs.n + ' · Lk ' + f(Lk, 0) + ' mm';
+      resBig = f(Sact, 1); resUnit = '× S';
+      rows = [
+        { k: 'Kritik yük', v: bigOf(Fcr) + ' ' + unitLbl },
+        { k: 'Etkiyen yük', v: bigOf(push) + ' ' + unitLbl },
+        { k: 'Atalet mom. I', v: f(I / 1000, 0) + '·10³ mm⁴' },
+        { k: 'Min. mil çapı', v: f(dmin, 0) + ' mm' }
+      ];
+      verdict = Sact >= Starget ? 'Uygun' : 'Riskli';
+      note = Sact >= Starget ? 'S ≥ ' + f(Starget, 1) + ' hedefi karşılanıyor.' : 'Mil çapını en az Ø' + f(dmin, 0) + ' yap.';
+      formula = 'F_kr = π²·E·I / Lk²  ·  E = 210 000 N/mm² · S = F_kr / F.';
+    } else if (s.mode === 'hiz') {
+      resTitle = 'İtme hızı'; resSub = Q + ' L/dk · Ø' + D;
+      resBig = f(vPush, 0); resUnit = 'mm/s';
+      rows = [
+        { k: 'Çekme hızı', v: f(vPull, 0) + ' mm/s' },
+        { k: 'İleri süre', v: vPush > 0 ? f(stroke / vPush, 1) + ' s' : '—' },
+        { k: 'Yağ · ileri', v: f(volPush, 2) + ' L' },
+        { k: 'Yağ · geri', v: f(volPull, 2) + ' L' }
+      ];
+      const tot = vPush > 0 && vPull > 0 ? stroke / vPush + stroke / vPull : 0;
+      verdict = 'Çevrim ' + f(tot, 1) + ' s';
+      note = 'Hacimsel verim %' + s.eta + ' ile ' + f(tot / (n(s.eta) / 100), 1) + ' s.';
+      formula = 'v = Q · 16 667 / A — pompa debisi sabit kabul edilmiştir.';
+    } else if (s.mode === 'agirlik') {
+      resTitle = 'Kuru ağırlık'; resSub = 'Ø' + f(OD, 0) + ' dış · et ' + s.t + ' mm';
+      resBig = f(mDry, 1); resUnit = 'kg';
+      rows = [
+        { k: 'Gövde borusu', v: f(mBarrel, 1) + ' kg' },
+        { k: 'Mil', v: f(mRod, 1) + ' kg' },
+        { k: 'Piston + kapaklar', v: f(mPiston + mCaps, 1) + ' kg' },
+        { k: 'Yağ dolu', v: f(mWet, 1) + ' kg' }
+      ];
+      verdict = 'Yaklaşık';
+      note = 'Çelik 7,85 kg/dm³ · gövde boyu strok + 100 mm kabulü · ±%10.';
+      formula = 'm = V · 7,85 g/cm³ — flanş, kulak ve bağlantı tipine göre değişir.';
+    } else if (s.mode === 'mukavemet') {
+      resTitle = 'Gövde emniyeti'; resSub = 'St52 · akma ' + YIELD + ' N/mm²';
+      resBig = f(Sbody, 1); resUnit = '× S';
+      rows = [
+        { k: 'Çeper gerilmesi', v: f(sigC, 0) + ' N/mm²' },
+        { k: 'Akma basıncı', v: f(pYield, 0) + ' bar' },
+        { k: 'Mil gerilmesi', v: f(sigRod, 0) + ' N/mm² (S ' + f(Srod, 1) + ')' },
+        { k: 'Min. et kalınlığı', v: f(tMin, 1) + ' mm' }
+      ];
+      const worst = Math.min(Sbody, Srod);
+      verdict = worst >= 2.5 ? 'Uygun' : 'Riskli';
+      note = worst >= 2.5 ? 'Gövde ve mil S ≥ 2,5 karşılıyor.' : (Sbody < Srod ? 'Et kalınlığını en az ' + f(tMin, 1) + ' mm yap.' : 'Mil çapını büyüt — mil gerilmesi yüksek.');
+      formula = 'σ = p·D / (2·t) (ince cidar) · mil σ = F / A_mil · St52 için S ≥ 2,5.';
+    } else {
+      resTitle = 'Silindir seçici';
+      formula = 'Aday silindirler: gerekli basınç ≤ mevcut basınç ve burkulma S ≥ hedef.';
+    }
+
+    // ── seçici: katalogdan aday silindirler ──
+    const want = n(s.F), avail = p, tgt = Starget;
+    const cands = CAT.map(([bD, bd]) => {
+      const A = s.dir === 'itme' ? Math.PI / 4 * bD * bD : Math.PI / 4 * (bD * bD - bd * bd);
+      const need = A > 0 ? want * G / A : 0;
+      const Ipin = Math.PI * Math.pow(bd, 4) / 64;
+      const Fcr2 = Lk > 0 ? Math.PI * Math.PI * E * Ipin / (Lk * Lk) / 9.80665 : 0;
+      const Sc = want > 0 ? Fcr2 / want : 0;
+      return { bD, bd, need, Sc, ok: need <= avail && Sc >= tgt };
+    }).filter(c => c.need > 0 && c.need <= avail * 1.35);
+    const best = cands.filter(c => c.ok)[0];
+    const candidates = cands.slice(0, 6).map(c => ({
+      name: 'Ø' + c.bD + '/' + c.bd,
+      need: f(c.need, 0) + ' bar',
+      s: 'S ' + f(c.Sc, 1),
+      tag: best && c.bD === best.bD ? 'En uygun' : (c.ok ? 'Uygun' : (c.need > avail ? 'Basınç yetmez' : 'Burkulma riski')),
+      tagBg: best && c.bD === best.bD ? 'var(--color-accent)' : (c.ok ? 'var(--color-accent-200)' : 'var(--color-neutral-200)'),
+      tagFg: best && c.bD === best.bD ? 'var(--color-bg)' : (c.ok ? 'var(--color-accent-800)' : 'var(--color-neutral-800)'),
+      bd: best && c.bD === best.bD ? 'var(--color-accent)' : 'var(--color-divider)',
+      pick: () => { this.setState({ D: String(c.bD), d: String(c.bd), mode: 'kuvvet' }); this.say('Ø' + c.bD + '/' + c.bd + ' seçildi'); }
+    }));
+
+    const ok = verdict === 'Uygun' || s.mode === 'hiz' || s.mode === 'agirlik';
+    const chip = (on) => ({ bg: on ? 'var(--color-accent)' : 'transparent', fg: on ? 'var(--color-bg)' : 'var(--color-text)', bd: on ? 'var(--color-accent)' : 'var(--color-divider)' });
+
+    return {
+      brandName: this.props.brandName ?? 'Ozmaksan Hidrolik',
+      maxP, maxPLabel: 'maks ' + maxP + ' bar', S: s.S, eta: s.eta, D: s.D, d: s.d, p: s.p, F: s.F, L: s.L, Q: s.Q, stroke: s.stroke,
+      isHesap: s.tab === 'hesap', isKatalog: s.tab === 'katalog', isKayit: s.tab === 'kayit',
+      isTablo: s.tab === 'tablo', isAyar: s.tab === 'ayar', isTamir: s.tab === 'tamir',
+      sealBores: [...new Set(SEALS.map(r => r[0]))].map(bD => ({
+        l: 'Ø' + bD, sel: bD === s.tD,
+        bg: bD === s.tD ? 'var(--color-accent)' : 'transparent',
+        fg: bD === s.tD ? 'var(--color-bg)' : 'var(--color-text)',
+        bd: bD === s.tD ? 'var(--color-accent)' : 'var(--color-divider)',
+        go: () => { const rods = SEALS.filter(r => r[0] === bD).map(r => r[1]); this.setState({ tD: bD, td: rods.indexOf(s.td) >= 0 ? s.td : rods[0] }); }
+      })),
+      sealRods: SEALS.filter(r => r[0] === s.tD).map(r => ({
+        l: 'Ø' + r[1],
+        bg: r[1] === s.td ? 'var(--color-accent)' : 'transparent',
+        fg: r[1] === s.td ? 'var(--color-bg)' : 'var(--color-text)',
+        bd: r[1] === s.td ? 'var(--color-accent)' : 'var(--color-divider)',
+        go: () => this.setState({ td: r[1] })
+      })),
+      seal: (function () {
+        const r = SEALS.filter(x => x[0] === s.tD && x[1] === s.td)[0];
+        return r ? { has: true, code: 'TDK' + String(r[0]).padStart(3, '0') + ' ' + String(r[1]).padStart(3, '0'), dust: r[2], nut: r[3], oring: r[4] } : { has: false, code: '—', dust: '—', nut: '—', oring: '—' };
+      })(),
+      sealTitle: 'Ø' + s.tD + ' / Ø' + s.td,
+      sealToCalc: () => { this.setState({ D: String(s.tD), d: String(s.td), tab: 'hesap', mode: 'kuvvet' }); this.say('Ø' + s.tD + '/' + s.td + ' hesaba alındı'); },
+      tabs: TABS.map(t => ({ ...t, go: this.go(t.k), bg: s.tab === t.k ? 'rgba(89,128,166,0.1)' : 'transparent', fg: s.tab === t.k ? 'var(--color-accent-700)' : 'rgba(29,31,32,0.55)', mark: s.tab === t.k ? 'var(--color-accent)' : 'transparent' })),
+      modes: MODES.map(m => ({ ...m, go: () => this.setState({ mode: m.k }), ...chip(s.mode === m.k) })),
+      cases: CASES.map(c => ({ ...c, go: () => this.setState({ mcase: c.n }), ...chip(s.mcase === c.n) })),
+      isSecici: s.mode === 'secici', notSecici: s.mode !== 'secici', candidates,
+      needP: s.mode !== 'basinc' && s.mode !== 'agirlik',
+      needF: s.mode === 'basinc' || s.mode === 'secici',
+      needDir: s.mode === 'basinc' || s.mode === 'secici',
+      needBore: s.mode !== 'secici',
+      needStroke: s.mode === 'kuvvet' || s.mode === 'hiz' || s.mode === 'agirlik',
+      needQ: s.mode === 'hiz', needL: s.mode === 'burkulma' || s.mode === 'secici',
+      needWall: s.mode === 'agirlik' || s.mode === 'mukavemet', t: s.t, onT: this.set('t'),
+      pdf: s.pdf, firm: s.firm, qno: s.qno, note: s.note,
+      onFirm: this.set('firm'), onQno: this.set('qno'), onNote: this.set('note'),
+      openPdf: () => this.setState({ pdf: true, sheet: false }), closePdf: () => this.setState({ pdf: false }),
+      doPrint: () => window.print(),
+      pdfSpecs: [
+        { k: 'Piston çapı D', v: s.D + ' mm' }, { k: 'Mil çapı d', v: s.d + ' mm' },
+        { k: 'Strok', v: s.stroke + ' mm' }, { k: 'Gövde et kalınlığı', v: s.t + ' mm' },
+        { k: 'Çalışma basıncı', v: s.p + ' bar' }, { k: 'Bağlama durumu', v: 'Durum ' + cs.n },
+        { k: 'İtme kuvveti', v: f(push / 1000, 2) + ' ton' }, { k: 'Çekme kuvveti', v: f(pull / 1000, 2) + ' ton' },
+        { k: 'Kuru ağırlık', v: f(mDry, 1) + ' kg' }, { k: 'Yağ hacmi (ileri)', v: f(Ap * stroke / 1e6, 2) + ' L' },
+        { k: 'Burkulma S', v: f(Sact, 1) }, { k: 'Gövde emniyeti', v: f(Sbody, 1) }
+      ],
+      pdfTitle: 'Ø' + s.D + '/' + s.d + ' × ' + s.stroke + ' hidrolik silindir',
+      pdfDate: '02.09.2026',
+      onD: this.set('D'), ond: this.set('d'), onp: this.set('p'), onF: this.set('F'),
+      onStroke: this.set('stroke'), onQ: this.set('Q'), onL: this.set('L'),
+      onMaxP: this.set('maxP'), onS: this.set('S'), onEta: this.set('eta'),
+      dirPush: () => this.setState({ dir: 'itme' }), dirPull: () => this.setState({ dir: 'cekme' }),
+      pushBg: s.dir === 'itme' ? 'var(--color-accent)' : 'transparent', pushFg: s.dir === 'itme' ? 'var(--color-bg)' : 'var(--color-text)',
+      pullBg: s.dir !== 'itme' ? 'var(--color-accent)' : 'transparent', pullFg: s.dir !== 'itme' ? 'var(--color-bg)' : 'var(--color-text)',
+      unitTon: () => this.setState({ unit: 'ton' }), unitKg: () => this.setState({ unit: 'kg' }),
+      tonBg: Ton ? 'var(--color-accent)' : 'transparent', tonFg: Ton ? 'var(--color-bg)' : 'var(--color-text)',
+      kgBg: !Ton ? 'var(--color-accent)' : 'transparent', kgFg: !Ton ? 'var(--color-bg)' : 'var(--color-text)',
+      resTitle, resSub, resBig, resUnit, resRows: rows, verdict, verdictNote: note,
+      verdictBg: ok ? 'rgba(242,242,243,.14)' : 'var(--color-bg)',
+      verdictFg: ok ? 'var(--color-bg)' : 'var(--color-accent-900)',
+      formula,
+      catRows: CAT.map(([bD, bd]) => {
+        const A = Math.PI / 4 * bD * bD, Aan = A - Math.PI / 4 * bd * bd;
+        return {
+          name: 'Ø' + bD + '/' + bd,
+          push: f(kgOf(p, A) / 1000, 1) + ' t', pull: f(kgOf(p, Aan) / 1000, 1) + ' t',
+          bg: String(bD) === String(D) ? 'rgba(89,128,166,0.12)' : 'transparent',
+          pick: () => { this.setState({ D: String(bD), d: String(bd), tab: 'hesap' }); this.say('Ø' + bD + '/' + bd + ' hesaba alındı'); }
+        };
+      }),
+      refRows: [40, 63, 80, 100, 125, 160, 200].map(bD => {
+        const A = Math.PI / 4 * bD * bD;
+        return { name: 'Ø' + bD, a: f(kgOf(100, A) / 1000, 1), b: f(kgOf(160, A) / 1000, 1), c: f(kgOf(250, A) / 1000, 1) };
+      }),
+      records: s.records.map(r => ({ ...r, load: () => { this.setState({ ...r.st, tab: 'hesap' }); this.say(r.title.split('—')[0].trim() + ' yüklendi'); } })),
+      save: () => {
+        const rec = {
+          id: Date.now(), kicker: resTitle,
+          title: 'Ø' + s.D + '/' + s.d + ' × ' + s.stroke + ' — yeni hesap',
+          meta: resBig + ' ' + resUnit + (verdict ? ' · ' + verdict.toLowerCase() : ''),
+          date: '02.09.2026', st: { D: s.D, d: s.d, stroke: s.stroke, p: s.p, F: s.F, L: s.L, mode: s.mode }
+        };
+        this.setState({ records: [rec, ...s.records] });
+        this.say('Hesap kaydedildi');
+      },
+      sheet: s.sheet, openSheet: () => this.setState({ sheet: true }), closeSheet: () => this.setState({ sheet: false }),
+      sheetTitle: 'Ø' + s.D + '/' + s.d + ' × ' + s.stroke,
+      sheetSub: resTitle + ' · ' + resBig + ' ' + resUnit,
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

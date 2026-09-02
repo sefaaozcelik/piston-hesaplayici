@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f2f2f3"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<title>Piston Hesap · scriptsiz</title><style>
+/* Industry — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap');
+
+:root {
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text: #1d1f20;
+  --color-accent: #5980a6;
+  --color-accent-2: #728fab;
+  --color-divider: rgba(29,31,32,.16);
+
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role matches the others in visual value. */
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-600: #7a7a7d;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
+
+  --color-accent-2-100: #eef6ff;
+  --color-accent-2-200: #d6ebff;
+  --color-accent-2-300: #bdd8f2;
+  --color-accent-2-400: #9ebbd8;
+  --color-accent-2-500: #7e9cb8;
+  --color-accent-2-600: #627d98;
+  --color-accent-2-700: #486077;
+  --color-accent-2-800: #314457;
+  --color-accent-2-900: #1f2d3a;
+
+  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Barlow", system-ui, sans-serif;
+
+  --space-1: 3.4px;
+  --space-2: 6.8px;
+  --space-3: 10.2px;
+  --space-4: 13.6px;
+  --space-6: 20.4px;
+  --space-8: 27.2px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 7px;
+
+  /* Elevation — derived from the ground: soft ink-tinted shadows on a
+     light theme, a hairline edge + ambient darkness on a dark one. */
+  --shadow-sm: 0 1px 2px rgba(43,43,45,0.14);
+  --shadow-md: 0 3px 10px rgba(43,43,45,0.16);
+  --shadow-lg: 0 12px 32px rgba(43,43,45,0.22);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+.blueprint {
+  position: relative;
+  border: 1px solid var(--color-divider);
+  border-radius: 0;
+}
+/* The overlay image treatments (halftone, duotone) clip their overlay
+   (overflow:hidden); a blueprint wrapper draws its registration marks
+   outside the box, so when both classes share a wrapper the frame must
+   win. */
+.blueprint.halftone, .blueprint.plate, .blueprint.duotone { overflow: visible; }
+.blueprint > .corner {
+  position: absolute; width: 11px; height: 11px;
+  color: rgba(29,31,32,0.55);
+}
+.blueprint > .corner::before, .blueprint > .corner::after {
+  content: ""; position: absolute; background: currentColor;
+}
+.blueprint > .corner::before { left: 5px; top: 0; width: 1px; height: 100%; }
+.blueprint > .corner::after  { top: 5px; left: 0; width: 100%; height: 1px; }
+.blueprint > .corner.tl { top: -6px; left: -6px; }
+.blueprint > .corner.tr { top: -6px; right: -6px; }
+.blueprint > .corner.bl { bottom: -6px; left: -6px; }
+.blueprint > .corner.br { bottom: -6px; right: -6px; }
+
+.duotone{position:relative;overflow:hidden}
+.duotone::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:var(--color-accent);mix-blend-mode:color}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Components — built with the tokens above. Plain CSS
+   on plain HTML: no JavaScript, no build step. Each class is documented in
+   readme.md and demonstrated in foundations/ and components/.
+   ══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; }
+h6 { letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption {
+  font-size: 11px; margin-top: var(--space-1);
+  color: rgba(29,31,32,0.55);
+}
+.text-muted { color: rgba(29,31,32,0.55); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: rgba(89,128,166,0.3); }
+
+/* — rules — */
+.hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: var(--color-divider);
+}
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text); /* matches the .input's 14px —
+     the pair sits side by side in sign-up rows */
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-md);
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.btn-primary:hover { background: var(--color-accent-600); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: rgba(29,31,32,0.07); }
+.btn-secondary:active { background: rgba(29,31,32,0.14); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: rgba(89,128,166,0.1); }
+.btn-ghost:active { background: rgba(89,128,166,0.18); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: rgba(29,31,32,0.7);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.input:hover { border-color: rgba(29,31,32,0.45); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input, .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+.seg-opt:not(:has(input:checked)):hover { background: rgba(29,31,32,0.07); }
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface);
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 17px; line-height: 1.2;
+}
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.card-meta {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: rgba(29,31,32,0.5);
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px;
+  border-radius: calc(var(--radius-md) * 0.75);
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: none;
+}
+.nav-brand {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 18px; margin-right: auto;
+}
+.nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(29,31,32,0.6);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid rgba(29,31,32,0.08);
+}
+.table tbody tr:hover { background: rgba(29,31,32,0.04); }
+
+/* — dialog — */
+.dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4);
+  background: rgba(43,43,45,0.5);
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); box-shadow: var(--shadow-lg);
+}
+.dialog-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 20px;
+}
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+/* — blueprint frame: components are wireframe objects (see .blueprint
+     and .corner above) — square, transparent, hairline-bordered — */
+.card, .btn, .input, .tag, .seg, .dialog { border-radius: 0; }
+.card, .dialog { background: transparent; border: 1px solid var(--color-divider); }
+.btn { border: 1px solid var(--color-divider); }
+.btn-primary { border-color: var(--color-accent); }
+.btn-ghost { border-color: transparent; }
+
+
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--color-bg);-webkit-tap-highlight-color:transparent;padding-bottom:calc(74px + env(safe-area-inset-bottom))}
+.wrap{max-width:460px;margin:0 auto}
+header{display:flex;align-items:center;gap:10px;padding:12px 16px 10px;border-bottom:1px solid var(--color-divider)}
+.mark{width:26px;height:26px;border:1px solid var(--color-text);display:grid;place-items:center;flex:none}
+.mark i{width:10px;height:10px;background:var(--color-accent);display:block}
+b,em{font-family:var(--font-heading);font-weight:600;font-style:normal}
+header .t{flex:1;min-width:0}
+header .t b{display:block;font-size:16px;line-height:1.05;letter-spacing:.02em;text-transform:uppercase}
+header .t span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(29,31,32,.5)}
+.mono{font-variant-numeric:tabular-nums}
+main{padding:14px 16px 24px}
+.s{display:none}
+.cap{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:rgba(29,31,32,.55);margin:6px 0 16px}
+input[type=radio]{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+.lb{display:flex;flex-wrap:wrap;gap:6px}
+.lb label{min-height:44px;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;padding:0 11px;border:1px solid var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:15px;line-height:1;letter-spacing:.02em;cursor:pointer}
+.lb label i{font-style:normal;font-size:10.5px;opacity:.65;margin-top:2px}
+.lb-n label{min-width:52px}
+.lb label:active{background:rgba(89,128,166,.18)}
+.cv{display:none}
+.res{background:var(--color-accent-900);color:var(--color-bg);padding:16px;margin-top:4px}
+.res-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72;margin-bottom:12px}
+.res-b{display:flex;align-items:flex-end;gap:10px}
+.res-b b{font-size:52px;line-height:.85;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.res-b>span{font-family:var(--font-heading);font-weight:600;font-size:15px;letter-spacing:.08em;text-transform:uppercase;opacity:.8;padding-bottom:5px}
+.res-g{margin-top:14px;padding-top:12px;border-top:1px solid rgba(242,242,243,.25);display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.res-g em{display:block;font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.6}
+.res-g>div>span{font-size:16px;font-variant-numeric:tabular-nums}
+.res-n{margin-top:14px;padding:9px 12px;background:rgba(242,242,243,.14);font-size:11.5px;line-height:1.35}
+.bp{padding:14px;margin:0 2px 22px}
+.bp-h{font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:10px}
+.table th,.table td{white-space:nowrap}
+.table td{font-variant-numeric:tabular-nums}
+.table td.hd{font-size:15px;font-family:var(--font-heading);font-weight:600}
+.table th:not(:first-child),.table td:not(:first-child){text-align:right}
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:14px;color:var(--color-accent-700)}
+.cases>div{display:flex;gap:10px;align-items:center}
+.cases span{color:var(--color-text);font-size:10.5px;line-height:1.3}
+.cases b{display:block;font-size:13px}
+.cases em{display:block;font-family:var(--font-body);font-weight:400;font-variant-numeric:tabular-nums;font-size:11px;color:rgba(29,31,32,.6)}
+.frm div{font-size:12px;line-height:1.9}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--color-bg);border-top:1px solid var(--color-divider);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav label{flex:1;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;border-top:2px solid transparent;color:rgba(29,31,32,.55);font-family:var(--font-heading);font-weight:600;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase}
+nav svg{display:block}
+#kpa60:checked~#kpb40:checked~.out .kp-60-40{display:inline}
+#kpa60:checked~#kpb50:checked~.out .kp-60-50{display:inline}
+#kpa60:checked~#kpb63:checked~.out .kp-60-63{display:inline}
+#kpa60:checked~#kpb70:checked~.out .kp-60-70{display:inline}
+#kpa60:checked~#kpb80:checked~.out .kp-60-80{display:inline}
+#kpa60:checked~#kpb90:checked~.out .kp-60-90{display:inline}
+#kpa60:checked~#kpb100:checked~.out .kp-60-100{display:inline}
+#kpa60:checked~#kpb110:checked~.out .kp-60-110{display:inline}
+#kpa60:checked~#kpb125:checked~.out .kp-60-125{display:inline}
+#kpa60:checked~#kpb140:checked~.out .kp-60-140{display:inline}
+#kpa60:checked~#kpb160:checked~.out .kp-60-160{display:inline}
+#kpa60:checked~#kpb180:checked~.out .kp-60-180{display:inline}
+#kpa60:checked~#kpb200:checked~.out .kp-60-200{display:inline}
+#kpa100:checked~#kpb40:checked~.out .kp-100-40{display:inline}
+#kpa100:checked~#kpb50:checked~.out .kp-100-50{display:inline}
+#kpa100:checked~#kpb63:checked~.out .kp-100-63{display:inline}
+#kpa100:checked~#kpb70:checked~.out .kp-100-70{display:inline}
+#kpa100:checked~#kpb80:checked~.out .kp-100-80{display:inline}
+#kpa100:checked~#kpb90:checked~.out .kp-100-90{display:inline}
+#kpa100:checked~#kpb100:checked~.out .kp-100-100{display:inline}
+#kpa100:checked~#kpb110:checked~.out .kp-100-110{display:inline}
+#kpa100:checked~#kpb125:checked~.out .kp-100-125{display:inline}
+#kpa100:checked~#kpb140:checked~.out .kp-100-140{display:inline}
+#kpa100:checked~#kpb160:checked~.out .kp-100-160{display:inline}
+#kpa100:checked~#kpb180:checked~.out .kp-100-180{display:inline}
+#kpa100:checked~#kpb200:checked~.out .kp-100-200{display:inline}
+#kpa140:checked~#kpb40:checked~.out .kp-140-40{display:inline}
+#kpa140:checked~#kpb50:checked~.out .kp-140-50{display:inline}
+#kpa140:checked~#kpb63:checked~.out .kp-140-63{display:inline}
+#kpa140:checked~#kpb70:checked~.out .kp-140-70{display:inline}
+#kpa140:checked~#kpb80:checked~.out .kp-140-80{display:inline}
+#kpa140:checked~#kpb90:checked~.out .kp-140-90{display:inline}
+#kpa140:checked~#kpb100:checked~.out .kp-140-100{display:inline}
+#kpa140:checked~#kpb110:checked~.out .kp-140-110{display:inline}
+#kpa140:checked~#kpb125:checked~.out .kp-140-125{display:inline}
+#kpa140:checked~#kpb140:checked~.out .kp-140-140{display:inline}
+#kpa140:checked~#kpb160:checked~.out .kp-140-160{display:inline}
+#kpa140:checked~#kpb180:checked~.out .kp-140-180{display:inline}
+#kpa140:checked~#kpb200:checked~.out .kp-140-200{display:inline}
+#kpa160:checked~#kpb40:checked~.out .kp-160-40{display:inline}
+#kpa160:checked~#kpb50:checked~.out .kp-160-50{display:inline}
+#kpa160:checked~#kpb63:checked~.out .kp-160-63{display:inline}
+#kpa160:checked~#kpb70:checked~.out .kp-160-70{display:inline}
+#kpa160:checked~#kpb80:checked~.out .kp-160-80{display:inline}
+#kpa160:checked~#kpb90:checked~.out .kp-160-90{display:inline}
+#kpa160:checked~#kpb100:checked~.out .kp-160-100{display:inline}
+#kpa160:checked~#kpb110:checked~.out .kp-160-110{display:inline}
+#kpa160:checked~#kpb125:checked~.out .kp-160-125{display:inline}
+#kpa160:checked~#kpb140:checked~.out .kp-160-140{display:inline}
+#kpa160:checked~#kpb160:checked~.out .kp-160-160{display:inline}
+#kpa160:checked~#kpb180:checked~.out .kp-160-180{display:inline}
+#kpa160:checked~#kpb200:checked~.out .kp-160-200{display:inline}
+#kpa180:checked~#kpb40:checked~.out .kp-180-40{display:inline}
+#kpa180:checked~#kpb50:checked~.out .kp-180-50{display:inline}
+#kpa180:checked~#kpb63:checked~.out .kp-180-63{display:inline}
+#kpa180:checked~#kpb70:checked~.out .kp-180-70{display:inline}
+#kpa180:checked~#kpb80:checked~.out .kp-180-80{display:inline}
+#kpa180:checked~#kpb90:checked~.out .kp-180-90{display:inline}
+#kpa180:checked~#kpb100:checked~.out .kp-180-100{display:inline}
+#kpa180:checked~#kpb110:checked~.out .kp-180-110{display:inline}
+#kpa180:checked~#kpb125:checked~.out .kp-180-125{display:inline}
+#kpa180:checked~#kpb140:checked~.out .kp-180-140{display:inline}
+#kpa180:checked~#kpb160:checked~.out .kp-180-160{display:inline}
+#kpa180:checked~#kpb180:checked~.out .kp-180-180{display:inline}
+#kpa180:checked~#kpb200:checked~.out .kp-180-200{display:inline}
+#kpa200:checked~#kpb40:checked~.out .kp-200-40{display:inline}
+#kpa200:checked~#kpb50:checked~.out .kp-200-50{display:inline}
+#kpa200:checked~#kpb63:checked~.out .kp-200-63{display:inline}
+#kpa200:checked~#kpb70:checked~.out .kp-200-70{display:inline}
+#kpa200:checked~#kpb80:checked~.out .kp-200-80{display:inline}
+#kpa200:checked~#kpb90:checked~.out .kp-200-90{display:inline}
+#kpa200:checked~#kpb100:checked~.out .kp-200-100{display:inline}
+#kpa200:checked~#kpb110:checked~.out .kp-200-110{display:inline}
+#kpa200:checked~#kpb125:checked~.out .kp-200-125{display:inline}
+#kpa200:checked~#kpb140:checked~.out .kp-200-140{display:inline}
+#kpa200:checked~#kpb160:checked~.out .kp-200-160{display:inline}
+#kpa200:checked~#kpb180:checked~.out .kp-200-180{display:inline}
+#kpa200:checked~#kpb200:checked~.out .kp-200-200{display:inline}
+#kpa250:checked~#kpb40:checked~.out .kp-250-40{display:inline}
+#kpa250:checked~#kpb50:checked~.out .kp-250-50{display:inline}
+#kpa250:checked~#kpb63:checked~.out .kp-250-63{display:inline}
+#kpa250:checked~#kpb70:checked~.out .kp-250-70{display:inline}
+#kpa250:checked~#kpb80:checked~.out .kp-250-80{display:inline}
+#kpa250:checked~#kpb90:checked~.out .kp-250-90{display:inline}
+#kpa250:checked~#kpb100:checked~.out .kp-250-100{display:inline}
+#kpa250:checked~#kpb110:checked~.out .kp-250-110{display:inline}
+#kpa250:checked~#kpb125:checked~.out .kp-250-125{display:inline}
+#kpa250:checked~#kpb140:checked~.out .kp-250-140{display:inline}
+#kpa250:checked~#kpb160:checked~.out .kp-250-160{display:inline}
+#kpa250:checked~#kpb180:checked~.out .kp-250-180{display:inline}
+#kpa250:checked~#kpb200:checked~.out .kp-250-200{display:inline}
+#kpa320:checked~#kpb40:checked~.out .kp-320-40{display:inline}
+#kpa320:checked~#kpb50:checked~.out .kp-320-50{display:inline}
+#kpa320:checked~#kpb63:checked~.out .kp-320-63{display:inline}
+#kpa320:checked~#kpb70:checked~.out .kp-320-70{display:inline}
+#kpa320:checked~#kpb80:checked~.out .kp-320-80{display:inline}
+#kpa320:checked~#kpb90:checked~.out .kp-320-90{display:inline}
+#kpa320:checked~#kpb100:checked~.out .kp-320-100{display:inline}
+#kpa320:checked~#kpb110:checked~.out .kp-320-110{display:inline}
+#kpa320:checked~#kpb125:checked~.out .kp-320-125{display:inline}
+#kpa320:checked~#kpb140:checked~.out .kp-320-140{display:inline}
+#kpa320:checked~#kpb160:checked~.out .kp-320-160{display:inline}
+#kpa320:checked~#kpb180:checked~.out .kp-320-180{display:inline}
+#kpa320:checked~#kpb200:checked~.out .kp-320-200{display:inline}
+#kpa60:checked~.lb label[for="kpa60"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpa100:checked~.lb label[for="kpa100"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpa140:checked~.lb label[for="kpa140"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpa160:checked~.lb label[for="kpa160"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpa180:checked~.lb label[for="kpa180"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpa200:checked~.lb label[for="kpa200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpa250:checked~.lb label[for="kpa250"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpa320:checked~.lb label[for="kpa320"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb40:checked~.lb label[for="kpb40"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb50:checked~.lb label[for="kpb50"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb63:checked~.lb label[for="kpb63"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb70:checked~.lb label[for="kpb70"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb80:checked~.lb label[for="kpb80"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb90:checked~.lb label[for="kpb90"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb100:checked~.lb label[for="kpb100"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb110:checked~.lb label[for="kpb110"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb125:checked~.lb label[for="kpb125"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb140:checked~.lb label[for="kpb140"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb160:checked~.lb label[for="kpb160"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb180:checked~.lb label[for="kpb180"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#kpb200:checked~.lb label[for="kpb200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga40:checked~#wgb100:checked~.out .wg-40-100{display:inline}
+#wga40:checked~#wgb200:checked~.out .wg-40-200{display:inline}
+#wga40:checked~#wgb300:checked~.out .wg-40-300{display:inline}
+#wga40:checked~#wgb400:checked~.out .wg-40-400{display:inline}
+#wga40:checked~#wgb500:checked~.out .wg-40-500{display:inline}
+#wga40:checked~#wgb700:checked~.out .wg-40-700{display:inline}
+#wga40:checked~#wgb1000:checked~.out .wg-40-1000{display:inline}
+#wga40:checked~#wgb1200:checked~.out .wg-40-1200{display:inline}
+#wga40:checked~#wgb1500:checked~.out .wg-40-1500{display:inline}
+#wga50:checked~#wgb100:checked~.out .wg-50-100{display:inline}
+#wga50:checked~#wgb200:checked~.out .wg-50-200{display:inline}
+#wga50:checked~#wgb300:checked~.out .wg-50-300{display:inline}
+#wga50:checked~#wgb400:checked~.out .wg-50-400{display:inline}
+#wga50:checked~#wgb500:checked~.out .wg-50-500{display:inline}
+#wga50:checked~#wgb700:checked~.out .wg-50-700{display:inline}
+#wga50:checked~#wgb1000:checked~.out .wg-50-1000{display:inline}
+#wga50:checked~#wgb1200:checked~.out .wg-50-1200{display:inline}
+#wga50:checked~#wgb1500:checked~.out .wg-50-1500{display:inline}
+#wga63:checked~#wgb100:checked~.out .wg-63-100{display:inline}
+#wga63:checked~#wgb200:checked~.out .wg-63-200{display:inline}
+#wga63:checked~#wgb300:checked~.out .wg-63-300{display:inline}
+#wga63:checked~#wgb400:checked~.out .wg-63-400{display:inline}
+#wga63:checked~#wgb500:checked~.out .wg-63-500{display:inline}
+#wga63:checked~#wgb700:checked~.out .wg-63-700{display:inline}
+#wga63:checked~#wgb1000:checked~.out .wg-63-1000{display:inline}
+#wga63:checked~#wgb1200:checked~.out .wg-63-1200{display:inline}
+#wga63:checked~#wgb1500:checked~.out .wg-63-1500{display:inline}
+#wga70:checked~#wgb100:checked~.out .wg-70-100{display:inline}
+#wga70:checked~#wgb200:checked~.out .wg-70-200{display:inline}
+#wga70:checked~#wgb300:checked~.out .wg-70-300{display:inline}
+#wga70:checked~#wgb400:checked~.out .wg-70-400{display:inline}
+#wga70:checked~#wgb500:checked~.out .wg-70-500{display:inline}
+#wga70:checked~#wgb700:checked~.out .wg-70-700{display:inline}
+#wga70:checked~#wgb1000:checked~.out .wg-70-1000{display:inline}
+#wga70:checked~#wgb1200:checked~.out .wg-70-1200{display:inline}
+#wga70:checked~#wgb1500:checked~.out .wg-70-1500{display:inline}
+#wga80:checked~#wgb100:checked~.out .wg-80-100{display:inline}
+#wga80:checked~#wgb200:checked~.out .wg-80-200{display:inline}
+#wga80:checked~#wgb300:checked~.out .wg-80-300{display:inline}
+#wga80:checked~#wgb400:checked~.out .wg-80-400{display:inline}
+#wga80:checked~#wgb500:checked~.out .wg-80-500{display:inline}
+#wga80:checked~#wgb700:checked~.out .wg-80-700{display:inline}
+#wga80:checked~#wgb1000:checked~.out .wg-80-1000{display:inline}
+#wga80:checked~#wgb1200:checked~.out .wg-80-1200{display:inline}
+#wga80:checked~#wgb1500:checked~.out .wg-80-1500{display:inline}
+#wga90:checked~#wgb100:checked~.out .wg-90-100{display:inline}
+#wga90:checked~#wgb200:checked~.out .wg-90-200{display:inline}
+#wga90:checked~#wgb300:checked~.out .wg-90-300{display:inline}
+#wga90:checked~#wgb400:checked~.out .wg-90-400{display:inline}
+#wga90:checked~#wgb500:checked~.out .wg-90-500{display:inline}
+#wga90:checked~#wgb700:checked~.out .wg-90-700{display:inline}
+#wga90:checked~#wgb1000:checked~.out .wg-90-1000{display:inline}
+#wga90:checked~#wgb1200:checked~.out .wg-90-1200{display:inline}
+#wga90:checked~#wgb1500:checked~.out .wg-90-1500{display:inline}
+#wga100:checked~#wgb100:checked~.out .wg-100-100{display:inline}
+#wga100:checked~#wgb200:checked~.out .wg-100-200{display:inline}
+#wga100:checked~#wgb300:checked~.out .wg-100-300{display:inline}
+#wga100:checked~#wgb400:checked~.out .wg-100-400{display:inline}
+#wga100:checked~#wgb500:checked~.out .wg-100-500{display:inline}
+#wga100:checked~#wgb700:checked~.out .wg-100-700{display:inline}
+#wga100:checked~#wgb1000:checked~.out .wg-100-1000{display:inline}
+#wga100:checked~#wgb1200:checked~.out .wg-100-1200{display:inline}
+#wga100:checked~#wgb1500:checked~.out .wg-100-1500{display:inline}
+#wga110:checked~#wgb100:checked~.out .wg-110-100{display:inline}
+#wga110:checked~#wgb200:checked~.out .wg-110-200{display:inline}
+#wga110:checked~#wgb300:checked~.out .wg-110-300{display:inline}
+#wga110:checked~#wgb400:checked~.out .wg-110-400{display:inline}
+#wga110:checked~#wgb500:checked~.out .wg-110-500{display:inline}
+#wga110:checked~#wgb700:checked~.out .wg-110-700{display:inline}
+#wga110:checked~#wgb1000:checked~.out .wg-110-1000{display:inline}
+#wga110:checked~#wgb1200:checked~.out .wg-110-1200{display:inline}
+#wga110:checked~#wgb1500:checked~.out .wg-110-1500{display:inline}
+#wga125:checked~#wgb100:checked~.out .wg-125-100{display:inline}
+#wga125:checked~#wgb200:checked~.out .wg-125-200{display:inline}
+#wga125:checked~#wgb300:checked~.out .wg-125-300{display:inline}
+#wga125:checked~#wgb400:checked~.out .wg-125-400{display:inline}
+#wga125:checked~#wgb500:checked~.out .wg-125-500{display:inline}
+#wga125:checked~#wgb700:checked~.out .wg-125-700{display:inline}
+#wga125:checked~#wgb1000:checked~.out .wg-125-1000{display:inline}
+#wga125:checked~#wgb1200:checked~.out .wg-125-1200{display:inline}
+#wga125:checked~#wgb1500:checked~.out .wg-125-1500{display:inline}
+#wga140:checked~#wgb100:checked~.out .wg-140-100{display:inline}
+#wga140:checked~#wgb200:checked~.out .wg-140-200{display:inline}
+#wga140:checked~#wgb300:checked~.out .wg-140-300{display:inline}
+#wga140:checked~#wgb400:checked~.out .wg-140-400{display:inline}
+#wga140:checked~#wgb500:checked~.out .wg-140-500{display:inline}
+#wga140:checked~#wgb700:checked~.out .wg-140-700{display:inline}
+#wga140:checked~#wgb1000:checked~.out .wg-140-1000{display:inline}
+#wga140:checked~#wgb1200:checked~.out .wg-140-1200{display:inline}
+#wga140:checked~#wgb1500:checked~.out .wg-140-1500{display:inline}
+#wga160:checked~#wgb100:checked~.out .wg-160-100{display:inline}
+#wga160:checked~#wgb200:checked~.out .wg-160-200{display:inline}
+#wga160:checked~#wgb300:checked~.out .wg-160-300{display:inline}
+#wga160:checked~#wgb400:checked~.out .wg-160-400{display:inline}
+#wga160:checked~#wgb500:checked~.out .wg-160-500{display:inline}
+#wga160:checked~#wgb700:checked~.out .wg-160-700{display:inline}
+#wga160:checked~#wgb1000:checked~.out .wg-160-1000{display:inline}
+#wga160:checked~#wgb1200:checked~.out .wg-160-1200{display:inline}
+#wga160:checked~#wgb1500:checked~.out .wg-160-1500{display:inline}
+#wga180:checked~#wgb100:checked~.out .wg-180-100{display:inline}
+#wga180:checked~#wgb200:checked~.out .wg-180-200{display:inline}
+#wga180:checked~#wgb300:checked~.out .wg-180-300{display:inline}
+#wga180:checked~#wgb400:checked~.out .wg-180-400{display:inline}
+#wga180:checked~#wgb500:checked~.out .wg-180-500{display:inline}
+#wga180:checked~#wgb700:checked~.out .wg-180-700{display:inline}
+#wga180:checked~#wgb1000:checked~.out .wg-180-1000{display:inline}
+#wga180:checked~#wgb1200:checked~.out .wg-180-1200{display:inline}
+#wga180:checked~#wgb1500:checked~.out .wg-180-1500{display:inline}
+#wga200:checked~#wgb100:checked~.out .wg-200-100{display:inline}
+#wga200:checked~#wgb200:checked~.out .wg-200-200{display:inline}
+#wga200:checked~#wgb300:checked~.out .wg-200-300{display:inline}
+#wga200:checked~#wgb400:checked~.out .wg-200-400{display:inline}
+#wga200:checked~#wgb500:checked~.out .wg-200-500{display:inline}
+#wga200:checked~#wgb700:checked~.out .wg-200-700{display:inline}
+#wga200:checked~#wgb1000:checked~.out .wg-200-1000{display:inline}
+#wga200:checked~#wgb1200:checked~.out .wg-200-1200{display:inline}
+#wga200:checked~#wgb1500:checked~.out .wg-200-1500{display:inline}
+#wga40:checked~.lb label[for="wga40"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga50:checked~.lb label[for="wga50"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga63:checked~.lb label[for="wga63"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga70:checked~.lb label[for="wga70"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga80:checked~.lb label[for="wga80"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga90:checked~.lb label[for="wga90"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga100:checked~.lb label[for="wga100"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga110:checked~.lb label[for="wga110"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga125:checked~.lb label[for="wga125"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga140:checked~.lb label[for="wga140"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga160:checked~.lb label[for="wga160"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga180:checked~.lb label[for="wga180"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wga200:checked~.lb label[for="wga200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb100:checked~.lb label[for="wgb100"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb200:checked~.lb label[for="wgb200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb300:checked~.lb label[for="wgb300"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb400:checked~.lb label[for="wgb400"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb500:checked~.lb label[for="wgb500"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb700:checked~.lb label[for="wgb700"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb1000:checked~.lb label[for="wgb1000"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb1200:checked~.lb label[for="wgb1200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#wgb1500:checked~.lb label[for="wgb1500"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga40:checked~#vgb5:checked~.out .vg-40-5{display:inline}
+#vga40:checked~#vgb10:checked~.out .vg-40-10{display:inline}
+#vga40:checked~#vgb20:checked~.out .vg-40-20{display:inline}
+#vga40:checked~#vgb30:checked~.out .vg-40-30{display:inline}
+#vga40:checked~#vgb45:checked~.out .vg-40-45{display:inline}
+#vga40:checked~#vgb60:checked~.out .vg-40-60{display:inline}
+#vga50:checked~#vgb5:checked~.out .vg-50-5{display:inline}
+#vga50:checked~#vgb10:checked~.out .vg-50-10{display:inline}
+#vga50:checked~#vgb20:checked~.out .vg-50-20{display:inline}
+#vga50:checked~#vgb30:checked~.out .vg-50-30{display:inline}
+#vga50:checked~#vgb45:checked~.out .vg-50-45{display:inline}
+#vga50:checked~#vgb60:checked~.out .vg-50-60{display:inline}
+#vga63:checked~#vgb5:checked~.out .vg-63-5{display:inline}
+#vga63:checked~#vgb10:checked~.out .vg-63-10{display:inline}
+#vga63:checked~#vgb20:checked~.out .vg-63-20{display:inline}
+#vga63:checked~#vgb30:checked~.out .vg-63-30{display:inline}
+#vga63:checked~#vgb45:checked~.out .vg-63-45{display:inline}
+#vga63:checked~#vgb60:checked~.out .vg-63-60{display:inline}
+#vga70:checked~#vgb5:checked~.out .vg-70-5{display:inline}
+#vga70:checked~#vgb10:checked~.out .vg-70-10{display:inline}
+#vga70:checked~#vgb20:checked~.out .vg-70-20{display:inline}
+#vga70:checked~#vgb30:checked~.out .vg-70-30{display:inline}
+#vga70:checked~#vgb45:checked~.out .vg-70-45{display:inline}
+#vga70:checked~#vgb60:checked~.out .vg-70-60{display:inline}
+#vga80:checked~#vgb5:checked~.out .vg-80-5{display:inline}
+#vga80:checked~#vgb10:checked~.out .vg-80-10{display:inline}
+#vga80:checked~#vgb20:checked~.out .vg-80-20{display:inline}
+#vga80:checked~#vgb30:checked~.out .vg-80-30{display:inline}
+#vga80:checked~#vgb45:checked~.out .vg-80-45{display:inline}
+#vga80:checked~#vgb60:checked~.out .vg-80-60{display:inline}
+#vga90:checked~#vgb5:checked~.out .vg-90-5{display:inline}
+#vga90:checked~#vgb10:checked~.out .vg-90-10{display:inline}
+#vga90:checked~#vgb20:checked~.out .vg-90-20{display:inline}
+#vga90:checked~#vgb30:checked~.out .vg-90-30{display:inline}
+#vga90:checked~#vgb45:checked~.out .vg-90-45{display:inline}
+#vga90:checked~#vgb60:checked~.out .vg-90-60{display:inline}
+#vga100:checked~#vgb5:checked~.out .vg-100-5{display:inline}
+#vga100:checked~#vgb10:checked~.out .vg-100-10{display:inline}
+#vga100:checked~#vgb20:checked~.out .vg-100-20{display:inline}
+#vga100:checked~#vgb30:checked~.out .vg-100-30{display:inline}
+#vga100:checked~#vgb45:checked~.out .vg-100-45{display:inline}
+#vga100:checked~#vgb60:checked~.out .vg-100-60{display:inline}
+#vga110:checked~#vgb5:checked~.out .vg-110-5{display:inline}
+#vga110:checked~#vgb10:checked~.out .vg-110-10{display:inline}
+#vga110:checked~#vgb20:checked~.out .vg-110-20{display:inline}
+#vga110:checked~#vgb30:checked~.out .vg-110-30{display:inline}
+#vga110:checked~#vgb45:checked~.out .vg-110-45{display:inline}
+#vga110:checked~#vgb60:checked~.out .vg-110-60{display:inline}
+#vga125:checked~#vgb5:checked~.out .vg-125-5{display:inline}
+#vga125:checked~#vgb10:checked~.out .vg-125-10{display:inline}
+#vga125:checked~#vgb20:checked~.out .vg-125-20{display:inline}
+#vga125:checked~#vgb30:checked~.out .vg-125-30{display:inline}
+#vga125:checked~#vgb45:checked~.out .vg-125-45{display:inline}
+#vga125:checked~#vgb60:checked~.out .vg-125-60{display:inline}
+#vga140:checked~#vgb5:checked~.out .vg-140-5{display:inline}
+#vga140:checked~#vgb10:checked~.out .vg-140-10{display:inline}
+#vga140:checked~#vgb20:checked~.out .vg-140-20{display:inline}
+#vga140:checked~#vgb30:checked~.out .vg-140-30{display:inline}
+#vga140:checked~#vgb45:checked~.out .vg-140-45{display:inline}
+#vga140:checked~#vgb60:checked~.out .vg-140-60{display:inline}
+#vga160:checked~#vgb5:checked~.out .vg-160-5{display:inline}
+#vga160:checked~#vgb10:checked~.out .vg-160-10{display:inline}
+#vga160:checked~#vgb20:checked~.out .vg-160-20{display:inline}
+#vga160:checked~#vgb30:checked~.out .vg-160-30{display:inline}
+#vga160:checked~#vgb45:checked~.out .vg-160-45{display:inline}
+#vga160:checked~#vgb60:checked~.out .vg-160-60{display:inline}
+#vga180:checked~#vgb5:checked~.out .vg-180-5{display:inline}
+#vga180:checked~#vgb10:checked~.out .vg-180-10{display:inline}
+#vga180:checked~#vgb20:checked~.out .vg-180-20{display:inline}
+#vga180:checked~#vgb30:checked~.out .vg-180-30{display:inline}
+#vga180:checked~#vgb45:checked~.out .vg-180-45{display:inline}
+#vga180:checked~#vgb60:checked~.out .vg-180-60{display:inline}
+#vga200:checked~#vgb5:checked~.out .vg-200-5{display:inline}
+#vga200:checked~#vgb10:checked~.out .vg-200-10{display:inline}
+#vga200:checked~#vgb20:checked~.out .vg-200-20{display:inline}
+#vga200:checked~#vgb30:checked~.out .vg-200-30{display:inline}
+#vga200:checked~#vgb45:checked~.out .vg-200-45{display:inline}
+#vga200:checked~#vgb60:checked~.out .vg-200-60{display:inline}
+#vga40:checked~.lb label[for="vga40"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga50:checked~.lb label[for="vga50"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga63:checked~.lb label[for="vga63"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga70:checked~.lb label[for="vga70"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga80:checked~.lb label[for="vga80"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga90:checked~.lb label[for="vga90"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga100:checked~.lb label[for="vga100"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga110:checked~.lb label[for="vga110"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga125:checked~.lb label[for="vga125"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga140:checked~.lb label[for="vga140"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga160:checked~.lb label[for="vga160"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga180:checked~.lb label[for="vga180"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vga200:checked~.lb label[for="vga200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vgb5:checked~.lb label[for="vgb5"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vgb10:checked~.lb label[for="vgb10"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vgb20:checked~.lb label[for="vgb20"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vgb30:checked~.lb label[for="vgb30"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vgb45:checked~.lb label[for="vgb45"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#vgb60:checked~.lb label[for="vgb60"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga60:checked~#ugb40:checked~.out .ug-60-40{display:inline}
+#uga60:checked~#ugb50:checked~.out .ug-60-50{display:inline}
+#uga60:checked~#ugb63:checked~.out .ug-60-63{display:inline}
+#uga60:checked~#ugb70:checked~.out .ug-60-70{display:inline}
+#uga60:checked~#ugb80:checked~.out .ug-60-80{display:inline}
+#uga60:checked~#ugb90:checked~.out .ug-60-90{display:inline}
+#uga60:checked~#ugb100:checked~.out .ug-60-100{display:inline}
+#uga60:checked~#ugb110:checked~.out .ug-60-110{display:inline}
+#uga60:checked~#ugb125:checked~.out .ug-60-125{display:inline}
+#uga60:checked~#ugb140:checked~.out .ug-60-140{display:inline}
+#uga60:checked~#ugb160:checked~.out .ug-60-160{display:inline}
+#uga60:checked~#ugb180:checked~.out .ug-60-180{display:inline}
+#uga60:checked~#ugb200:checked~.out .ug-60-200{display:inline}
+#uga100:checked~#ugb40:checked~.out .ug-100-40{display:inline}
+#uga100:checked~#ugb50:checked~.out .ug-100-50{display:inline}
+#uga100:checked~#ugb63:checked~.out .ug-100-63{display:inline}
+#uga100:checked~#ugb70:checked~.out .ug-100-70{display:inline}
+#uga100:checked~#ugb80:checked~.out .ug-100-80{display:inline}
+#uga100:checked~#ugb90:checked~.out .ug-100-90{display:inline}
+#uga100:checked~#ugb100:checked~.out .ug-100-100{display:inline}
+#uga100:checked~#ugb110:checked~.out .ug-100-110{display:inline}
+#uga100:checked~#ugb125:checked~.out .ug-100-125{display:inline}
+#uga100:checked~#ugb140:checked~.out .ug-100-140{display:inline}
+#uga100:checked~#ugb160:checked~.out .ug-100-160{display:inline}
+#uga100:checked~#ugb180:checked~.out .ug-100-180{display:inline}
+#uga100:checked~#ugb200:checked~.out .ug-100-200{display:inline}
+#uga140:checked~#ugb40:checked~.out .ug-140-40{display:inline}
+#uga140:checked~#ugb50:checked~.out .ug-140-50{display:inline}
+#uga140:checked~#ugb63:checked~.out .ug-140-63{display:inline}
+#uga140:checked~#ugb70:checked~.out .ug-140-70{display:inline}
+#uga140:checked~#ugb80:checked~.out .ug-140-80{display:inline}
+#uga140:checked~#ugb90:checked~.out .ug-140-90{display:inline}
+#uga140:checked~#ugb100:checked~.out .ug-140-100{display:inline}
+#uga140:checked~#ugb110:checked~.out .ug-140-110{display:inline}
+#uga140:checked~#ugb125:checked~.out .ug-140-125{display:inline}
+#uga140:checked~#ugb140:checked~.out .ug-140-140{display:inline}
+#uga140:checked~#ugb160:checked~.out .ug-140-160{display:inline}
+#uga140:checked~#ugb180:checked~.out .ug-140-180{display:inline}
+#uga140:checked~#ugb200:checked~.out .ug-140-200{display:inline}
+#uga160:checked~#ugb40:checked~.out .ug-160-40{display:inline}
+#uga160:checked~#ugb50:checked~.out .ug-160-50{display:inline}
+#uga160:checked~#ugb63:checked~.out .ug-160-63{display:inline}
+#uga160:checked~#ugb70:checked~.out .ug-160-70{display:inline}
+#uga160:checked~#ugb80:checked~.out .ug-160-80{display:inline}
+#uga160:checked~#ugb90:checked~.out .ug-160-90{display:inline}
+#uga160:checked~#ugb100:checked~.out .ug-160-100{display:inline}
+#uga160:checked~#ugb110:checked~.out .ug-160-110{display:inline}
+#uga160:checked~#ugb125:checked~.out .ug-160-125{display:inline}
+#uga160:checked~#ugb140:checked~.out .ug-160-140{display:inline}
+#uga160:checked~#ugb160:checked~.out .ug-160-160{display:inline}
+#uga160:checked~#ugb180:checked~.out .ug-160-180{display:inline}
+#uga160:checked~#ugb200:checked~.out .ug-160-200{display:inline}
+#uga180:checked~#ugb40:checked~.out .ug-180-40{display:inline}
+#uga180:checked~#ugb50:checked~.out .ug-180-50{display:inline}
+#uga180:checked~#ugb63:checked~.out .ug-180-63{display:inline}
+#uga180:checked~#ugb70:checked~.out .ug-180-70{display:inline}
+#uga180:checked~#ugb80:checked~.out .ug-180-80{display:inline}
+#uga180:checked~#ugb90:checked~.out .ug-180-90{display:inline}
+#uga180:checked~#ugb100:checked~.out .ug-180-100{display:inline}
+#uga180:checked~#ugb110:checked~.out .ug-180-110{display:inline}
+#uga180:checked~#ugb125:checked~.out .ug-180-125{display:inline}
+#uga180:checked~#ugb140:checked~.out .ug-180-140{display:inline}
+#uga180:checked~#ugb160:checked~.out .ug-180-160{display:inline}
+#uga180:checked~#ugb180:checked~.out .ug-180-180{display:inline}
+#uga180:checked~#ugb200:checked~.out .ug-180-200{display:inline}
+#uga200:checked~#ugb40:checked~.out .ug-200-40{display:inline}
+#uga200:checked~#ugb50:checked~.out .ug-200-50{display:inline}
+#uga200:checked~#ugb63:checked~.out .ug-200-63{display:inline}
+#uga200:checked~#ugb70:checked~.out .ug-200-70{display:inline}
+#uga200:checked~#ugb80:checked~.out .ug-200-80{display:inline}
+#uga200:checked~#ugb90:checked~.out .ug-200-90{display:inline}
+#uga200:checked~#ugb100:checked~.out .ug-200-100{display:inline}
+#uga200:checked~#ugb110:checked~.out .ug-200-110{display:inline}
+#uga200:checked~#ugb125:checked~.out .ug-200-125{display:inline}
+#uga200:checked~#ugb140:checked~.out .ug-200-140{display:inline}
+#uga200:checked~#ugb160:checked~.out .ug-200-160{display:inline}
+#uga200:checked~#ugb180:checked~.out .ug-200-180{display:inline}
+#uga200:checked~#ugb200:checked~.out .ug-200-200{display:inline}
+#uga250:checked~#ugb40:checked~.out .ug-250-40{display:inline}
+#uga250:checked~#ugb50:checked~.out .ug-250-50{display:inline}
+#uga250:checked~#ugb63:checked~.out .ug-250-63{display:inline}
+#uga250:checked~#ugb70:checked~.out .ug-250-70{display:inline}
+#uga250:checked~#ugb80:checked~.out .ug-250-80{display:inline}
+#uga250:checked~#ugb90:checked~.out .ug-250-90{display:inline}
+#uga250:checked~#ugb100:checked~.out .ug-250-100{display:inline}
+#uga250:checked~#ugb110:checked~.out .ug-250-110{display:inline}
+#uga250:checked~#ugb125:checked~.out .ug-250-125{display:inline}
+#uga250:checked~#ugb140:checked~.out .ug-250-140{display:inline}
+#uga250:checked~#ugb160:checked~.out .ug-250-160{display:inline}
+#uga250:checked~#ugb180:checked~.out .ug-250-180{display:inline}
+#uga250:checked~#ugb200:checked~.out .ug-250-200{display:inline}
+#uga320:checked~#ugb40:checked~.out .ug-320-40{display:inline}
+#uga320:checked~#ugb50:checked~.out .ug-320-50{display:inline}
+#uga320:checked~#ugb63:checked~.out .ug-320-63{display:inline}
+#uga320:checked~#ugb70:checked~.out .ug-320-70{display:inline}
+#uga320:checked~#ugb80:checked~.out .ug-320-80{display:inline}
+#uga320:checked~#ugb90:checked~.out .ug-320-90{display:inline}
+#uga320:checked~#ugb100:checked~.out .ug-320-100{display:inline}
+#uga320:checked~#ugb110:checked~.out .ug-320-110{display:inline}
+#uga320:checked~#ugb125:checked~.out .ug-320-125{display:inline}
+#uga320:checked~#ugb140:checked~.out .ug-320-140{display:inline}
+#uga320:checked~#ugb160:checked~.out .ug-320-160{display:inline}
+#uga320:checked~#ugb180:checked~.out .ug-320-180{display:inline}
+#uga320:checked~#ugb200:checked~.out .ug-320-200{display:inline}
+#uga60:checked~.lb label[for="uga60"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga100:checked~.lb label[for="uga100"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga140:checked~.lb label[for="uga140"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga160:checked~.lb label[for="uga160"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga180:checked~.lb label[for="uga180"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga200:checked~.lb label[for="uga200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga250:checked~.lb label[for="uga250"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#uga320:checked~.lb label[for="uga320"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb40:checked~.lb label[for="ugb40"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb50:checked~.lb label[for="ugb50"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb63:checked~.lb label[for="ugb63"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb70:checked~.lb label[for="ugb70"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb80:checked~.lb label[for="ugb80"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb90:checked~.lb label[for="ugb90"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb100:checked~.lb label[for="ugb100"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb110:checked~.lb label[for="ugb110"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb125:checked~.lb label[for="ugb125"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb140:checked~.lb label[for="ugb140"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb160:checked~.lb label[for="ugb160"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb180:checked~.lb label[for="ugb180"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#ugb200:checked~.lb label[for="ugb200"]{background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)}
+#tab-k:checked~main .s-k{display:block}
+#tab-k:checked~nav label[for="tab-k"]{color:var(--color-accent-700);border-top-color:var(--color-accent);background:rgba(89,128,166,.1)}
+#tab-w:checked~main .s-w{display:block}
+#tab-w:checked~nav label[for="tab-w"]{color:var(--color-accent-700);border-top-color:var(--color-accent);background:rgba(89,128,166,.1)}
+#tab-v:checked~main .s-v{display:block}
+#tab-v:checked~nav label[for="tab-v"]{color:var(--color-accent-700);border-top-color:var(--color-accent);background:rgba(89,128,166,.1)}
+#tab-u:checked~main .s-u{display:block}
+#tab-u:checked~nav label[for="tab-u"]{color:var(--color-accent-700);border-top-color:var(--color-accent);background:rgba(89,128,166,.1)}
+#tab-t:checked~main .s-t{display:block}
+#tab-t:checked~nav label[for="tab-t"]{color:var(--color-accent-700);border-top-color:var(--color-accent);background:rgba(89,128,166,.1)}
+</style></head><body><div class="wrap">
+<input type="radio" name="tab" id="tab-k" checked><input type="radio" name="tab" id="tab-w"><input type="radio" name="tab" id="tab-v"><input type="radio" name="tab" id="tab-u"><input type="radio" name="tab" id="tab-t">
+<header><span class="mark"><i></i></span><span class="t"><b>Ozmaksan Hidrolik</b><span>Silindir hesap · scriptsiz</span></span><span class="tag tag-outline mono">CSS</span></header>
+<main><section class="s s-k"><h4 style="margin:2px 0 14px;text-transform:uppercase;letter-spacing:.04em">Kuvvet</h4><input type="radio" name="kpa" id="kpa60"><input type="radio" name="kpa" id="kpa100"><input type="radio" name="kpa" id="kpa140"><input type="radio" name="kpa" id="kpa160"><input type="radio" name="kpa" id="kpa180" checked><input type="radio" name="kpa" id="kpa200"><input type="radio" name="kpa" id="kpa250"><input type="radio" name="kpa" id="kpa320"><div class="lb lb-n"><label for="kpa60">60</label><label for="kpa100">100</label><label for="kpa140">140</label><label for="kpa160">160</label><label for="kpa180">180</label><label for="kpa200">200</label><label for="kpa250">250</label><label for="kpa320">320</label></div><span class="cap">Basınç · bar</span><input type="radio" name="kpb" id="kpb40"><input type="radio" name="kpb" id="kpb50"><input type="radio" name="kpb" id="kpb63"><input type="radio" name="kpb" id="kpb70"><input type="radio" name="kpb" id="kpb80" checked><input type="radio" name="kpb" id="kpb90"><input type="radio" name="kpb" id="kpb100"><input type="radio" name="kpb" id="kpb110"><input type="radio" name="kpb" id="kpb125"><input type="radio" name="kpb" id="kpb140"><input type="radio" name="kpb" id="kpb160"><input type="radio" name="kpb" id="kpb180"><input type="radio" name="kpb" id="kpb200"><div class="lb "><label for="kpb40">Ø40<i>/22</i></label><label for="kpb50">Ø50<i>/28</i></label><label for="kpb63">Ø63<i>/35</i></label><label for="kpb70">Ø70<i>/40</i></label><label for="kpb80">Ø80<i>/45</i></label><label for="kpb90">Ø90<i>/50</i></label><label for="kpb100">Ø100<i>/56</i></label><label for="kpb110">Ø110<i>/63</i></label><label for="kpb125">Ø125<i>/70</i></label><label for="kpb140">Ø140<i>/80</i></label><label for="kpb160">Ø160<i>/90</i></label><label for="kpb180">Ø180<i>/100</i></label><label for="kpb200">Ø200<i>/110</i></label></div><span class="cap">Piston Ø / mil Ø · mm</span><div class="out"><div class="res">
+<div class="res-h"><span>İtme kuvveti</span><span>teorik</span></div>
+<div class="res-b"><b><span class="cv kp-60-40">0,77</span><span class="cv kp-60-50">1,20</span><span class="cv kp-60-63">1,91</span><span class="cv kp-60-70">2,35</span><span class="cv kp-60-80">3,08</span><span class="cv kp-60-90">3,89</span><span class="cv kp-60-100">4,81</span><span class="cv kp-60-110">5,81</span><span class="cv kp-60-125">7,51</span><span class="cv kp-60-140">9,42</span><span class="cv kp-60-160">12,30</span><span class="cv kp-60-180">15,57</span><span class="cv kp-60-200">19,22</span><span class="cv kp-100-40">1,28</span><span class="cv kp-100-50">2,00</span><span class="cv kp-100-63">3,18</span><span class="cv kp-100-70">3,92</span><span class="cv kp-100-80">5,13</span><span class="cv kp-100-90">6,49</span><span class="cv kp-100-100">8,01</span><span class="cv kp-100-110">9,69</span><span class="cv kp-100-125">12,51</span><span class="cv kp-100-140">15,70</span><span class="cv kp-100-160">20,50</span><span class="cv kp-100-180">25,95</span><span class="cv kp-100-200">32,04</span><span class="cv kp-140-40">1,79</span><span class="cv kp-140-50">2,80</span><span class="cv kp-140-63">4,45</span><span class="cv kp-140-70">5,49</span><span class="cv kp-140-80">7,18</span><span class="cv kp-140-90">9,08</span><span class="cv kp-140-100">11,21</span><span class="cv kp-140-110">13,57</span><span class="cv kp-140-125">17,52</span><span class="cv kp-140-140">21,98</span><span class="cv kp-140-160">28,70</span><span class="cv kp-140-180">36,33</span><span class="cv kp-140-200">44,85</span><span class="cv kp-160-40">2,05</span><span class="cv kp-160-50">3,20</span><span class="cv kp-160-63">5,09</span><span class="cv kp-160-70">6,28</span><span class="cv kp-160-80">8,20</span><span class="cv kp-160-90">10,38</span><span class="cv kp-160-100">12,81</span><span class="cv kp-160-110">15,51</span><span class="cv kp-160-125">20,02</span><span class="cv kp-160-140">25,12</span><span class="cv kp-160-160">32,80</span><span class="cv kp-160-180">41,52</span><span class="cv kp-160-200">51,26</span><span class="cv kp-180-40">2,31</span><span class="cv kp-180-50">3,60</span><span class="cv kp-180-63">5,72</span><span class="cv kp-180-70">7,06</span><span class="cv kp-180-80">9,23</span><span class="cv kp-180-90">11,68</span><span class="cv kp-180-100">14,42</span><span class="cv kp-180-110">17,44</span><span class="cv kp-180-125">22,52</span><span class="cv kp-180-140">28,26</span><span class="cv kp-180-160">36,90</span><span class="cv kp-180-180">46,71</span><span class="cv kp-180-200">57,66</span><span class="cv kp-200-40">2,56</span><span class="cv kp-200-50">4,00</span><span class="cv kp-200-63">6,36</span><span class="cv kp-200-70">7,85</span><span class="cv kp-200-80">10,25</span><span class="cv kp-200-90">12,97</span><span class="cv kp-200-100">16,02</span><span class="cv kp-200-110">19,38</span><span class="cv kp-200-125">25,03</span><span class="cv kp-200-140">31,39</span><span class="cv kp-200-160">41,01</span><span class="cv kp-200-180">51,90</span><span class="cv kp-200-200">64,07</span><span class="cv kp-250-40">3,20</span><span class="cv kp-250-50">5,01</span><span class="cv kp-250-63">7,95</span><span class="cv kp-250-70">9,81</span><span class="cv kp-250-80">12,81</span><span class="cv kp-250-90">16,22</span><span class="cv kp-250-100">20,02</span><span class="cv kp-250-110">24,23</span><span class="cv kp-250-125">31,28</span><span class="cv kp-250-140">39,24</span><span class="cv kp-250-160">51,26</span><span class="cv kp-250-180">64,87</span><span class="cv kp-250-200">80,09</span><span class="cv kp-320-40">4,10</span><span class="cv kp-320-50">6,41</span><span class="cv kp-320-63">10,17</span><span class="cv kp-320-70">12,56</span><span class="cv kp-320-80">16,40</span><span class="cv kp-320-90">20,76</span><span class="cv kp-320-100">25,63</span><span class="cv kp-320-110">31,01</span><span class="cv kp-320-125">40,04</span><span class="cv kp-320-140">50,23</span><span class="cv kp-320-160">65,61</span><span class="cv kp-320-180">83,04</span><span class="cv kp-320-200">102,51</span></b><span>ton</span></div>
+<div class="res-g"><div><em>Çekme kuvveti</em><span><span class="cv kp-60-40">0,54 ton</span><span class="cv kp-60-50">0,82 ton</span><span class="cv kp-60-63">1,32 ton</span><span class="cv kp-60-70">1,59 ton</span><span class="cv kp-60-80">2,10 ton</span><span class="cv kp-60-90">2,69 ton</span><span class="cv kp-60-100">3,30 ton</span><span class="cv kp-60-110">3,91 ton</span><span class="cv kp-60-125">5,15 ton</span><span class="cv kp-60-140">6,34 ton</span><span class="cv kp-60-160">8,41 ton</span><span class="cv kp-60-180">10,76 ton</span><span class="cv kp-60-200">13,41 ton</span><span class="cv kp-100-40">0,89 ton</span><span class="cv kp-100-50">1,37 ton</span><span class="cv kp-100-63">2,20 ton</span><span class="cv kp-100-70">2,64 ton</span><span class="cv kp-100-80">3,50 ton</span><span class="cv kp-100-90">4,48 ton</span><span class="cv kp-100-100">5,50 ton</span><span class="cv kp-100-110">6,51 ton</span><span class="cv kp-100-125">8,59 ton</span><span class="cv kp-100-140">10,57 ton</span><span class="cv kp-100-160">14,02 ton</span><span class="cv kp-100-180">17,94 ton</span><span class="cv kp-100-200">22,34 ton</span><span class="cv kp-140-40">1,25 ton</span><span class="cv kp-140-50">1,92 ton</span><span class="cv kp-140-63">3,08 ton</span><span class="cv kp-140-70">3,70 ton</span><span class="cv kp-140-80">4,91 ton</span><span class="cv kp-140-90">6,28 ton</span><span class="cv kp-140-100">7,70 ton</span><span class="cv kp-140-110">9,12 ton</span><span class="cv kp-140-125">12,03 ton</span><span class="cv kp-140-140">14,80 ton</span><span class="cv kp-140-160">19,62 ton</span><span class="cv kp-140-180">25,12 ton</span><span class="cv kp-140-200">31,28 ton</span><span class="cv kp-160-40">1,43 ton</span><span class="cv kp-160-50">2,20 ton</span><span class="cv kp-160-63">3,52 ton</span><span class="cv kp-160-70">4,23 ton</span><span class="cv kp-160-80">5,61 ton</span><span class="cv kp-160-90">7,18 ton</span><span class="cv kp-160-100">8,80 ton</span><span class="cv kp-160-110">10,42 ton</span><span class="cv kp-160-125">13,74 ton</span><span class="cv kp-160-140">16,91 ton</span><span class="cv kp-160-160">22,42 ton</span><span class="cv kp-160-180">28,70 ton</span><span class="cv kp-160-200">35,75 ton</span><span class="cv kp-180-40">1,61 ton</span><span class="cv kp-180-50">2,47 ton</span><span class="cv kp-180-63">3,96 ton</span><span class="cv kp-180-70">4,76 ton</span><span class="cv kp-180-80">6,31 ton</span><span class="cv kp-180-90">8,07 ton</span><span class="cv kp-180-100">9,90 ton</span><span class="cv kp-180-110">11,72 ton</span><span class="cv kp-180-125">15,46 ton</span><span class="cv kp-180-140">19,03 ton</span><span class="cv kp-180-160">25,23 ton</span><span class="cv kp-180-180">32,29 ton</span><span class="cv kp-180-200">40,22 ton</span><span class="cv kp-200-40">1,79 ton</span><span class="cv kp-200-50">2,75 ton</span><span class="cv kp-200-63">4,40 ton</span><span class="cv kp-200-70">5,29 ton</span><span class="cv kp-200-80">7,01 ton</span><span class="cv kp-200-90">8,97 ton</span><span class="cv kp-200-100">10,99 ton</span><span class="cv kp-200-110">13,02 ton</span><span class="cv kp-200-125">17,18 ton</span><span class="cv kp-200-140">21,14 ton</span><span class="cv kp-200-160">28,03 ton</span><span class="cv kp-200-180">35,88 ton</span><span class="cv kp-200-200">44,69 ton</span><span class="cv kp-250-40">2,23 ton</span><span class="cv kp-250-50">3,44 ton</span><span class="cv kp-250-63">5,49 ton</span><span class="cv kp-250-70">6,61 ton</span><span class="cv kp-250-80">8,76 ton</span><span class="cv kp-250-90">11,21 ton</span><span class="cv kp-250-100">13,74 ton</span><span class="cv kp-250-110">16,28 ton</span><span class="cv kp-250-125">21,47 ton</span><span class="cv kp-250-140">26,43 ton</span><span class="cv kp-250-160">35,04 ton</span><span class="cv kp-250-180">44,85 ton</span><span class="cv kp-250-200">55,86 ton</span><span class="cv kp-320-40">2,86 ton</span><span class="cv kp-320-50">4,40 ton</span><span class="cv kp-320-63">7,03 ton</span><span class="cv kp-320-70">8,46 ton</span><span class="cv kp-320-80">11,21 ton</span><span class="cv kp-320-90">14,35 ton</span><span class="cv kp-320-100">17,59 ton</span><span class="cv kp-320-110">20,84 ton</span><span class="cv kp-320-125">27,49 ton</span><span class="cv kp-320-140">33,83 ton</span><span class="cv kp-320-160">44,85 ton</span><span class="cv kp-320-180">57,41 ton</span><span class="cv kp-320-200">71,50 ton</span></span></div><div><em>İtme · kg</em><span><span class="cv kp-60-40">769 kg</span><span class="cv kp-60-50">1.201 kg</span><span class="cv kp-60-63">1.907 kg</span><span class="cv kp-60-70">2.355 kg</span><span class="cv kp-60-80">3.075 kg</span><span class="cv kp-60-90">3.892 kg</span><span class="cv kp-60-100">4.805 kg</span><span class="cv kp-60-110">5.814 kg</span><span class="cv kp-60-125">7.508 kg</span><span class="cv kp-60-140">9.418 kg</span><span class="cv kp-60-160">12.302 kg</span><span class="cv kp-60-180">15.569 kg</span><span class="cv kp-60-200">19.221 kg</span><span class="cv kp-100-40">1.281 kg</span><span class="cv kp-100-50">2.002 kg</span><span class="cv kp-100-63">3.179 kg</span><span class="cv kp-100-70">3.924 kg</span><span class="cv kp-100-80">5.126 kg</span><span class="cv kp-100-90">6.487 kg</span><span class="cv kp-100-100">8.009 kg</span><span class="cv kp-100-110">9.691 kg</span><span class="cv kp-100-125">12.514 kg</span><span class="cv kp-100-140">15.697 kg</span><span class="cv kp-100-160">20.503 kg</span><span class="cv kp-100-180">25.949 kg</span><span class="cv kp-100-200">32.035 kg</span><span class="cv kp-140-40">1.794 kg</span><span class="cv kp-140-50">2.803 kg</span><span class="cv kp-140-63">4.450 kg</span><span class="cv kp-140-70">5.494 kg</span><span class="cv kp-140-80">7.176 kg</span><span class="cv kp-140-90">9.082 kg</span><span class="cv kp-140-100">11.212 kg</span><span class="cv kp-140-110">13.567 kg</span><span class="cv kp-140-125">17.519 kg</span><span class="cv kp-140-140">21.976 kg</span><span class="cv kp-140-160">28.704 kg</span><span class="cv kp-140-180">36.328 kg</span><span class="cv kp-140-200">44.849 kg</span><span class="cv kp-160-40">2.050 kg</span><span class="cv kp-160-50">3.204 kg</span><span class="cv kp-160-63">5.086 kg</span><span class="cv kp-160-70">6.279 kg</span><span class="cv kp-160-80">8.201 kg</span><span class="cv kp-160-90">10.379 kg</span><span class="cv kp-160-100">12.814 kg</span><span class="cv kp-160-110">15.505 kg</span><span class="cv kp-160-125">20.022 kg</span><span class="cv kp-160-140">25.116 kg</span><span class="cv kp-160-160">32.804 kg</span><span class="cv kp-160-180">41.518 kg</span><span class="cv kp-160-200">51.257 kg</span><span class="cv kp-180-40">2.307 kg</span><span class="cv kp-180-50">3.604 kg</span><span class="cv kp-180-63">5.722 kg</span><span class="cv kp-180-70">7.064 kg</span><span class="cv kp-180-80">9.226 kg</span><span class="cv kp-180-90">11.677 kg</span><span class="cv kp-180-100">14.416 kg</span><span class="cv kp-180-110">17.443 kg</span><span class="cv kp-180-125">22.525 kg</span><span class="cv kp-180-140">28.255 kg</span><span class="cv kp-180-160">36.905 kg</span><span class="cv kp-180-180">46.708 kg</span><span class="cv kp-180-200">57.664 kg</span><span class="cv kp-200-40">2.563 kg</span><span class="cv kp-200-50">4.004 kg</span><span class="cv kp-200-63">6.357 kg</span><span class="cv kp-200-70">7.849 kg</span><span class="cv kp-200-80">10.251 kg</span><span class="cv kp-200-90">12.974 kg</span><span class="cv kp-200-100">16.018 kg</span><span class="cv kp-200-110">19.381 kg</span><span class="cv kp-200-125">25.028 kg</span><span class="cv kp-200-140">31.395 kg</span><span class="cv kp-200-160">41.005 kg</span><span class="cv kp-200-180">51.897 kg</span><span class="cv kp-200-200">64.071 kg</span><span class="cv kp-250-40">3.204 kg</span><span class="cv kp-250-50">5.006 kg</span><span class="cv kp-250-63">7.947 kg</span><span class="cv kp-250-70">9.811 kg</span><span class="cv kp-250-80">12.814 kg</span><span class="cv kp-250-90">16.218 kg</span><span class="cv kp-250-100">20.022 kg</span><span class="cv kp-250-110">24.227 kg</span><span class="cv kp-250-125">31.285 kg</span><span class="cv kp-250-140">39.243 kg</span><span class="cv kp-250-160">51.257 kg</span><span class="cv kp-250-180">64.872 kg</span><span class="cv kp-250-200">80.088 kg</span><span class="cv kp-320-40">4.101 kg</span><span class="cv kp-320-50">6.407 kg</span><span class="cv kp-320-63">10.172 kg</span><span class="cv kp-320-70">12.558 kg</span><span class="cv kp-320-80">16.402 kg</span><span class="cv kp-320-90">20.759 kg</span><span class="cv kp-320-100">25.628 kg</span><span class="cv kp-320-110">31.010 kg</span><span class="cv kp-320-125">40.044 kg</span><span class="cv kp-320-140">50.231 kg</span><span class="cv kp-320-160">65.608 kg</span><span class="cv kp-320-180">83.036 kg</span><span class="cv kp-320-200">102.513 kg</span></span></div><div><em>İtme · kN</em><span><span class="cv kp-60-40">7,5 kN</span><span class="cv kp-60-50">11,8 kN</span><span class="cv kp-60-63">18,7 kN</span><span class="cv kp-60-70">23,1 kN</span><span class="cv kp-60-80">30,2 kN</span><span class="cv kp-60-90">38,2 kN</span><span class="cv kp-60-100">47,1 kN</span><span class="cv kp-60-110">57,0 kN</span><span class="cv kp-60-125">73,6 kN</span><span class="cv kp-60-140">92,4 kN</span><span class="cv kp-60-160">120,6 kN</span><span class="cv kp-60-180">152,7 kN</span><span class="cv kp-60-200">188,5 kN</span><span class="cv kp-100-40">12,6 kN</span><span class="cv kp-100-50">19,6 kN</span><span class="cv kp-100-63">31,2 kN</span><span class="cv kp-100-70">38,5 kN</span><span class="cv kp-100-80">50,3 kN</span><span class="cv kp-100-90">63,6 kN</span><span class="cv kp-100-100">78,5 kN</span><span class="cv kp-100-110">95,0 kN</span><span class="cv kp-100-125">122,7 kN</span><span class="cv kp-100-140">153,9 kN</span><span class="cv kp-100-160">201,1 kN</span><span class="cv kp-100-180">254,5 kN</span><span class="cv kp-100-200">314,2 kN</span><span class="cv kp-140-40">17,6 kN</span><span class="cv kp-140-50">27,5 kN</span><span class="cv kp-140-63">43,6 kN</span><span class="cv kp-140-70">53,9 kN</span><span class="cv kp-140-80">70,4 kN</span><span class="cv kp-140-90">89,1 kN</span><span class="cv kp-140-100">110,0 kN</span><span class="cv kp-140-110">133,0 kN</span><span class="cv kp-140-125">171,8 kN</span><span class="cv kp-140-140">215,5 kN</span><span class="cv kp-140-160">281,5 kN</span><span class="cv kp-140-180">356,3 kN</span><span class="cv kp-140-200">439,8 kN</span><span class="cv kp-160-40">20,1 kN</span><span class="cv kp-160-50">31,4 kN</span><span class="cv kp-160-63">49,9 kN</span><span class="cv kp-160-70">61,6 kN</span><span class="cv kp-160-80">80,4 kN</span><span class="cv kp-160-90">101,8 kN</span><span class="cv kp-160-100">125,7 kN</span><span class="cv kp-160-110">152,1 kN</span><span class="cv kp-160-125">196,3 kN</span><span class="cv kp-160-140">246,3 kN</span><span class="cv kp-160-160">321,7 kN</span><span class="cv kp-160-180">407,2 kN</span><span class="cv kp-160-200">502,7 kN</span><span class="cv kp-180-40">22,6 kN</span><span class="cv kp-180-50">35,3 kN</span><span class="cv kp-180-63">56,1 kN</span><span class="cv kp-180-70">69,3 kN</span><span class="cv kp-180-80">90,5 kN</span><span class="cv kp-180-90">114,5 kN</span><span class="cv kp-180-100">141,4 kN</span><span class="cv kp-180-110">171,1 kN</span><span class="cv kp-180-125">220,9 kN</span><span class="cv kp-180-140">277,1 kN</span><span class="cv kp-180-160">361,9 kN</span><span class="cv kp-180-180">458,0 kN</span><span class="cv kp-180-200">565,5 kN</span><span class="cv kp-200-40">25,1 kN</span><span class="cv kp-200-50">39,3 kN</span><span class="cv kp-200-63">62,3 kN</span><span class="cv kp-200-70">77,0 kN</span><span class="cv kp-200-80">100,5 kN</span><span class="cv kp-200-90">127,2 kN</span><span class="cv kp-200-100">157,1 kN</span><span class="cv kp-200-110">190,1 kN</span><span class="cv kp-200-125">245,4 kN</span><span class="cv kp-200-140">307,9 kN</span><span class="cv kp-200-160">402,1 kN</span><span class="cv kp-200-180">508,9 kN</span><span class="cv kp-200-200">628,3 kN</span><span class="cv kp-250-40">31,4 kN</span><span class="cv kp-250-50">49,1 kN</span><span class="cv kp-250-63">77,9 kN</span><span class="cv kp-250-70">96,2 kN</span><span class="cv kp-250-80">125,7 kN</span><span class="cv kp-250-90">159,0 kN</span><span class="cv kp-250-100">196,3 kN</span><span class="cv kp-250-110">237,6 kN</span><span class="cv kp-250-125">306,8 kN</span><span class="cv kp-250-140">384,8 kN</span><span class="cv kp-250-160">502,7 kN</span><span class="cv kp-250-180">636,2 kN</span><span class="cv kp-250-200">785,4 kN</span><span class="cv kp-320-40">40,2 kN</span><span class="cv kp-320-50">62,8 kN</span><span class="cv kp-320-63">99,8 kN</span><span class="cv kp-320-70">123,2 kN</span><span class="cv kp-320-80">160,8 kN</span><span class="cv kp-320-90">203,6 kN</span><span class="cv kp-320-100">251,3 kN</span><span class="cv kp-320-110">304,1 kN</span><span class="cv kp-320-125">392,7 kN</span><span class="cv kp-320-140">492,6 kN</span><span class="cv kp-320-160">643,4 kN</span><span class="cv kp-320-180">814,3 kN</span><span class="cv kp-320-200">1.005,3 kN</span></span></div></div>
+<div class="res-n">Sürtünme kaybı düşülmemiştir · F = p · A / 98,07.</div></div></div></section><section class="s s-w"><h4 style="margin:2px 0 14px;text-transform:uppercase;letter-spacing:.04em">Ağırlık</h4><input type="radio" name="wga" id="wga40"><input type="radio" name="wga" id="wga50"><input type="radio" name="wga" id="wga63"><input type="radio" name="wga" id="wga70"><input type="radio" name="wga" id="wga80" checked><input type="radio" name="wga" id="wga90"><input type="radio" name="wga" id="wga100"><input type="radio" name="wga" id="wga110"><input type="radio" name="wga" id="wga125"><input type="radio" name="wga" id="wga140"><input type="radio" name="wga" id="wga160"><input type="radio" name="wga" id="wga180"><input type="radio" name="wga" id="wga200"><div class="lb "><label for="wga40">Ø40<i>/22</i></label><label for="wga50">Ø50<i>/28</i></label><label for="wga63">Ø63<i>/35</i></label><label for="wga70">Ø70<i>/40</i></label><label for="wga80">Ø80<i>/45</i></label><label for="wga90">Ø90<i>/50</i></label><label for="wga100">Ø100<i>/56</i></label><label for="wga110">Ø110<i>/63</i></label><label for="wga125">Ø125<i>/70</i></label><label for="wga140">Ø140<i>/80</i></label><label for="wga160">Ø160<i>/90</i></label><label for="wga180">Ø180<i>/100</i></label><label for="wga200">Ø200<i>/110</i></label></div><span class="cap">Piston Ø / mil Ø · mm</span><input type="radio" name="wgb" id="wgb100"><input type="radio" name="wgb" id="wgb200"><input type="radio" name="wgb" id="wgb300"><input type="radio" name="wgb" id="wgb400"><input type="radio" name="wgb" id="wgb500" checked><input type="radio" name="wgb" id="wgb700"><input type="radio" name="wgb" id="wgb1000"><input type="radio" name="wgb" id="wgb1200"><input type="radio" name="wgb" id="wgb1500"><div class="lb lb-n"><label for="wgb100">100</label><label for="wgb200">200</label><label for="wgb300">300</label><label for="wgb400">400</label><label for="wgb500">500</label><label for="wgb700">700</label><label for="wgb1000">1000</label><label for="wgb1200">1200</label><label for="wgb1500">1500</label></div><span class="cap">Strok · mm</span><div class="out"><div class="res">
+<div class="res-h"><span>Kuru ağırlık</span><span>çelik 7,85 kg/dm³</span></div>
+<div class="res-b"><b><span class="cv wg-40-100">2,9</span><span class="cv wg-40-200">3,8</span><span class="cv wg-40-300">4,6</span><span class="cv wg-40-400">5,5</span><span class="cv wg-40-500">6,3</span><span class="cv wg-40-700">8,0</span><span class="cv wg-40-1000">10,6</span><span class="cv wg-40-1200">12,3</span><span class="cv wg-40-1500">14,9</span><span class="cv wg-50-100">4,2</span><span class="cv wg-50-200">5,3</span><span class="cv wg-50-300">6,5</span><span class="cv wg-50-400">7,7</span><span class="cv wg-50-500">8,8</span><span class="cv wg-50-700">11,2</span><span class="cv wg-50-1000">14,6</span><span class="cv wg-50-1200">17,0</span><span class="cv wg-50-1500">20,4</span><span class="cv wg-63-100">6,6</span><span class="cv wg-63-200">8,4</span><span class="cv wg-63-300">10,1</span><span class="cv wg-63-400">11,9</span><span class="cv wg-63-500">13,7</span><span class="cv wg-63-700">17,2</span><span class="cv wg-63-1000">22,6</span><span class="cv wg-63-1200">26,1</span><span class="cv wg-63-1500">31,4</span><span class="cv wg-70-100">8,5</span><span class="cv wg-70-200">10,8</span><span class="cv wg-70-300">13,1</span><span class="cv wg-70-400">15,5</span><span class="cv wg-70-500">17,8</span><span class="cv wg-70-700">22,4</span><span class="cv wg-70-1000">29,3</span><span class="cv wg-70-1200">34,0</span><span class="cv wg-70-1500">40,9</span><span class="cv wg-80-100">11,1</span><span class="cv wg-80-200">14,1</span><span class="cv wg-80-300">17,1</span><span class="cv wg-80-400">20,1</span><span class="cv wg-80-500">23,1</span><span class="cv wg-80-700">29,0</span><span class="cv wg-80-1000">38,0</span><span class="cv wg-80-1200">44,0</span><span class="cv wg-80-1500">52,9</span><span class="cv wg-90-100">14,2</span><span class="cv wg-90-200">17,9</span><span class="cv wg-90-300">21,6</span><span class="cv wg-90-400">25,4</span><span class="cv wg-90-500">29,1</span><span class="cv wg-90-700">36,6</span><span class="cv wg-90-1000">47,8</span><span class="cv wg-90-1200">55,3</span><span class="cv wg-90-1500">66,5</span><span class="cv wg-100-100">17,8</span><span class="cv wg-100-200">22,4</span><span class="cv wg-100-300">27,1</span><span class="cv wg-100-400">31,7</span><span class="cv wg-100-500">36,4</span><span class="cv wg-100-700">45,7</span><span class="cv wg-100-1000">59,6</span><span class="cv wg-100-1200">68,9</span><span class="cv wg-100-1500">82,8</span><span class="cv wg-110-100">22,0</span><span class="cv wg-110-200">27,8</span><span class="cv wg-110-300">33,5</span><span class="cv wg-110-400">39,2</span><span class="cv wg-110-500">45,0</span><span class="cv wg-110-700">56,4</span><span class="cv wg-110-1000">73,6</span><span class="cv wg-110-1200">85,1</span><span class="cv wg-110-1500">102,2</span><span class="cv wg-125-100">29,1</span><span class="cv wg-125-200">36,5</span><span class="cv wg-125-300">44,0</span><span class="cv wg-125-400">51,4</span><span class="cv wg-125-500">58,9</span><span class="cv wg-125-700">73,7</span><span class="cv wg-125-1000">96,1</span><span class="cv wg-125-1200">111,0</span><span class="cv wg-125-1500">133,3</span><span class="cv wg-140-100">36,9</span><span class="cv wg-140-200">46,1</span><span class="cv wg-140-300">55,4</span><span class="cv wg-140-400">64,7</span><span class="cv wg-140-500">73,9</span><span class="cv wg-140-700">92,4</span><span class="cv wg-140-1000">120,2</span><span class="cv wg-140-1200">138,8</span><span class="cv wg-140-1500">166,5</span><span class="cv wg-160-100">48,9</span><span class="cv wg-160-200">60,8</span><span class="cv wg-160-300">72,7</span><span class="cv wg-160-400">84,7</span><span class="cv wg-160-500">96,6</span><span class="cv wg-160-700">120,5</span><span class="cv wg-160-1000">156,3</span><span class="cv wg-160-1200">180,2</span><span class="cv wg-160-1500">216,0</span><span class="cv wg-180-100">62,9</span><span class="cv wg-180-200">77,8</span><span class="cv wg-180-300">92,8</span><span class="cv wg-180-400">107,8</span><span class="cv wg-180-500">122,7</span><span class="cv wg-180-700">152,6</span><span class="cv wg-180-1000">197,5</span><span class="cv wg-180-1200">227,4</span><span class="cv wg-180-1500">272,3</span><span class="cv wg-200-100">79,0</span><span class="cv wg-200-200">97,4</span><span class="cv wg-200-300">115,7</span><span class="cv wg-200-400">134,0</span><span class="cv wg-200-500">152,3</span><span class="cv wg-200-700">188,9</span><span class="cv wg-200-1000">243,8</span><span class="cv wg-200-1200">280,5</span><span class="cv wg-200-1500">335,4</span></b><span>kg</span></div>
+<div class="res-g"><div><em>Yağ dolu</em><span><span class="cv wg-40-100">3,0 kg</span><span class="cv wg-40-200">4,0 kg</span><span class="cv wg-40-300">4,9 kg</span><span class="cv wg-40-400">5,9 kg</span><span class="cv wg-40-500">6,9 kg</span><span class="cv wg-40-700">8,8 kg</span><span class="cv wg-40-1000">11,7 kg</span><span class="cv wg-40-1200">13,6 kg</span><span class="cv wg-40-1500">16,5 kg</span><span class="cv wg-50-100">4,4 kg</span><span class="cv wg-50-200">5,7 kg</span><span class="cv wg-50-300">7,0 kg</span><span class="cv wg-50-400">8,3 kg</span><span class="cv wg-50-500">9,7 kg</span><span class="cv wg-50-700">12,3 kg</span><span class="cv wg-50-1000">16,3 kg</span><span class="cv wg-50-1200">19,0 kg</span><span class="cv wg-50-1500">23,0 kg</span><span class="cv wg-63-100">6,8 kg</span><span class="cv wg-63-200">8,9 kg</span><span class="cv wg-63-300">10,9 kg</span><span class="cv wg-63-400">13,0 kg</span><span class="cv wg-63-500">15,0 kg</span><span class="cv wg-63-700">19,1 kg</span><span class="cv wg-63-1000">25,3 kg</span><span class="cv wg-63-1200">29,4 kg</span><span class="cv wg-63-1500">35,5 kg</span><span class="cv wg-70-100">8,8 kg</span><span class="cv wg-70-200">11,5 kg</span><span class="cv wg-70-300">14,1 kg</span><span class="cv wg-70-400">16,8 kg</span><span class="cv wg-70-500">19,4 kg</span><span class="cv wg-70-700">24,7 kg</span><span class="cv wg-70-1000">32,7 kg</span><span class="cv wg-70-1200">38,0 kg</span><span class="cv wg-70-1500">45,9 kg</span><span class="cv wg-80-100">11,6 kg</span><span class="cv wg-80-200">15,0 kg</span><span class="cv wg-80-300">18,4 kg</span><span class="cv wg-80-400">21,8 kg</span><span class="cv wg-80-500">25,3 kg</span><span class="cv wg-80-700">32,1 kg</span><span class="cv wg-80-1000">42,4 kg</span><span class="cv wg-80-1200">49,2 kg</span><span class="cv wg-80-1500">59,5 kg</span><span class="cv wg-90-100">14,7 kg</span><span class="cv wg-90-200">19,0 kg</span><span class="cv wg-90-300">23,3 kg</span><span class="cv wg-90-400">27,6 kg</span><span class="cv wg-90-500">31,9 kg</span><span class="cv wg-90-700">40,5 kg</span><span class="cv wg-90-1000">53,4 kg</span><span class="cv wg-90-1200">61,9 kg</span><span class="cv wg-90-1500">74,8 kg</span><span class="cv wg-100-100">18,5 kg</span><span class="cv wg-100-200">23,8 kg</span><span class="cv wg-100-300">29,1 kg</span><span class="cv wg-100-400">34,5 kg</span><span class="cv wg-100-500">39,8 kg</span><span class="cv wg-100-700">50,4 kg</span><span class="cv wg-100-1000">66,4 kg</span><span class="cv wg-100-1200">77,1 kg</span><span class="cv wg-100-1500">93,1 kg</span><span class="cv wg-110-100">22,9 kg</span><span class="cv wg-110-200">29,4 kg</span><span class="cv wg-110-300">36,0 kg</span><span class="cv wg-110-400">42,5 kg</span><span class="cv wg-110-500">49,1 kg</span><span class="cv wg-110-700">62,2 kg</span><span class="cv wg-110-1000">81,9 kg</span><span class="cv wg-110-1200">95,0 kg</span><span class="cv wg-110-1500">114,6 kg</span><span class="cv wg-125-100">30,1 kg</span><span class="cv wg-125-200">38,7 kg</span><span class="cv wg-125-300">47,2 kg</span><span class="cv wg-125-400">55,7 kg</span><span class="cv wg-125-500">64,2 kg</span><span class="cv wg-125-700">81,2 kg</span><span class="cv wg-125-1000">106,8 kg</span><span class="cv wg-125-1200">123,8 kg</span><span class="cv wg-125-1500">149,3 kg</span><span class="cv wg-140-100">38,2 kg</span><span class="cv wg-140-200">48,8 kg</span><span class="cv wg-140-300">59,4 kg</span><span class="cv wg-140-400">70,0 kg</span><span class="cv wg-140-500">80,6 kg</span><span class="cv wg-140-700">101,8 kg</span><span class="cv wg-140-1000">133,6 kg</span><span class="cv wg-140-1200">154,8 kg</span><span class="cv wg-140-1500">186,6 kg</span><span class="cv wg-160-100">50,6 kg</span><span class="cv wg-160-200">64,3 kg</span><span class="cv wg-160-300">78,0 kg</span><span class="cv wg-160-400">91,7 kg</span><span class="cv wg-160-500">105,4 kg</span><span class="cv wg-160-700">132,7 kg</span><span class="cv wg-160-1000">173,8 kg</span><span class="cv wg-160-1200">201,2 kg</span><span class="cv wg-160-1500">242,2 kg</span><span class="cv wg-180-100">65,1 kg</span><span class="cv wg-180-200">82,3 kg</span><span class="cv wg-180-300">99,4 kg</span><span class="cv wg-180-400">116,6 kg</span><span class="cv wg-180-500">133,8 kg</span><span class="cv wg-180-700">168,1 kg</span><span class="cv wg-180-1000">219,6 kg</span><span class="cv wg-180-1200">254,0 kg</span><span class="cv wg-180-1500">305,5 kg</span><span class="cv wg-200-100">81,8 kg</span><span class="cv wg-200-200">102,8 kg</span><span class="cv wg-200-300">123,9 kg</span><span class="cv wg-200-400">144,9 kg</span><span class="cv wg-200-500">166,0 kg</span><span class="cv wg-200-700">208,0 kg</span><span class="cv wg-200-1000">271,2 kg</span><span class="cv wg-200-1200">313,3 kg</span><span class="cv wg-200-1500">376,4 kg</span></span></div><div><em>Gövde borusu</em><span><span class="cv wg-40-100">1,1 kg</span><span class="cv wg-40-200">1,7 kg</span><span class="cv wg-40-300">2,2 kg</span><span class="cv wg-40-400">2,8 kg</span><span class="cv wg-40-500">3,3 kg</span><span class="cv wg-40-700">4,4 kg</span><span class="cv wg-40-1000">6,1 kg</span><span class="cv wg-40-1200">7,2 kg</span><span class="cv wg-40-1500">8,9 kg</span><span class="cv wg-50-100">1,4 kg</span><span class="cv wg-50-200">2,0 kg</span><span class="cv wg-50-300">2,7 kg</span><span class="cv wg-50-400">3,4 kg</span><span class="cv wg-50-500">4,1 kg</span><span class="cv wg-50-700">5,4 kg</span><span class="cv wg-50-1000">7,5 kg</span><span class="cv wg-50-1200">8,8 kg</span><span class="cv wg-50-1500">10,9 kg</span><span class="cv wg-63-100">2,0 kg</span><span class="cv wg-63-200">3,1 kg</span><span class="cv wg-63-300">4,1 kg</span><span class="cv wg-63-400">5,1 kg</span><span class="cv wg-63-500">6,1 kg</span><span class="cv wg-63-700">8,2 kg</span><span class="cv wg-63-1000">11,2 kg</span><span class="cv wg-63-1200">13,3 kg</span><span class="cv wg-63-1500">16,3 kg</span><span class="cv wg-70-100">2,7 kg</span><span class="cv wg-70-200">4,0 kg</span><span class="cv wg-70-300">5,3 kg</span><span class="cv wg-70-400">6,6 kg</span><span class="cv wg-70-500">8,0 kg</span><span class="cv wg-70-700">10,6 kg</span><span class="cv wg-70-1000">14,6 kg</span><span class="cv wg-70-1200">17,3 kg</span><span class="cv wg-70-1500">21,3 kg</span><span class="cv wg-80-100">3,5 kg</span><span class="cv wg-80-200">5,2 kg</span><span class="cv wg-80-300">6,9 kg</span><span class="cv wg-80-400">8,7 kg</span><span class="cv wg-80-500">10,4 kg</span><span class="cv wg-80-700">13,9 kg</span><span class="cv wg-80-1000">19,1 kg</span><span class="cv wg-80-1200">22,6 kg</span><span class="cv wg-80-1500">27,8 kg</span><span class="cv wg-90-100">4,4 kg</span><span class="cv wg-90-200">6,6 kg</span><span class="cv wg-90-300">8,8 kg</span><span class="cv wg-90-400">11,0 kg</span><span class="cv wg-90-500">13,2 kg</span><span class="cv wg-90-700">17,6 kg</span><span class="cv wg-90-1000">24,2 kg</span><span class="cv wg-90-1200">28,6 kg</span><span class="cv wg-90-1500">35,2 kg</span><span class="cv wg-100-100">5,4 kg</span><span class="cv wg-100-200">8,1 kg</span><span class="cv wg-100-300">10,9 kg</span><span class="cv wg-100-400">13,6 kg</span><span class="cv wg-100-500">16,3 kg</span><span class="cv wg-100-700">21,7 kg</span><span class="cv wg-100-1000">29,8 kg</span><span class="cv wg-100-1200">35,3 kg</span><span class="cv wg-100-1500">43,4 kg</span><span class="cv wg-110-100">6,6 kg</span><span class="cv wg-110-200">9,8 kg</span><span class="cv wg-110-300">13,1 kg</span><span class="cv wg-110-400">16,4 kg</span><span class="cv wg-110-500">19,7 kg</span><span class="cv wg-110-700">26,3 kg</span><span class="cv wg-110-1000">36,1 kg</span><span class="cv wg-110-1200">42,7 kg</span><span class="cv wg-110-1500">52,5 kg</span><span class="cv wg-125-100">8,8 kg</span><span class="cv wg-125-200">13,3 kg</span><span class="cv wg-125-300">17,7 kg</span><span class="cv wg-125-400">22,1 kg</span><span class="cv wg-125-500">26,5 kg</span><span class="cv wg-125-700">35,4 kg</span><span class="cv wg-125-1000">48,7 kg</span><span class="cv wg-125-1200">57,5 kg</span><span class="cv wg-125-1500">70,8 kg</span><span class="cv wg-140-100">10,6 kg</span><span class="cv wg-140-200">16,0 kg</span><span class="cv wg-140-300">21,3 kg</span><span class="cv wg-140-400">26,6 kg</span><span class="cv wg-140-500">31,9 kg</span><span class="cv wg-140-700">42,5 kg</span><span class="cv wg-140-1000">58,5 kg</span><span class="cv wg-140-1200">69,1 kg</span><span class="cv wg-140-1500">85,1 kg</span><span class="cv wg-160-100">13,9 kg</span><span class="cv wg-160-200">20,8 kg</span><span class="cv wg-160-300">27,8 kg</span><span class="cv wg-160-400">34,7 kg</span><span class="cv wg-160-500">41,7 kg</span><span class="cv wg-160-700">55,6 kg</span><span class="cv wg-160-1000">76,4 kg</span><span class="cv wg-160-1200">90,3 kg</span><span class="cv wg-160-1500">111,1 kg</span><span class="cv wg-180-100">17,6 kg</span><span class="cv wg-180-200">26,4 kg</span><span class="cv wg-180-300">35,2 kg</span><span class="cv wg-180-400">43,9 kg</span><span class="cv wg-180-500">52,7 kg</span><span class="cv wg-180-700">70,3 kg</span><span class="cv wg-180-1000">96,7 kg</span><span class="cv wg-180-1200">114,3 kg</span><span class="cv wg-180-1500">140,6 kg</span><span class="cv wg-200-100">21,7 kg</span><span class="cv wg-200-200">32,6 kg</span><span class="cv wg-200-300">43,4 kg</span><span class="cv wg-200-400">54,3 kg</span><span class="cv wg-200-500">65,1 kg</span><span class="cv wg-200-700">86,8 kg</span><span class="cv wg-200-1000">119,4 kg</span><span class="cv wg-200-1200">141,1 kg</span><span class="cv wg-200-1500">173,6 kg</span></span></div><div><em>Mil</em><span><span class="cv wg-40-100">0,9 kg</span><span class="cv wg-40-200">1,2 kg</span><span class="cv wg-40-300">1,5 kg</span><span class="cv wg-40-400">1,8 kg</span><span class="cv wg-40-500">2,1 kg</span><span class="cv wg-40-700">2,7 kg</span><span class="cv wg-40-1000">3,6 kg</span><span class="cv wg-40-1200">4,2 kg</span><span class="cv wg-40-1500">5,1 kg</span><span class="cv wg-50-100">1,5 kg</span><span class="cv wg-50-200">1,9 kg</span><span class="cv wg-50-300">2,4 kg</span><span class="cv wg-50-400">2,9 kg</span><span class="cv wg-50-500">3,4 kg</span><span class="cv wg-50-700">4,4 kg</span><span class="cv wg-50-1000">5,8 kg</span><span class="cv wg-50-1200">6,8 kg</span><span class="cv wg-50-1500">8,2 kg</span><span class="cv wg-63-100">2,3 kg</span><span class="cv wg-63-200">3,0 kg</span><span class="cv wg-63-300">3,8 kg</span><span class="cv wg-63-400">4,5 kg</span><span class="cv wg-63-500">5,3 kg</span><span class="cv wg-63-700">6,8 kg</span><span class="cv wg-63-1000">9,1 kg</span><span class="cv wg-63-1200">10,6 kg</span><span class="cv wg-63-1500">12,8 kg</span><span class="cv wg-70-100">3,0 kg</span><span class="cv wg-70-200">3,9 kg</span><span class="cv wg-70-300">4,9 kg</span><span class="cv wg-70-400">5,9 kg</span><span class="cv wg-70-500">6,9 kg</span><span class="cv wg-70-700">8,9 kg</span><span class="cv wg-70-1000">11,8 kg</span><span class="cv wg-70-1200">13,8 kg</span><span class="cv wg-70-1500">16,8 kg</span><span class="cv wg-80-100">3,7 kg</span><span class="cv wg-80-200">5,0 kg</span><span class="cv wg-80-300">6,2 kg</span><span class="cv wg-80-400">7,5 kg</span><span class="cv wg-80-500">8,7 kg</span><span class="cv wg-80-700">11,2 kg</span><span class="cv wg-80-1000">15,0 kg</span><span class="cv wg-80-1200">17,5 kg</span><span class="cv wg-80-1500">21,2 kg</span><span class="cv wg-90-100">4,6 kg</span><span class="cv wg-90-200">6,2 kg</span><span class="cv wg-90-300">7,7 kg</span><span class="cv wg-90-400">9,2 kg</span><span class="cv wg-90-500">10,8 kg</span><span class="cv wg-90-700">13,9 kg</span><span class="cv wg-90-1000">18,5 kg</span><span class="cv wg-90-1200">21,6 kg</span><span class="cv wg-90-1500">26,2 kg</span><span class="cv wg-100-100">5,8 kg</span><span class="cv wg-100-200">7,7 kg</span><span class="cv wg-100-300">9,7 kg</span><span class="cv wg-100-400">11,6 kg</span><span class="cv wg-100-500">13,5 kg</span><span class="cv wg-100-700">17,4 kg</span><span class="cv wg-100-1000">23,2 kg</span><span class="cv wg-100-1200">27,1 kg</span><span class="cv wg-100-1500">32,9 kg</span><span class="cv wg-110-100">7,3 kg</span><span class="cv wg-110-200">9,8 kg</span><span class="cv wg-110-300">12,2 kg</span><span class="cv wg-110-400">14,7 kg</span><span class="cv wg-110-500">17,1 kg</span><span class="cv wg-110-700">22,0 kg</span><span class="cv wg-110-1000">29,4 kg</span><span class="cv wg-110-1200">34,3 kg</span><span class="cv wg-110-1500">41,6 kg</span><span class="cv wg-125-100">9,1 kg</span><span class="cv wg-125-200">12,1 kg</span><span class="cv wg-125-300">15,1 kg</span><span class="cv wg-125-400">18,1 kg</span><span class="cv wg-125-500">21,1 kg</span><span class="cv wg-125-700">27,2 kg</span><span class="cv wg-125-1000">36,3 kg</span><span class="cv wg-125-1200">42,3 kg</span><span class="cv wg-125-1500">51,4 kg</span><span class="cv wg-140-100">11,8 kg</span><span class="cv wg-140-200">15,8 kg</span><span class="cv wg-140-300">19,7 kg</span><span class="cv wg-140-400">23,7 kg</span><span class="cv wg-140-500">27,6 kg</span><span class="cv wg-140-700">35,5 kg</span><span class="cv wg-140-1000">47,4 kg</span><span class="cv wg-140-1200">55,2 kg</span><span class="cv wg-140-1500">67,1 kg</span><span class="cv wg-160-100">15,0 kg</span><span class="cv wg-160-200">20,0 kg</span><span class="cv wg-160-300">25,0 kg</span><span class="cv wg-160-400">30,0 kg</span><span class="cv wg-160-500">35,0 kg</span><span class="cv wg-160-700">44,9 kg</span><span class="cv wg-160-1000">59,9 kg</span><span class="cv wg-160-1200">69,9 kg</span><span class="cv wg-160-1500">84,9 kg</span><span class="cv wg-180-100">18,5 kg</span><span class="cv wg-180-200">24,7 kg</span><span class="cv wg-180-300">30,8 kg</span><span class="cv wg-180-400">37,0 kg</span><span class="cv wg-180-500">43,2 kg</span><span class="cv wg-180-700">55,5 kg</span><span class="cv wg-180-1000">74,0 kg</span><span class="cv wg-180-1200">86,3 kg</span><span class="cv wg-180-1500">104,8 kg</span><span class="cv wg-200-100">22,4 kg</span><span class="cv wg-200-200">29,8 kg</span><span class="cv wg-200-300">37,3 kg</span><span class="cv wg-200-400">44,8 kg</span><span class="cv wg-200-500">52,2 kg</span><span class="cv wg-200-700">67,1 kg</span><span class="cv wg-200-1000">89,5 kg</span><span class="cv wg-200-1200">104,4 kg</span><span class="cv wg-200-1500">126,8 kg</span></span></div></div>
+<div class="res-n">Et kalınlığı 0,1·D · gövde boyu strok + 100 mm · ±%10.</div></div></div></section><section class="s s-v"><h4 style="margin:2px 0 14px;text-transform:uppercase;letter-spacing:.04em">Hız</h4><input type="radio" name="vga" id="vga40"><input type="radio" name="vga" id="vga50"><input type="radio" name="vga" id="vga63"><input type="radio" name="vga" id="vga70"><input type="radio" name="vga" id="vga80" checked><input type="radio" name="vga" id="vga90"><input type="radio" name="vga" id="vga100"><input type="radio" name="vga" id="vga110"><input type="radio" name="vga" id="vga125"><input type="radio" name="vga" id="vga140"><input type="radio" name="vga" id="vga160"><input type="radio" name="vga" id="vga180"><input type="radio" name="vga" id="vga200"><div class="lb "><label for="vga40">Ø40<i>/22</i></label><label for="vga50">Ø50<i>/28</i></label><label for="vga63">Ø63<i>/35</i></label><label for="vga70">Ø70<i>/40</i></label><label for="vga80">Ø80<i>/45</i></label><label for="vga90">Ø90<i>/50</i></label><label for="vga100">Ø100<i>/56</i></label><label for="vga110">Ø110<i>/63</i></label><label for="vga125">Ø125<i>/70</i></label><label for="vga140">Ø140<i>/80</i></label><label for="vga160">Ø160<i>/90</i></label><label for="vga180">Ø180<i>/100</i></label><label for="vga200">Ø200<i>/110</i></label></div><span class="cap">Piston Ø / mil Ø · mm</span><input type="radio" name="vgb" id="vgb5"><input type="radio" name="vgb" id="vgb10"><input type="radio" name="vgb" id="vgb20" checked><input type="radio" name="vgb" id="vgb30"><input type="radio" name="vgb" id="vgb45"><input type="radio" name="vgb" id="vgb60"><div class="lb lb-n"><label for="vgb5">5</label><label for="vgb10">10</label><label for="vgb20">20</label><label for="vgb30">30</label><label for="vgb45">45</label><label for="vgb60">60</label></div><span class="cap">Debi Q · L/dk</span><div class="out"><div class="res">
+<div class="res-h"><span>İtme hızı</span><span>pompa debisi sabit</span></div>
+<div class="res-b"><b><span class="cv vg-40-5">66</span><span class="cv vg-40-10">133</span><span class="cv vg-40-20">265</span><span class="cv vg-40-30">398</span><span class="cv vg-40-45">597</span><span class="cv vg-40-60">796</span><span class="cv vg-50-5">42</span><span class="cv vg-50-10">85</span><span class="cv vg-50-20">170</span><span class="cv vg-50-30">255</span><span class="cv vg-50-45">382</span><span class="cv vg-50-60">509</span><span class="cv vg-63-5">27</span><span class="cv vg-63-10">53</span><span class="cv vg-63-20">107</span><span class="cv vg-63-30">160</span><span class="cv vg-63-45">241</span><span class="cv vg-63-60">321</span><span class="cv vg-70-5">22</span><span class="cv vg-70-10">43</span><span class="cv vg-70-20">87</span><span class="cv vg-70-30">130</span><span class="cv vg-70-45">195</span><span class="cv vg-70-60">260</span><span class="cv vg-80-5">17</span><span class="cv vg-80-10">33</span><span class="cv vg-80-20">66</span><span class="cv vg-80-30">99</span><span class="cv vg-80-45">149</span><span class="cv vg-80-60">199</span><span class="cv vg-90-5">13</span><span class="cv vg-90-10">26</span><span class="cv vg-90-20">52</span><span class="cv vg-90-30">79</span><span class="cv vg-90-45">118</span><span class="cv vg-90-60">157</span><span class="cv vg-100-5">11</span><span class="cv vg-100-10">21</span><span class="cv vg-100-20">42</span><span class="cv vg-100-30">64</span><span class="cv vg-100-45">95</span><span class="cv vg-100-60">127</span><span class="cv vg-110-5">9</span><span class="cv vg-110-10">18</span><span class="cv vg-110-20">35</span><span class="cv vg-110-30">53</span><span class="cv vg-110-45">79</span><span class="cv vg-110-60">105</span><span class="cv vg-125-5">7</span><span class="cv vg-125-10">14</span><span class="cv vg-125-20">27</span><span class="cv vg-125-30">41</span><span class="cv vg-125-45">61</span><span class="cv vg-125-60">81</span><span class="cv vg-140-5">5</span><span class="cv vg-140-10">11</span><span class="cv vg-140-20">22</span><span class="cv vg-140-30">32</span><span class="cv vg-140-45">49</span><span class="cv vg-140-60">65</span><span class="cv vg-160-5">4</span><span class="cv vg-160-10">8</span><span class="cv vg-160-20">17</span><span class="cv vg-160-30">25</span><span class="cv vg-160-45">37</span><span class="cv vg-160-60">50</span><span class="cv vg-180-5">3</span><span class="cv vg-180-10">7</span><span class="cv vg-180-20">13</span><span class="cv vg-180-30">20</span><span class="cv vg-180-45">29</span><span class="cv vg-180-60">39</span><span class="cv vg-200-5">3</span><span class="cv vg-200-10">5</span><span class="cv vg-200-20">11</span><span class="cv vg-200-30">16</span><span class="cv vg-200-45">24</span><span class="cv vg-200-60">32</span></b><span>mm/s</span></div>
+<div class="res-g"><div><em>Çekme hızı</em><span><span class="cv vg-40-5">95 mm/s</span><span class="cv vg-40-10">190 mm/s</span><span class="cv vg-40-20">380 mm/s</span><span class="cv vg-40-30">570 mm/s</span><span class="cv vg-40-45">856 mm/s</span><span class="cv vg-40-60">1.141 mm/s</span><span class="cv vg-50-5">62 mm/s</span><span class="cv vg-50-10">124 mm/s</span><span class="cv vg-50-20">247 mm/s</span><span class="cv vg-50-30">371 mm/s</span><span class="cv vg-50-45">556 mm/s</span><span class="cv vg-50-60">742 mm/s</span><span class="cv vg-63-5">39 mm/s</span><span class="cv vg-63-10">77 mm/s</span><span class="cv vg-63-20">155 mm/s</span><span class="cv vg-63-30">232 mm/s</span><span class="cv vg-63-45">348 mm/s</span><span class="cv vg-63-60">464 mm/s</span><span class="cv vg-70-5">32 mm/s</span><span class="cv vg-70-10">64 mm/s</span><span class="cv vg-70-20">129 mm/s</span><span class="cv vg-70-30">193 mm/s</span><span class="cv vg-70-45">289 mm/s</span><span class="cv vg-70-60">386 mm/s</span><span class="cv vg-80-5">24 mm/s</span><span class="cv vg-80-10">49 mm/s</span><span class="cv vg-80-20">97 mm/s</span><span class="cv vg-80-30">146 mm/s</span><span class="cv vg-80-45">218 mm/s</span><span class="cv vg-80-60">291 mm/s</span><span class="cv vg-90-5">19 mm/s</span><span class="cv vg-90-10">38 mm/s</span><span class="cv vg-90-20">76 mm/s</span><span class="cv vg-90-30">114 mm/s</span><span class="cv vg-90-45">171 mm/s</span><span class="cv vg-90-60">227 mm/s</span><span class="cv vg-100-5">15 mm/s</span><span class="cv vg-100-10">31 mm/s</span><span class="cv vg-100-20">62 mm/s</span><span class="cv vg-100-30">93 mm/s</span><span class="cv vg-100-45">139 mm/s</span><span class="cv vg-100-60">185 mm/s</span><span class="cv vg-110-5">13 mm/s</span><span class="cv vg-110-10">26 mm/s</span><span class="cv vg-110-20">52 mm/s</span><span class="cv vg-110-30">78 mm/s</span><span class="cv vg-110-45">117 mm/s</span><span class="cv vg-110-60">157 mm/s</span><span class="cv vg-125-5">10 mm/s</span><span class="cv vg-125-10">20 mm/s</span><span class="cv vg-125-20">40 mm/s</span><span class="cv vg-125-30">59 mm/s</span><span class="cv vg-125-45">89 mm/s</span><span class="cv vg-125-60">119 mm/s</span><span class="cv vg-140-5">8 mm/s</span><span class="cv vg-140-10">16 mm/s</span><span class="cv vg-140-20">32 mm/s</span><span class="cv vg-140-30">48 mm/s</span><span class="cv vg-140-45">72 mm/s</span><span class="cv vg-140-60">96 mm/s</span><span class="cv vg-160-5">6 mm/s</span><span class="cv vg-160-10">12 mm/s</span><span class="cv vg-160-20">24 mm/s</span><span class="cv vg-160-30">36 mm/s</span><span class="cv vg-160-45">55 mm/s</span><span class="cv vg-160-60">73 mm/s</span><span class="cv vg-180-5">5 mm/s</span><span class="cv vg-180-10">9 mm/s</span><span class="cv vg-180-20">19 mm/s</span><span class="cv vg-180-30">28 mm/s</span><span class="cv vg-180-45">43 mm/s</span><span class="cv vg-180-60">57 mm/s</span><span class="cv vg-200-5">4 mm/s</span><span class="cv vg-200-10">8 mm/s</span><span class="cv vg-200-20">15 mm/s</span><span class="cv vg-200-30">23 mm/s</span><span class="cv vg-200-45">34 mm/s</span><span class="cv vg-200-60">46 mm/s</span></span></div><div><em>100 mm ileri</em><span><span class="cv vg-40-5">1,51 s</span><span class="cv vg-40-10">0,75 s</span><span class="cv vg-40-20">0,38 s</span><span class="cv vg-40-30">0,25 s</span><span class="cv vg-40-45">0,17 s</span><span class="cv vg-40-60">0,13 s</span><span class="cv vg-50-5">2,36 s</span><span class="cv vg-50-10">1,18 s</span><span class="cv vg-50-20">0,59 s</span><span class="cv vg-50-30">0,39 s</span><span class="cv vg-50-45">0,26 s</span><span class="cv vg-50-60">0,20 s</span><span class="cv vg-63-5">3,74 s</span><span class="cv vg-63-10">1,87 s</span><span class="cv vg-63-20">0,94 s</span><span class="cv vg-63-30">0,62 s</span><span class="cv vg-63-45">0,42 s</span><span class="cv vg-63-60">0,31 s</span><span class="cv vg-70-5">4,62 s</span><span class="cv vg-70-10">2,31 s</span><span class="cv vg-70-20">1,15 s</span><span class="cv vg-70-30">0,77 s</span><span class="cv vg-70-45">0,51 s</span><span class="cv vg-70-60">0,38 s</span><span class="cv vg-80-5">6,03 s</span><span class="cv vg-80-10">3,02 s</span><span class="cv vg-80-20">1,51 s</span><span class="cv vg-80-30">1,01 s</span><span class="cv vg-80-45">0,67 s</span><span class="cv vg-80-60">0,50 s</span><span class="cv vg-90-5">7,63 s</span><span class="cv vg-90-10">3,82 s</span><span class="cv vg-90-20">1,91 s</span><span class="cv vg-90-30">1,27 s</span><span class="cv vg-90-45">0,85 s</span><span class="cv vg-90-60">0,64 s</span><span class="cv vg-100-5">9,42 s</span><span class="cv vg-100-10">4,71 s</span><span class="cv vg-100-20">2,36 s</span><span class="cv vg-100-30">1,57 s</span><span class="cv vg-100-45">1,05 s</span><span class="cv vg-100-60">0,79 s</span><span class="cv vg-110-5">11,40 s</span><span class="cv vg-110-10">5,70 s</span><span class="cv vg-110-20">2,85 s</span><span class="cv vg-110-30">1,90 s</span><span class="cv vg-110-45">1,27 s</span><span class="cv vg-110-60">0,95 s</span><span class="cv vg-125-5">14,73 s</span><span class="cv vg-125-10">7,36 s</span><span class="cv vg-125-20">3,68 s</span><span class="cv vg-125-30">2,45 s</span><span class="cv vg-125-45">1,64 s</span><span class="cv vg-125-60">1,23 s</span><span class="cv vg-140-5">18,47 s</span><span class="cv vg-140-10">9,24 s</span><span class="cv vg-140-20">4,62 s</span><span class="cv vg-140-30">3,08 s</span><span class="cv vg-140-45">2,05 s</span><span class="cv vg-140-60">1,54 s</span><span class="cv vg-160-5">24,13 s</span><span class="cv vg-160-10">12,06 s</span><span class="cv vg-160-20">6,03 s</span><span class="cv vg-160-30">4,02 s</span><span class="cv vg-160-45">2,68 s</span><span class="cv vg-160-60">2,01 s</span><span class="cv vg-180-5">30,54 s</span><span class="cv vg-180-10">15,27 s</span><span class="cv vg-180-20">7,63 s</span><span class="cv vg-180-30">5,09 s</span><span class="cv vg-180-45">3,39 s</span><span class="cv vg-180-60">2,54 s</span><span class="cv vg-200-5">37,70 s</span><span class="cv vg-200-10">18,85 s</span><span class="cv vg-200-20">9,42 s</span><span class="cv vg-200-30">6,28 s</span><span class="cv vg-200-45">4,19 s</span><span class="cv vg-200-60">3,14 s</span></span></div><div><em>Yağ · 100 mm</em><span><span class="cv vg-40-5">0,126 L</span><span class="cv vg-40-10">0,126 L</span><span class="cv vg-40-20">0,126 L</span><span class="cv vg-40-30">0,126 L</span><span class="cv vg-40-45">0,126 L</span><span class="cv vg-40-60">0,126 L</span><span class="cv vg-50-5">0,196 L</span><span class="cv vg-50-10">0,196 L</span><span class="cv vg-50-20">0,196 L</span><span class="cv vg-50-30">0,196 L</span><span class="cv vg-50-45">0,196 L</span><span class="cv vg-50-60">0,196 L</span><span class="cv vg-63-5">0,312 L</span><span class="cv vg-63-10">0,312 L</span><span class="cv vg-63-20">0,312 L</span><span class="cv vg-63-30">0,312 L</span><span class="cv vg-63-45">0,312 L</span><span class="cv vg-63-60">0,312 L</span><span class="cv vg-70-5">0,385 L</span><span class="cv vg-70-10">0,385 L</span><span class="cv vg-70-20">0,385 L</span><span class="cv vg-70-30">0,385 L</span><span class="cv vg-70-45">0,385 L</span><span class="cv vg-70-60">0,385 L</span><span class="cv vg-80-5">0,503 L</span><span class="cv vg-80-10">0,503 L</span><span class="cv vg-80-20">0,503 L</span><span class="cv vg-80-30">0,503 L</span><span class="cv vg-80-45">0,503 L</span><span class="cv vg-80-60">0,503 L</span><span class="cv vg-90-5">0,636 L</span><span class="cv vg-90-10">0,636 L</span><span class="cv vg-90-20">0,636 L</span><span class="cv vg-90-30">0,636 L</span><span class="cv vg-90-45">0,636 L</span><span class="cv vg-90-60">0,636 L</span><span class="cv vg-100-5">0,785 L</span><span class="cv vg-100-10">0,785 L</span><span class="cv vg-100-20">0,785 L</span><span class="cv vg-100-30">0,785 L</span><span class="cv vg-100-45">0,785 L</span><span class="cv vg-100-60">0,785 L</span><span class="cv vg-110-5">0,950 L</span><span class="cv vg-110-10">0,950 L</span><span class="cv vg-110-20">0,950 L</span><span class="cv vg-110-30">0,950 L</span><span class="cv vg-110-45">0,950 L</span><span class="cv vg-110-60">0,950 L</span><span class="cv vg-125-5">1,227 L</span><span class="cv vg-125-10">1,227 L</span><span class="cv vg-125-20">1,227 L</span><span class="cv vg-125-30">1,227 L</span><span class="cv vg-125-45">1,227 L</span><span class="cv vg-125-60">1,227 L</span><span class="cv vg-140-5">1,539 L</span><span class="cv vg-140-10">1,539 L</span><span class="cv vg-140-20">1,539 L</span><span class="cv vg-140-30">1,539 L</span><span class="cv vg-140-45">1,539 L</span><span class="cv vg-140-60">1,539 L</span><span class="cv vg-160-5">2,011 L</span><span class="cv vg-160-10">2,011 L</span><span class="cv vg-160-20">2,011 L</span><span class="cv vg-160-30">2,011 L</span><span class="cv vg-160-45">2,011 L</span><span class="cv vg-160-60">2,011 L</span><span class="cv vg-180-5">2,545 L</span><span class="cv vg-180-10">2,545 L</span><span class="cv vg-180-20">2,545 L</span><span class="cv vg-180-30">2,545 L</span><span class="cv vg-180-45">2,545 L</span><span class="cv vg-180-60">2,545 L</span><span class="cv vg-200-5">3,142 L</span><span class="cv vg-200-10">3,142 L</span><span class="cv vg-200-20">3,142 L</span><span class="cv vg-200-30">3,142 L</span><span class="cv vg-200-45">3,142 L</span><span class="cv vg-200-60">3,142 L</span></span></div></div>
+<div class="res-n">v = Q · 16 667 / A.</div></div></div></section><section class="s s-u"><h4 style="margin:2px 0 14px;text-transform:uppercase;letter-spacing:.04em">Burkulma</h4><input type="radio" name="uga" id="uga60"><input type="radio" name="uga" id="uga100"><input type="radio" name="uga" id="uga140"><input type="radio" name="uga" id="uga160"><input type="radio" name="uga" id="uga180" checked><input type="radio" name="uga" id="uga200"><input type="radio" name="uga" id="uga250"><input type="radio" name="uga" id="uga320"><div class="lb lb-n"><label for="uga60">60</label><label for="uga100">100</label><label for="uga140">140</label><label for="uga160">160</label><label for="uga180">180</label><label for="uga200">200</label><label for="uga250">250</label><label for="uga320">320</label></div><span class="cap">Basınç · bar</span><input type="radio" name="ugb" id="ugb40"><input type="radio" name="ugb" id="ugb50"><input type="radio" name="ugb" id="ugb63"><input type="radio" name="ugb" id="ugb70"><input type="radio" name="ugb" id="ugb80" checked><input type="radio" name="ugb" id="ugb90"><input type="radio" name="ugb" id="ugb100"><input type="radio" name="ugb" id="ugb110"><input type="radio" name="ugb" id="ugb125"><input type="radio" name="ugb" id="ugb140"><input type="radio" name="ugb" id="ugb160"><input type="radio" name="ugb" id="ugb180"><input type="radio" name="ugb" id="ugb200"><div class="lb "><label for="ugb40">Ø40<i>/22</i></label><label for="ugb50">Ø50<i>/28</i></label><label for="ugb63">Ø63<i>/35</i></label><label for="ugb70">Ø70<i>/40</i></label><label for="ugb80">Ø80<i>/45</i></label><label for="ugb90">Ø90<i>/50</i></label><label for="ugb100">Ø100<i>/56</i></label><label for="ugb110">Ø110<i>/63</i></label><label for="ugb125">Ø125<i>/70</i></label><label for="ugb140">Ø140<i>/80</i></label><label for="ugb160">Ø160<i>/90</i></label><label for="ugb180">Ø180<i>/100</i></label><label for="ugb200">Ø200<i>/110</i></label></div><span class="cap">Piston Ø / mil Ø · mm</span><div class="out"><div class="res">
+<div class="res-h"><span>Maks. serbest boy · durum 2</span><span>S = 3,5</span></div>
+<div class="res-b"><b><span class="cv ug-60-40">950</span><span class="cv ug-60-50">1.232</span><span class="cv ug-60-63">1.527</span><span class="cv ug-60-70">1.795</span><span class="cv ug-60-80">1.988</span><span class="cv ug-60-90">2.182</span><span class="cv ug-60-100">2.463</span><span class="cv ug-60-110">2.834</span><span class="cv ug-60-125">3.079</span><span class="cv ug-60-140">3.590</span><span class="cv ug-60-160">3.976</span><span class="cv ug-60-180">4.363</span><span class="cv ug-60-200">4.752</span><span class="cv ug-100-40">736</span><span class="cv ug-100-50">954</span><span class="cv ug-100-63">1.183</span><span class="cv ug-100-70">1.391</span><span class="cv ug-100-80">1.540</span><span class="cv ug-100-90">1.690</span><span class="cv ug-100-100">1.908</span><span class="cv ug-100-110">2.195</span><span class="cv ug-100-125">2.385</span><span class="cv ug-100-140">2.781</span><span class="cv ug-100-160">3.080</span><span class="cv ug-100-180">3.380</span><span class="cv ug-100-200">3.681</span><span class="cv ug-140-40">622</span><span class="cv ug-140-50">806</span><span class="cv ug-140-63">1.000</span><span class="cv ug-140-70">1.175</span><span class="cv ug-140-80">1.301</span><span class="cv ug-140-90">1.428</span><span class="cv ug-140-100">1.612</span><span class="cv ug-140-110">1.855</span><span class="cv ug-140-125">2.016</span><span class="cv ug-140-140">2.350</span><span class="cv ug-140-160">2.603</span><span class="cv ug-140-180">2.856</span><span class="cv ug-140-200">3.111</span><span class="cv ug-160-40">582</span><span class="cv ug-160-50">754</span><span class="cv ug-160-63">935</span><span class="cv ug-160-70">1.099</span><span class="cv ug-160-80">1.217</span><span class="cv ug-160-90">1.336</span><span class="cv ug-160-100">1.508</span><span class="cv ug-160-110">1.735</span><span class="cv ug-160-125">1.885</span><span class="cv ug-160-140">2.199</span><span class="cv ug-160-160">2.435</span><span class="cv ug-160-180">2.672</span><span class="cv ug-160-200">2.910</span><span class="cv ug-180-40">549</span><span class="cv ug-180-50">711</span><span class="cv ug-180-63">882</span><span class="cv ug-180-70">1.036</span><span class="cv ug-180-80">1.148</span><span class="cv ug-180-90">1.260</span><span class="cv ug-180-100">1.422</span><span class="cv ug-180-110">1.636</span><span class="cv ug-180-125">1.778</span><span class="cv ug-180-140">2.073</span><span class="cv ug-180-160">2.296</span><span class="cv ug-180-180">2.519</span><span class="cv ug-180-200">2.743</span><span class="cv ug-200-40">521</span><span class="cv ug-200-50">675</span><span class="cv ug-200-63">836</span><span class="cv ug-200-70">983</span><span class="cv ug-200-80">1.089</span><span class="cv ug-200-90">1.195</span><span class="cv ug-200-100">1.349</span><span class="cv ug-200-110">1.552</span><span class="cv ug-200-125">1.686</span><span class="cv ug-200-140">1.967</span><span class="cv ug-200-160">2.178</span><span class="cv ug-200-180">2.390</span><span class="cv ug-200-200">2.603</span><span class="cv ug-250-40">466</span><span class="cv ug-250-50">603</span><span class="cv ug-250-63">748</span><span class="cv ug-250-70">879</span><span class="cv ug-250-80">974</span><span class="cv ug-250-90">1.069</span><span class="cv ug-250-100">1.207</span><span class="cv ug-250-110">1.388</span><span class="cv ug-250-125">1.508</span><span class="cv ug-250-140">1.759</span><span class="cv ug-250-160">1.948</span><span class="cv ug-250-180">2.138</span><span class="cv ug-250-200">2.328</span><span class="cv ug-320-40">412</span><span class="cv ug-320-50">533</span><span class="cv ug-320-63">661</span><span class="cv ug-320-70">777</span><span class="cv ug-320-80">861</span><span class="cv ug-320-90">945</span><span class="cv ug-320-100">1.067</span><span class="cv ug-320-110">1.227</span><span class="cv ug-320-125">1.333</span><span class="cv ug-320-140">1.555</span><span class="cv ug-320-160">1.722</span><span class="cv ug-320-180">1.889</span><span class="cv ug-320-200">2.058</span></b><span>mm</span></div>
+<div class="res-g"><div><em>Durum 1 · ankastre-serbest</em><span><span class="cv ug-60-40">475 mm</span><span class="cv ug-60-50">616 mm</span><span class="cv ug-60-63">764 mm</span><span class="cv ug-60-70">898 mm</span><span class="cv ug-60-80">994 mm</span><span class="cv ug-60-90">1.091 mm</span><span class="cv ug-60-100">1.232 mm</span><span class="cv ug-60-110">1.417 mm</span><span class="cv ug-60-125">1.539 mm</span><span class="cv ug-60-140">1.795 mm</span><span class="cv ug-60-160">1.988 mm</span><span class="cv ug-60-180">2.182 mm</span><span class="cv ug-60-200">2.376 mm</span><span class="cv ug-100-40">368 mm</span><span class="cv ug-100-50">477 mm</span><span class="cv ug-100-63">591 mm</span><span class="cv ug-100-70">695 mm</span><span class="cv ug-100-80">770 mm</span><span class="cv ug-100-90">845 mm</span><span class="cv ug-100-100">954 mm</span><span class="cv ug-100-110">1.098 mm</span><span class="cv ug-100-125">1.192 mm</span><span class="cv ug-100-140">1.391 mm</span><span class="cv ug-100-160">1.540 mm</span><span class="cv ug-100-180">1.690 mm</span><span class="cv ug-100-200">1.840 mm</span><span class="cv ug-140-40">311 mm</span><span class="cv ug-140-50">403 mm</span><span class="cv ug-140-63">500 mm</span><span class="cv ug-140-70">588 mm</span><span class="cv ug-140-80">651 mm</span><span class="cv ug-140-90">714 mm</span><span class="cv ug-140-100">806 mm</span><span class="cv ug-140-110">928 mm</span><span class="cv ug-140-125">1.008 mm</span><span class="cv ug-140-140">1.175 mm</span><span class="cv ug-140-160">1.301 mm</span><span class="cv ug-140-180">1.428 mm</span><span class="cv ug-140-200">1.555 mm</span><span class="cv ug-160-40">291 mm</span><span class="cv ug-160-50">377 mm</span><span class="cv ug-160-63">468 mm</span><span class="cv ug-160-70">550 mm</span><span class="cv ug-160-80">609 mm</span><span class="cv ug-160-90">668 mm</span><span class="cv ug-160-100">754 mm</span><span class="cv ug-160-110">868 mm</span><span class="cv ug-160-125">943 mm</span><span class="cv ug-160-140">1.099 mm</span><span class="cv ug-160-160">1.217 mm</span><span class="cv ug-160-180">1.336 mm</span><span class="cv ug-160-200">1.455 mm</span><span class="cv ug-180-40">274 mm</span><span class="cv ug-180-50">356 mm</span><span class="cv ug-180-63">441 mm</span><span class="cv ug-180-70">518 mm</span><span class="cv ug-180-80">574 mm</span><span class="cv ug-180-90">630 mm</span><span class="cv ug-180-100">711 mm</span><span class="cv ug-180-110">818 mm</span><span class="cv ug-180-125">889 mm</span><span class="cv ug-180-140">1.036 mm</span><span class="cv ug-180-160">1.148 mm</span><span class="cv ug-180-180">1.260 mm</span><span class="cv ug-180-200">1.372 mm</span><span class="cv ug-200-40">260 mm</span><span class="cv ug-200-50">337 mm</span><span class="cv ug-200-63">418 mm</span><span class="cv ug-200-70">492 mm</span><span class="cv ug-200-80">544 mm</span><span class="cv ug-200-90">597 mm</span><span class="cv ug-200-100">675 mm</span><span class="cv ug-200-110">776 mm</span><span class="cv ug-200-125">843 mm</span><span class="cv ug-200-140">983 mm</span><span class="cv ug-200-160">1.089 mm</span><span class="cv ug-200-180">1.195 mm</span><span class="cv ug-200-200">1.301 mm</span><span class="cv ug-250-40">233 mm</span><span class="cv ug-250-50">302 mm</span><span class="cv ug-250-63">374 mm</span><span class="cv ug-250-70">440 mm</span><span class="cv ug-250-80">487 mm</span><span class="cv ug-250-90">534 mm</span><span class="cv ug-250-100">603 mm</span><span class="cv ug-250-110">694 mm</span><span class="cv ug-250-125">754 mm</span><span class="cv ug-250-140">879 mm</span><span class="cv ug-250-160">974 mm</span><span class="cv ug-250-180">1.069 mm</span><span class="cv ug-250-200">1.164 mm</span><span class="cv ug-320-40">206 mm</span><span class="cv ug-320-50">267 mm</span><span class="cv ug-320-63">331 mm</span><span class="cv ug-320-70">389 mm</span><span class="cv ug-320-80">430 mm</span><span class="cv ug-320-90">472 mm</span><span class="cv ug-320-100">533 mm</span><span class="cv ug-320-110">614 mm</span><span class="cv ug-320-125">667 mm</span><span class="cv ug-320-140">777 mm</span><span class="cv ug-320-160">861 mm</span><span class="cv ug-320-180">945 mm</span><span class="cv ug-320-200">1.029 mm</span></span></div><div><em>Durum 3 · ankastre-mafsallı</em><span><span class="cv ug-60-40">1.344 mm</span><span class="cv ug-60-50">1.742 mm</span><span class="cv ug-60-63">2.160 mm</span><span class="cv ug-60-70">2.539 mm</span><span class="cv ug-60-80">2.812 mm</span><span class="cv ug-60-90">3.086 mm</span><span class="cv ug-60-100">3.484 mm</span><span class="cv ug-60-110">4.008 mm</span><span class="cv ug-60-125">4.355 mm</span><span class="cv ug-60-140">5.078 mm</span><span class="cv ug-60-160">5.624 mm</span><span class="cv ug-60-180">6.172 mm</span><span class="cv ug-60-200">6.721 mm</span><span class="cv ug-100-40">1.041 mm</span><span class="cv ug-100-50">1.349 mm</span><span class="cv ug-100-63">1.673 mm</span><span class="cv ug-100-70">1.967 mm</span><span class="cv ug-100-80">2.178 mm</span><span class="cv ug-100-90">2.390 mm</span><span class="cv ug-100-100">2.698 mm</span><span class="cv ug-100-110">3.105 mm</span><span class="cv ug-100-125">3.373 mm</span><span class="cv ug-100-140">3.934 mm</span><span class="cv ug-100-160">4.356 mm</span><span class="cv ug-100-180">4.781 mm</span><span class="cv ug-100-200">5.206 mm</span><span class="cv ug-140-40">880 mm</span><span class="cv ug-140-50">1.140 mm</span><span class="cv ug-140-63">1.414 mm</span><span class="cv ug-140-70">1.662 mm</span><span class="cv ug-140-80">1.841 mm</span><span class="cv ug-140-90">2.020 mm</span><span class="cv ug-140-100">2.281 mm</span><span class="cv ug-140-110">2.624 mm</span><span class="cv ug-140-125">2.851 mm</span><span class="cv ug-140-140">3.325 mm</span><span class="cv ug-140-160">3.682 mm</span><span class="cv ug-140-180">4.040 mm</span><span class="cv ug-140-200">4.400 mm</span><span class="cv ug-160-40">823 mm</span><span class="cv ug-160-50">1.067 mm</span><span class="cv ug-160-63">1.323 mm</span><span class="cv ug-160-70">1.555 mm</span><span class="cv ug-160-80">1.722 mm</span><span class="cv ug-160-90">1.890 mm</span><span class="cv ug-160-100">2.133 mm</span><span class="cv ug-160-110">2.455 mm</span><span class="cv ug-160-125">2.667 mm</span><span class="cv ug-160-140">3.110 mm</span><span class="cv ug-160-160">3.444 mm</span><span class="cv ug-160-180">3.779 mm</span><span class="cv ug-160-200">4.116 mm</span><span class="cv ug-180-40">776 mm</span><span class="cv ug-180-50">1.006 mm</span><span class="cv ug-180-63">1.247 mm</span><span class="cv ug-180-70">1.466 mm</span><span class="cv ug-180-80">1.623 mm</span><span class="cv ug-180-90">1.782 mm</span><span class="cv ug-180-100">2.011 mm</span><span class="cv ug-180-110">2.314 mm</span><span class="cv ug-180-125">2.514 mm</span><span class="cv ug-180-140">2.932 mm</span><span class="cv ug-180-160">3.247 mm</span><span class="cv ug-180-180">3.563 mm</span><span class="cv ug-180-200">3.880 mm</span><span class="cv ug-200-40">736 mm</span><span class="cv ug-200-50">954 mm</span><span class="cv ug-200-63">1.183 mm</span><span class="cv ug-200-70">1.391 mm</span><span class="cv ug-200-80">1.540 mm</span><span class="cv ug-200-90">1.690 mm</span><span class="cv ug-200-100">1.908 mm</span><span class="cv ug-200-110">2.195 mm</span><span class="cv ug-200-125">2.385 mm</span><span class="cv ug-200-140">2.782 mm</span><span class="cv ug-200-160">3.080 mm</span><span class="cv ug-200-180">3.380 mm</span><span class="cv ug-200-200">3.681 mm</span><span class="cv ug-250-40">659 mm</span><span class="cv ug-250-50">853 mm</span><span class="cv ug-250-63">1.058 mm</span><span class="cv ug-250-70">1.244 mm</span><span class="cv ug-250-80">1.378 mm</span><span class="cv ug-250-90">1.512 mm</span><span class="cv ug-250-100">1.707 mm</span><span class="cv ug-250-110">1.964 mm</span><span class="cv ug-250-125">2.133 mm</span><span class="cv ug-250-140">2.488 mm</span><span class="cv ug-250-160">2.755 mm</span><span class="cv ug-250-180">3.023 mm</span><span class="cv ug-250-200">3.293 mm</span><span class="cv ug-320-40">582 mm</span><span class="cv ug-320-50">754 mm</span><span class="cv ug-320-63">935 mm</span><span class="cv ug-320-70">1.099 mm</span><span class="cv ug-320-80">1.218 mm</span><span class="cv ug-320-90">1.336 mm</span><span class="cv ug-320-100">1.509 mm</span><span class="cv ug-320-110">1.736 mm</span><span class="cv ug-320-125">1.886 mm</span><span class="cv ug-320-140">2.199 mm</span><span class="cv ug-320-160">2.435 mm</span><span class="cv ug-320-180">2.672 mm</span><span class="cv ug-320-200">2.910 mm</span></span></div><div><em>Durum 4 · iki uç ankastre</em><span><span class="cv ug-60-40">1.901 mm</span><span class="cv ug-60-50">2.463 mm</span><span class="cv ug-60-63">3.054 mm</span><span class="cv ug-60-70">3.590 mm</span><span class="cv ug-60-80">3.976 mm</span><span class="cv ug-60-90">4.363 mm</span><span class="cv ug-60-100">4.926 mm</span><span class="cv ug-60-110">5.668 mm</span><span class="cv ug-60-125">6.158 mm</span><span class="cv ug-60-140">7.181 mm</span><span class="cv ug-60-160">7.952 mm</span><span class="cv ug-60-180">8.727 mm</span><span class="cv ug-60-200">9.503 mm</span><span class="cv ug-100-40">1.472 mm</span><span class="cv ug-100-50">1.908 mm</span><span class="cv ug-100-63">2.366 mm</span><span class="cv ug-100-70">2.781 mm</span><span class="cv ug-100-80">3.080 mm</span><span class="cv ug-100-90">3.380 mm</span><span class="cv ug-100-100">3.816 mm</span><span class="cv ug-100-110">4.390 mm</span><span class="cv ug-100-125">4.770 mm</span><span class="cv ug-100-140">5.562 mm</span><span class="cv ug-100-160">6.160 mm</span><span class="cv ug-100-180">6.760 mm</span><span class="cv ug-100-200">7.361 mm</span><span class="cv ug-140-40">1.244 mm</span><span class="cv ug-140-50">1.612 mm</span><span class="cv ug-140-63">2.000 mm</span><span class="cv ug-140-70">2.350 mm</span><span class="cv ug-140-80">2.603 mm</span><span class="cv ug-140-90">2.856 mm</span><span class="cv ug-140-100">3.225 mm</span><span class="cv ug-140-110">3.710 mm</span><span class="cv ug-140-125">4.031 mm</span><span class="cv ug-140-140">4.701 mm</span><span class="cv ug-140-160">5.206 mm</span><span class="cv ug-140-180">5.713 mm</span><span class="cv ug-140-200">6.221 mm</span><span class="cv ug-160-40">1.164 mm</span><span class="cv ug-160-50">1.508 mm</span><span class="cv ug-160-63">1.870 mm</span><span class="cv ug-160-70">2.199 mm</span><span class="cv ug-160-80">2.435 mm</span><span class="cv ug-160-90">2.672 mm</span><span class="cv ug-160-100">3.017 mm</span><span class="cv ug-160-110">3.471 mm</span><span class="cv ug-160-125">3.771 mm</span><span class="cv ug-160-140">4.397 mm</span><span class="cv ug-160-160">4.870 mm</span><span class="cv ug-160-180">5.344 mm</span><span class="cv ug-160-200">5.820 mm</span><span class="cv ug-180-40">1.097 mm</span><span class="cv ug-180-50">1.422 mm</span><span class="cv ug-180-63">1.763 mm</span><span class="cv ug-180-70">2.073 mm</span><span class="cv ug-180-80">2.296 mm</span><span class="cv ug-180-90">2.519 mm</span><span class="cv ug-180-100">2.844 mm</span><span class="cv ug-180-110">3.272 mm</span><span class="cv ug-180-125">3.555 mm</span><span class="cv ug-180-140">4.146 mm</span><span class="cv ug-180-160">4.591 mm</span><span class="cv ug-180-180">5.038 mm</span><span class="cv ug-180-200">5.487 mm</span><span class="cv ug-200-40">1.041 mm</span><span class="cv ug-200-50">1.349 mm</span><span class="cv ug-200-63">1.673 mm</span><span class="cv ug-200-70">1.967 mm</span><span class="cv ug-200-80">2.178 mm</span><span class="cv ug-200-90">2.390 mm</span><span class="cv ug-200-100">2.698 mm</span><span class="cv ug-200-110">3.104 mm</span><span class="cv ug-200-125">3.373 mm</span><span class="cv ug-200-140">3.933 mm</span><span class="cv ug-200-160">4.356 mm</span><span class="cv ug-200-180">4.780 mm</span><span class="cv ug-200-200">5.205 mm</span><span class="cv ug-250-40">931 mm</span><span class="cv ug-250-50">1.207 mm</span><span class="cv ug-250-63">1.496 mm</span><span class="cv ug-250-70">1.759 mm</span><span class="cv ug-250-80">1.948 mm</span><span class="cv ug-250-90">2.138 mm</span><span class="cv ug-250-100">2.413 mm</span><span class="cv ug-250-110">2.777 mm</span><span class="cv ug-250-125">3.017 mm</span><span class="cv ug-250-140">3.518 mm</span><span class="cv ug-250-160">3.896 mm</span><span class="cv ug-250-180">4.275 mm</span><span class="cv ug-250-200">4.656 mm</span><span class="cv ug-320-40">823 mm</span><span class="cv ug-320-50">1.067 mm</span><span class="cv ug-320-63">1.323 mm</span><span class="cv ug-320-70">1.555 mm</span><span class="cv ug-320-80">1.722 mm</span><span class="cv ug-320-90">1.889 mm</span><span class="cv ug-320-100">2.133 mm</span><span class="cv ug-320-110">2.454 mm</span><span class="cv ug-320-125">2.666 mm</span><span class="cv ug-320-140">3.109 mm</span><span class="cv ug-320-160">3.443 mm</span><span class="cv ug-320-180">3.779 mm</span><span class="cv ug-320-200">4.115 mm</span></span></div></div>
+<div class="res-n">Yük = tam itme kuvveti · E = 210 000 N/mm².</div></div></div></section><section class="s s-t"><h4 style="margin:2px 0 14px;text-transform:uppercase;letter-spacing:.04em">Tablolar</h4><div class="bp blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="bp-h">İtme kuvveti · ton</div><table class="table mono"><thead><tr><th>Ø D / d</th><th>100</th><th>160</th><th>250</th><th>320 bar</th></tr></thead><tbody><tr><td class="hd">Ø40/22</td><td>1,3</td><td>2,1</td><td>3,2</td><td>4,1</td></tr><tr><td class="hd">Ø50/28</td><td>2,0</td><td>3,2</td><td>5,0</td><td>6,4</td></tr><tr><td class="hd">Ø63/35</td><td>3,2</td><td>5,1</td><td>7,9</td><td>10,2</td></tr><tr><td class="hd">Ø70/40</td><td>3,9</td><td>6,3</td><td>9,8</td><td>12,6</td></tr><tr><td class="hd">Ø80/45</td><td>5,1</td><td>8,2</td><td>12,8</td><td>16,4</td></tr><tr><td class="hd">Ø90/50</td><td>6,5</td><td>10,4</td><td>16,2</td><td>20,8</td></tr><tr><td class="hd">Ø100/56</td><td>8,0</td><td>12,8</td><td>20,0</td><td>25,6</td></tr><tr><td class="hd">Ø110/63</td><td>9,7</td><td>15,5</td><td>24,2</td><td>31,0</td></tr><tr><td class="hd">Ø125/70</td><td>12,5</td><td>20,0</td><td>31,3</td><td>40,0</td></tr><tr><td class="hd">Ø140/80</td><td>15,7</td><td>25,1</td><td>39,2</td><td>50,2</td></tr><tr><td class="hd">Ø160/90</td><td>20,5</td><td>32,8</td><td>51,3</td><td>65,6</td></tr><tr><td class="hd">Ø180/100</td><td>25,9</td><td>41,5</td><td>64,9</td><td>83,0</td></tr><tr><td class="hd">Ø200/110</td><td>32,0</td><td>51,3</td><td>80,1</td><td>102,5</td></tr></tbody></table></div>
+<div class="bp blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="bp-h">Çekme kuvveti · ton</div><table class="table mono"><thead><tr><th>Ø D / d</th><th>100</th><th>160</th><th>250</th><th>320 bar</th></tr></thead><tbody><tr><td class="hd">Ø40/22</td><td>0,9</td><td>1,4</td><td>2,2</td><td>2,9</td></tr><tr><td class="hd">Ø50/28</td><td>1,4</td><td>2,2</td><td>3,4</td><td>4,4</td></tr><tr><td class="hd">Ø63/35</td><td>2,2</td><td>3,5</td><td>5,5</td><td>7,0</td></tr><tr><td class="hd">Ø70/40</td><td>2,6</td><td>4,2</td><td>6,6</td><td>8,5</td></tr><tr><td class="hd">Ø80/45</td><td>3,5</td><td>5,6</td><td>8,8</td><td>11,2</td></tr><tr><td class="hd">Ø90/50</td><td>4,5</td><td>7,2</td><td>11,2</td><td>14,4</td></tr><tr><td class="hd">Ø100/56</td><td>5,5</td><td>8,8</td><td>13,7</td><td>17,6</td></tr><tr><td class="hd">Ø110/63</td><td>6,5</td><td>10,4</td><td>16,3</td><td>20,8</td></tr><tr><td class="hd">Ø125/70</td><td>8,6</td><td>13,7</td><td>21,5</td><td>27,5</td></tr><tr><td class="hd">Ø140/80</td><td>10,6</td><td>16,9</td><td>26,4</td><td>33,8</td></tr><tr><td class="hd">Ø160/90</td><td>14,0</td><td>22,4</td><td>35,0</td><td>44,8</td></tr><tr><td class="hd">Ø180/100</td><td>17,9</td><td>28,7</td><td>44,8</td><td>57,4</td></tr><tr><td class="hd">Ø200/110</td><td>22,3</td><td>35,8</td><td>55,9</td><td>71,5</td></tr></tbody></table></div>
+<div class="bp blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="bp-h">Burkulma boyu katsayıları</div><div class="cases">
+<div><svg viewBox="0 0 20 40" width="16" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 38 H18 M10 38 V4"></path></svg><span><b>Durum 1</b>Ankastre – serbest<em>Lk = 2·L</em></span></div><div><svg viewBox="0 0 20 40" width="16" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 36 V8 M7 38 A3 3 0 0 1 13 38 M7 6 A3 3 0 0 1 13 6"></path></svg><span><b>Durum 2</b>İki uç mafsallı<em>Lk = 1·L</em></span></div><div><svg viewBox="0 0 20 40" width="16" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 38 H18 M10 38 V8 M7 6 A3 3 0 0 1 13 6"></path></svg><span><b>Durum 3</b>Ankastre – mafsallı<em>Lk = 0,707·L</em></span></div><div><svg viewBox="0 0 20 40" width="16" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 38 H18 M2 2 H18 M10 38 V2"></path></svg><span><b>Durum 4</b>İki uç ankastre<em>Lk = 0,5·L</em></span></div>
+</div></div>
+<div class="bp blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="bp-h">Formüller</div><div class="mono frm"><div>A = π·D² / 4</div><div>F [kg] = p [bar] · A [mm²] / 98,07</div><div>F_kr = π²·E·I / Lk² · I = π·d⁴ / 64</div><div>v [mm/s] = Q [L/dk] · 16 667 / A</div><div>m = V · 7,85 g/cm³</div><div>E = 210 000 N/mm² (çelik mil)</div></div></div></section></main>
+<nav><label for="tab-k"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18H5z M8 7h8 M8 12h2 M12 12h2 M16 12h0.01 M8 16h2 M12 16h2 M16 16h0.01"></path></svg>Kuvvet</label><label for="tab-w"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 5v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8z M9 21V12h6v9"></path></svg>Ağırlık</label><label for="tab-v"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 18 0 M12 12l5-3"></path></svg>Hız</label><label for="tab-u"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V7a6 6 0 0 1 12 0v14 M3 21h18"></path></svg>Burkulma</label><label for="tab-t"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M3 9h18 M9 9v11 M15 9v11"></path></svg>Tablolar</label></nav>
+</div></body></html>
